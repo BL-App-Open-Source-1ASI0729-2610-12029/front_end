@@ -1,0 +1,202 @@
+<div class="alerts-page reports-page-enter" *ngIf="store.data() as data">
+
+  <app-business-reports-nav />
+
+  <header class="alerts-page__header">
+    <div>
+      <h1>{{ 'alertsHistory.title' | translate }}</h1>
+      <p>{{ 'alertsHistory.subtitle' | translate }}</p>
+    </div>
+    <div class="alerts-page__header-actions">
+      <button type="button" mat-stroked-button class="btn-outline btn-press" (click)="onExportCsv()">
+        <img [src]="icons.download" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'alertsHistory.exportCsv' | translate }}
+      </button>
+      <div class="filters-picker" [class.filters-picker--open]="store.showFiltersMenu()" (click)="$event.stopPropagation()">
+        <button type="button" mat-flat-button color="primary" class="btn-primary btn-press" (click)="onToggleFilters($event)">
+          <img [src]="icons.filterList" alt="" class="ui-icon ui-icon--sm" />
+          {{ store.activeFilter() === 'all' ? ('alertsHistory.filters' | translate) : ('alertsHistory.filterOptions.' + store.activeFilter() | translate) }}
+        </button>
+        <div class="filters-picker__menu" *ngIf="store.showFiltersMenu()">
+          <button type="button" mat-button (click)="onClearFilter($event)">{{ 'alertsHistory.filterOptions.all' | translate }}</button>
+          <button type="button" mat-button *ngFor="let filter of filterOptions" (click)="onApplyFilter(filter, $event)">
+            {{ ('alertsHistory.filterOptions.' + filter) | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="summary-grid reports-summary-stagger">
+    <article class="summary-card">
+      <div class="summary-card__icon summary-card__icon--critical">
+        <img [src]="icons.emergency" alt="" class="ui-icon ui-icon--sm" />
+      </div>
+      <div>
+        <span class="summary-card__label">{{ 'alertsHistory.summary.criticalAlerts' | translate }}</span>
+        <strong class="summary-card__value">{{ data.summary.criticalAlerts }}</strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-card__icon summary-card__icon--warning">
+        <img [src]="icons.factory" alt="" class="ui-icon ui-icon--sm" />
+      </div>
+      <div>
+        <span class="summary-card__label">{{ 'alertsHistory.summary.deviceFailures' | translate }}</span>
+        <strong class="summary-card__value">{{ formatPadded(data.summary.deviceFailures) }}</strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-card__icon summary-card__icon--blue">
+        <img [src]="icons.automation" alt="" class="ui-icon ui-icon--sm" />
+      </div>
+      <div>
+        <span class="summary-card__label">{{ 'alertsHistory.summary.energyPeaks' | translate }}</span>
+        <strong class="summary-card__value">{{ data.summary.energyPeaks }}</strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-card__icon summary-card__icon--success">
+        <img [src]="icons.shield" alt="" class="ui-icon ui-icon--sm" />
+      </div>
+      <div>
+        <span class="summary-card__label">{{ 'alertsHistory.summary.resolution' | translate }}</span>
+        <strong class="summary-card__value">{{ data.summary.resolutionPercent }}%</strong>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel log-panel">
+    <div class="log-panel__head">
+      <h2>{{ 'alertsHistory.activityLog' | translate }}</h2>
+      <span class="log-panel__count">{{ 'alertsHistory.showingRecords' | translate:{ count: store.visibleRecordCount() } }}</span>
+    </div>
+
+    <div class="log-tabs" role="tablist">
+      <button
+        type="button"
+        mat-stroked-button
+        *ngFor="let tab of tabs"
+        [class.log-tabs__btn--active]="store.activeTab() === tab"
+        (click)="onTabChange(tab)"
+      >
+        {{ tabKey(tab) | translate }}
+      </button>
+    </div>
+
+    <div class="log-table-wrap">
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>{{ 'alertsHistory.table.priority' | translate }}</th>
+            <th>{{ 'alertsHistory.table.eventDetail' | translate }}</th>
+            <th>{{ 'alertsHistory.table.location' | translate }}</th>
+            <th>{{ 'alertsHistory.table.timestamp' | translate }}</th>
+            <th>{{ 'alertsHistory.table.status' | translate }}</th>
+            <th>{{ 'alertsHistory.table.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of store.pagedEntries()" class="reports-table-row">
+            <td>
+              <span [class]="priorityClass(entry.priority)">{{ priorityKey(entry.priority) | translate }}</span>
+            </td>
+            <td>
+              <strong>{{ entry.titleKey | translate }}</strong>
+              <span class="log-table__detail">{{ entry.detailKey | translate }}</span>
+            </td>
+            <td>
+              <div class="location-cell">
+                <img [src]="locationIcon(entry.locationIcon)" alt="" class="ui-icon ui-icon--sm" />
+                {{ entry.locationKey | translate }}
+              </div>
+            </td>
+            <td>{{ entry.timestamp }}</td>
+            <td>
+              <span [class]="statusClass(entry.status)">{{ statusKey(entry.status) | translate }}</span>
+            </td>
+            <td>
+              <div class="actions-menu-wrap">
+                <button type="button" mat-icon-button class="icon-btn" (click)="onToggleEntryMenu(entry, $event)" [attr.aria-label]="'alertsHistory.actions.menu' | translate">
+                  <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+                </button>
+                <div class="actions-menu" *ngIf="store.openEntryMenuId() === entry.id" (click)="$event.stopPropagation()">
+                  <button type="button" mat-button (click)="onAcknowledgeEntry(entry)">{{ 'alertsHistory.actions.acknowledge' | translate }}</button>
+                  <button type="button" mat-button (click)="onInvestigateEntry(entry)">{{ 'alertsHistory.actions.investigate' | translate }}</button>
+                  <button type="button" mat-button (click)="onResolveEntry(entry)">{{ 'alertsHistory.actions.resolve' | translate }}</button>
+                  <button type="button" mat-button (click)="onViewEntryLocation(entry)">{{ 'alertsHistory.actions.viewLocation' | translate }}</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="log-panel__footer">
+      <span>
+        {{ 'alertsHistory.pagination' | translate:{ page: store.currentPage(), total: store.totalPages() } }}
+      </span>
+      <div class="pagination">
+        <button type="button" mat-icon-button (click)="store.goToPage(store.currentPage() - 1)" [disabled]="store.currentPage() === 1">‹</button>
+        <button type="button" mat-flat-button color="primary" class="pagination__btn--active">{{ store.currentPage() }}</button>
+        <button type="button" mat-icon-button (click)="store.goToPage(store.currentPage() + 1)" [disabled]="store.currentPage() === store.totalPages()">›</button>
+      </div>
+    </footer>
+  </section>
+
+  <section class="insights-grid">
+    <article class="panel insight-card insight-card--frequency">
+      <h2>{{ 'alertsHistory.insights.alertFrequency' | translate }}</h2>
+      <div class="donut-chart donut-animate" [style.--donut-percent]="data.alertFrequency.percent">
+        <div class="donut-chart__inner">
+          <strong>{{ data.alertFrequency.percent }}%</strong>
+        </div>
+      </div>
+      <div class="insight-card__meta">
+        <img [src]="icons.trendingUp" alt="" class="ui-icon ui-icon--sm" />
+        <div>
+          <strong>{{ data.alertFrequency.locationKey | translate }}</strong>
+          <span>{{ data.alertFrequency.primaryAlertKey | translate }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel insight-card">
+      <h2>{{ 'alertsHistory.insights.meanTime' | translate }}</h2>
+      <div class="mean-time">
+        <img [src]="icons.accessTime" alt="" class="ui-icon ui-icon--md" />
+        <strong>{{ data.meanTimeToResolve.minutes }}m {{ data.meanTimeToResolve.seconds }}s</strong>
+      </div>
+      <p class="mean-time__trend" [class.mean-time__trend--improved]="data.meanTimeToResolve.trendImproved">
+        <img
+          [src]="data.meanTimeToResolve.trendImproved ? icons.trendingDown : icons.trendingUp"
+          alt=""
+          class="ui-icon ui-icon--sm"
+        />
+        {{ data.meanTimeToResolve.trendPercent }}% {{ 'alertsHistory.insights.fromLastWeek' | translate }}
+      </p>
+    </article>
+
+    <article class="panel insight-card">
+      <h2>{{ 'alertsHistory.insights.systemIntegrity' | translate }}</h2>
+      <div class="integrity-row">
+        <img [src]="icons.shield" alt="" class="ui-icon ui-icon--md" />
+        <div class="integrity-bar">
+          <div class="integrity-bar__fill" [style.width.%]="data.systemIntegrity.stabilityPercent"></div>
+        </div>
+      </div>
+      <div class="integrity-labels">
+        <span>{{ 'alertsHistory.insights.stability' | translate }} {{ data.systemIntegrity.stabilityPercent }}%</span>
+        <span class="integrity-labels__optimal">{{ data.systemIntegrity.statusKey | translate }}</span>
+      </div>
+    </article>
+  </section>
+</div>
