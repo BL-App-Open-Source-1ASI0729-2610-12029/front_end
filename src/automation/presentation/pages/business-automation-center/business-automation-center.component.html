@@ -1,0 +1,427 @@
+<div class="biz-auto-page">
+
+  <app-business-automation-nav />
+
+  <div class="page-toolbar">
+    <div class="search-box">
+      <img [src]="icons.search" alt="" class="ui-icon ui-icon--sm search-box__icon" />
+      <input
+        type="search"
+        [placeholder]="'automation.searchPlaceholder' | translate"
+        [value]="store.searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+
+  <header class="biz-auto-header">
+    <div>
+      <h1 class="biz-auto-header__title">{{ 'automation.businessTitle' | translate }}</h1>
+      <p class="biz-auto-header__subtitle">{{ 'automation.businessDescription' | translate }}</p>
+    </div>
+    <div class="biz-auto-header__actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="onViewAuditLog()">
+        <img [src]="icons.history" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automation.viewAuditLog' | translate }}
+      </button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onCreateBusinessRule()">
+        <img [src]="icons.autoAwesome" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automation.createBusinessRule' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="top-grid" *ngIf="store.activeTimeline() as timeline">
+    <article class="panel timeline-panel">
+      <div class="panel__head">
+        <div class="timeline-panel__title-group">
+          <h2>{{ 'automation.activeRuleTimeline' | translate }}</h2>
+          <div class="timeline-panel__stats">
+            <span class="status-pill">
+              <span class="status-pill__dot"></span>
+              {{ 'automation.realTimeStatus' | translate }}: {{ timeline.activeCount }} {{ 'automation.rulesActive' | translate }}
+            </span>
+            <span class="status-pill status-pill--running" *ngIf="timeline.runningNowCount > 0">
+              {{ timeline.runningNowCount }} {{ 'automation.timeline.runningNow' | translate }}
+            </span>
+            <span class="status-pill status-pill--conflict" *ngIf="timeline.conflictCount > 0">
+              {{ timeline.conflictCount }} {{ 'automation.timeline.conflicts' | translate }}
+            </span>
+          </div>
+        </div>
+
+        <div class="timeline-controls">
+          <div class="timeline-controls__group" role="group" [attr.aria-label]="'automation.timeline.zoom' | translate">
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineZoom() === 'business'"
+              (click)="onTimelineZoomChange('business')"
+            >
+              {{ 'automation.timeline.zoomBusiness' | translate }}
+            </button>
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineZoom() === 'extended'"
+              (click)="onTimelineZoomChange('extended')"
+            >
+              {{ 'automation.timeline.zoomExtended' | translate }}
+            </button>
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineZoom() === 'focus'"
+              (click)="onTimelineZoomChange('focus')"
+            >
+              {{ 'automation.timeline.zoomFocus' | translate }}
+            </button>
+          </div>
+
+          <div class="timeline-controls__group" role="group" [attr.aria-label]="'automation.timeline.filter' | translate">
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineFilter() === 'all'"
+              (click)="onTimelineFilterChange('all')"
+            >
+              {{ 'automation.timeline.filterAll' | translate }}
+            </button>
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineFilter() === 'operational'"
+              (click)="onTimelineFilterChange('operational')"
+            >
+              {{ 'automation.timeline.filterOperational' | translate }}
+            </button>
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline-controls__btn"
+              [class.timeline-controls__btn--active]="store.timelineFilter() === 'security'"
+              (click)="onTimelineFilterChange('security')"
+            >
+              {{ 'automation.timeline.filterSecurity' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline__legend">
+          <span>{{ 'automation.timeline.operationalRules' | translate }}</span>
+          <span>{{ 'automation.timeline.securityProtocols' | translate }}</span>
+        </div>
+
+        <div class="timeline__track">
+          <div
+            class="timeline__track-inner"
+            [style.height.px]="timelineTrackHeight()"
+          >
+            <div
+              class="timeline__past"
+              [style.width.%]="currentTimeLeft(timeline.currentDecimal)"
+            ></div>
+
+            <div
+              class="timeline__lane-divider"
+              *ngIf="hasSecuritySlots()"
+              [style.top.px]="operationalZoneBottom() + 2"
+            ></div>
+
+            <span
+              class="timeline__grid-line"
+              *ngFor="let hour of timelineGridHours()"
+              [style.left.%]="gridLineLeft(hour)"
+            ></span>
+
+            <button
+              type="button"
+              mat-stroked-button
+              class="timeline__slot"
+              *ngFor="let slot of visibleTimelineSlots()"
+              [class.timeline__slot--alert]="slot.isAlert"
+              [class.timeline__slot--dashed]="slot.style === 'dashed'"
+              [class.timeline__slot--selected]="isSlotSelected(slot)"
+              [class.timeline__slot--running]="slot.isRunningNow"
+              [class.timeline__slot--conflict]="slot.hasConflict"
+              [class.timeline__slot--hovered]="isSlotHovered(slot)"
+              [style.left.%]="slotLeft(slot.startHour)"
+              [style.width.%]="slotWidth(slot.startHour, slot.endHour)"
+              [style.top.px]="slotTop(slot)"
+              [style.height.px]="slotHeight()"
+              [style.background]="slot.style === 'dashed' ? 'transparent' : slot.color"
+              [style.borderColor]="slot.color"
+              [style.color]="slot.style === 'dashed' ? slot.color : '#fff'"
+              [attr.aria-label]="slot.label"
+              [title]="slot.label"
+              (click)="onTimelineSlotClick(slot)"
+              (mouseenter)="onTimelineSlotHover(slot)"
+              (mouseleave)="onTimelineSlotHover(null)"
+              (focus)="onTimelineSlotHover(slot)"
+              (blur)="onTimelineSlotHover(null)"
+            >
+              <span class="timeline__slot-label">{{ slot.label }}</span>
+              <span class="timeline__slot-conflict" *ngIf="slot.hasConflict" [title]="'automation.timeline.conflictHint' | translate">!</span>
+              <span
+                class="timeline__slot-progress"
+                *ngIf="slot.isRunningNow && slot.progressPercent"
+                [style.width.%]="slot.progressPercent"
+              ></span>
+            </button>
+
+            <div class="timeline__now" [style.left.%]="currentTimeLeft(timeline.currentDecimal)">
+              <span class="timeline__now-label">{{ timeline.currentTime }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline__hours">
+          <span *ngFor="let hour of timelineHours()">{{ formatHour(hour) }}</span>
+        </div>
+      </div>
+
+      <div class="timeline-detail" *ngIf="store.selectedTimelineSlot() as selectedSlot">
+        <div class="timeline-detail__main">
+          <div class="timeline-detail__badge" [style.background]="selectedSlot.color"></div>
+          <div>
+            <h3>{{ selectedSlot.label }}</h3>
+            <p *ngIf="selectedSlot.description">{{ selectedSlot.description }}</p>
+            <div class="timeline-detail__meta">
+              <span>{{ formatSlotRange(selectedSlot) }}</span>
+              <span *ngIf="selectedSlot.group">{{ selectedSlot.group }}</span>
+              <span class="timeline-detail__status" [class.timeline-detail__status--running]="selectedSlot.isRunningNow">
+                {{ slotStatusKey(selectedSlot) | translate }}
+              </span>
+              <span class="timeline-detail__conflict" *ngIf="selectedSlot.hasConflict">
+                {{ 'automation.timeline.conflictDetected' | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-detail__actions">
+          <button type="button" mat-stroked-button class="btn-outline btn-outline--sm" (click)="clearTimelineSelection()">
+            {{ 'automation.timeline.closeDetail' | translate }}
+          </button>
+          <button
+            type="button"
+            mat-stroked-button
+            class="btn-outline btn-outline--sm"
+            *ngIf="selectedSlot.ruleId"
+            (click)="onViewSelectedRule()"
+          >
+            {{ 'automation.timeline.viewRule' | translate }}
+          </button>
+          <button type="button" mat-flat-button color="primary" class="btn-primary btn-primary--sm" (click)="onEditSelectedSchedule()">
+            {{ selectedSlot.ruleId ? ('automation.timeline.editSchedule' | translate) : ('automation.editShutdownProtocol' | translate) }}
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel shutdown-panel" *ngIf="store.shutdownProtocol() as protocol">
+      <div class="shutdown-panel__head">
+        <div>
+          <h2>{{ protocol.name }}</h2>
+          <p>{{ protocol.description }}</p>
+        </div>
+        <span class="shutdown-panel__timer">{{ protocol.triggersInMinutes }}m</span>
+      </div>
+
+      <ul class="shutdown-steps">
+        <li *ngFor="let step of protocol.steps" [class.shutdown-steps__item--disabled]="step.disabled">
+          <img [src]="getStepIcon(step.icon)" alt="" class="ui-icon ui-icon--sm" />
+          <span>{{ step.label }}</span>
+        </li>
+      </ul>
+
+      <div class="shutdown-panel__actions">
+        <button type="button" mat-flat-button color="warn" class="btn-shutdown" (click)="onEditShutdownProtocol()">
+          {{ 'automation.editShutdownProtocol' | translate }}
+        </button>
+        <button type="button" mat-stroked-button color="warn" class="btn-shutdown-secondary" (click)="onPostponeShutdown()">
+          {{ 'automation.postponeShutdown' | translate }}
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel rules-panel">
+    <div class="panel__head panel__head--split">
+      <h2>{{ 'automation.operationalBusinessRules' | translate }}</h2>
+      <div class="view-toggle">
+        <button
+          type="button"
+          mat-icon-button
+          [class.view-toggle__btn--active]="store.viewMode() === 'list'"
+          (click)="store.setViewMode('list')"
+          [attr.aria-label]="'automation.viewList' | translate"
+        >
+          <img [src]="icons.listView" alt="" class="ui-icon ui-icon--sm" />
+        </button>
+        <button
+          type="button"
+          mat-icon-button
+          [class.view-toggle__btn--active]="store.viewMode() === 'grid'"
+          (click)="store.setViewMode('grid')"
+          [attr.aria-label]="'automation.viewGrid' | translate"
+        >
+          <img [src]="icons.gridView" alt="" class="ui-icon ui-icon--sm" />
+        </button>
+      </div>
+    </div>
+
+    <div class="rules-grid" [class.rules-grid--list]="store.viewMode() === 'list'">
+      <article
+        class="rule-card"
+        *ngFor="let rule of filteredRules()"
+        [id]="'rule-' + rule.id"
+        [class.rule-card--inactive]="!rule.active"
+        [class.rule-card--selected]="isRuleHighlighted(rule)"
+      >
+        <div class="rule-card__top">
+          <span class="rule-card__icon">
+            <img [src]="getRuleIcon(rule.icon)" alt="" class="ui-icon ui-icon--md" />
+          </span>
+          <label class="toggle-switch" (click)="$event.stopPropagation()">
+            <input type="checkbox" [checked]="rule.active" (change)="onToggleRule(rule)" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <h3>{{ rule.name }}</h3>
+        <p>{{ rule.description }}</p>
+        <div class="rule-card__meta">
+          <span class="rule-card__group">{{ rule.group }}</span>
+          <span class="rule-card__status" [class.rule-card__status--active]="rule.isActive()">
+            {{ ruleStatusKey(rule) | translate }}
+          </span>
+        </div>
+      </article>
+
+      <button type="button" matRipple class="rule-card rule-card--new" (click)="onNewScenario()">
+        <span class="rule-card__plus">
+          <img [src]="icons.add" alt="" class="ui-icon ui-icon--md" />
+        </span>
+        <h3>{{ 'automation.newScenario' | translate }}</h3>
+        <p>{{ 'automation.newScenarioDescription' | translate }}</p>
+      </button>
+    </div>
+  </section>
+
+  <section class="bottom-grid">
+    <article class="panel insights-panel" *ngIf="store.efficiencyInsights() as insights">
+      <h2>{{ 'automation.efficiencyInsights' | translate }}</h2>
+      <p class="insights-panel__summary">
+        {{ 'automation.insightsSummary' | translate }}
+        <strong>{{ insights.savingsPercent }}%</strong>
+        {{ 'automation.insightsSummarySuffix' | translate }}
+      </p>
+      <div class="insights-panel__stats">
+        <div>
+          <span class="insights-panel__label">{{ 'automation.totalSaved' | translate }}</span>
+          <strong>{{ insights.totalSavedKwh | number }} kWh</strong>
+        </div>
+        <div>
+          <span class="insights-panel__label">{{ 'automation.co2Avoided' | translate }}</span>
+          <strong>{{ insights.co2AvoidedTons }} {{ 'automation.tons' | translate }}</strong>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel schedules-panel">
+      <h2>{{ 'automation.groupBasedSchedules' | translate }}</h2>
+      <div class="schedules-table-wrap">
+        <table class="schedules-table">
+          <thead>
+            <tr>
+              <th>{{ 'automation.assetGroup' | translate }}</th>
+              <th>{{ 'automation.morningOn' | translate }}</th>
+              <th>{{ 'automation.eveningOff' | translate }}</th>
+              <th>{{ 'automation.overtimeRule' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let row of store.groupSchedules()"
+              class="schedules-table__row--clickable"
+              (click)="onScheduleRowClick(row.assetGroup)"
+            >
+              <td>{{ row.assetGroup }}</td>
+              <td>{{ row.morningOn }}</td>
+              <td>{{ row.eveningOff }}</td>
+              <td>
+                <span [class]="overtimeClass(row.overtimeType)">{{ overtimeLabelKey(row.overtimeType) | translate }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <button type="button" mat-fab color="primary" class="fab-assist" (click)="onQuickAssist()" [title]="'automation.createBusinessRule' | translate">
+    <mat-icon>help</mat-icon>
+  </button>
+</div>
+
+<div class="modal-backdrop" *ngIf="showNewRuleModal()" (click)="closeNewRuleModal()">
+  <div class="biz-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automation.createBusinessRule' | translate }}</h3>
+    <p>{{ 'automation.newScenarioDescription' | translate }}</p>
+    <label class="biz-modal__field">
+      <span>{{ 'automation.modal.name' | translate }}</span>
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="text" [(ngModel)]="newRuleName" [placeholder]="'automation.modal.automationName' | translate" />
+      </mat-form-field>
+    </label>
+    <label class="biz-modal__field">
+      <span>{{ 'automation.modal.action' | translate }}</span>
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="text" [(ngModel)]="newRuleDescription" [placeholder]="'automation.newScenarioDescription' | translate" />
+      </mat-form-field>
+    </label>
+    <label class="biz-modal__field">
+      <span>{{ 'automation.assetGroup' | translate }}</span>
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="text" [(ngModel)]="newRuleGroup" />
+      </mat-form-field>
+    </label>
+    <div class="biz-modal__actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="closeNewRuleModal()">{{ 'buttons.cancel' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onConfirmCreateBusinessRule()">
+        {{ 'automation.modal.create' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showShutdownModal() && store.shutdownProtocol() as protocol" (click)="closeShutdownModal()">
+  <div class="biz-modal" (click)="$event.stopPropagation()">
+    <h3>{{ protocol.name }}</h3>
+    <p>{{ 'automation.shutdownModalHint' | translate }}</p>
+    <ul class="shutdown-edit-list">
+      <li *ngFor="let step of protocol.steps">
+        <label>
+          <input type="checkbox" [checked]="!step.disabled" (change)="onToggleShutdownStep(step.id)" />
+          <span [class.shutdown-edit-list__disabled]="step.disabled">{{ step.label }}</span>
+        </label>
+      </li>
+    </ul>
+    <div class="biz-modal__actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="closeShutdownModal()">{{ 'buttons.cancel' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onSaveShutdownProtocol()">
+        {{ 'automation.modal.saveLogic' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
