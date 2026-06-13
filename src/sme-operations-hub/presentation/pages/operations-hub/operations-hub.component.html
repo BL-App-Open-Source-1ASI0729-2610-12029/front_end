@@ -1,0 +1,224 @@
+<main class="sme-hub" [class.sme-hub--refreshing]="dataRefreshing()">
+  <header class="sme-hub__header sme-animate sme-animate--down">
+    <div class="sme-hub__header-text">
+      <h1>{{ 'smeHub.title' | translate }}</h1>
+      <p>{{ 'smeHub.subtitle' | translate }}</p>
+    </div>
+    <div class="sme-hub__header-actions">
+      <div class="date-picker" [class.date-picker--open]="showDateMenu">
+        <button type="button" mat-stroked-button class="date-picker__btn" (click)="showDateMenu = !showDateMenu">
+          <img [src]="icons.calendarMonth" alt="" class="ui-icon ui-icon--sm" />
+          {{ dateRangeLabel() }}
+        </button>
+        <div class="date-picker__menu" *ngIf="showDateMenu">
+          <button type="button" mat-button [class.active]="selectedRange() === 'thisMonth'" (click)="onSelectRange('thisMonth')">{{ 'smeHub.dateRange.thisMonth' | translate }}</button>
+          <button type="button" mat-button [class.active]="selectedRange() === 'lastMonth'" (click)="onSelectRange('lastMonth')">{{ 'smeHub.dateRange.lastMonth' | translate }}</button>
+          <button type="button" mat-button [class.active]="selectedRange() === 'thisQuarter'" (click)="onSelectRange('thisQuarter')">{{ 'smeHub.dateRange.thisQuarter' | translate }}</button>
+        </div>
+      </div>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" [class.btn-primary--loading]="exportingAudit" [disabled]="exportingAudit" (click)="onExportAudit()">
+        <img [src]="icons.download" alt="" class="ui-icon ui-icon--sm" />
+        {{ exportingAudit ? ('smeHub.exporting' | translate) : ('smeHub.exportAudit' | translate) }}
+      </button>
+    </div>
+  </header>
+
+  <div class="sme-hub__refresh-bar" *ngIf="dataRefreshing()">
+    <span class="sme-hub__refresh-bar-fill"></span>
+  </div>
+
+  <section class="kpi-grid">
+    <article
+      class="kpi-card sme-animate sme-animate--up"
+      *ngFor="let kpi of kpis(); let i = index"
+      [style.animation-delay.ms]="120 + i * 90"
+      [attr.data-variant]="kpi.variant"
+    >
+      <ng-container *ngIf="kpi.variant === 'consumption'">
+        <div class="kpi-card__top">
+          <div>
+            <p class="kpi-card__label">{{ kpi.titleKey | translate }}</p>
+            <h2 class="kpi-card__value">{{ kpi.value }} <span>{{ kpi.unit }}</span></h2>
+          </div>
+          <div class="kpi-card__icon kpi-card__icon--blue">
+            <img [src]="kpi.icon" alt="" class="ui-icon ui-icon--md" />
+          </div>
+        </div>
+        <div class="kpi-card__trend kpi-card__trend--down" *ngIf="kpi.trend">
+          <img [src]="icons.trendingUp" alt="" class="ui-icon ui-icon--sm" />
+          {{ kpi.trend.value }}
+        </div>
+        <div class="kpi-card__progress">
+          <div class="kpi-card__progress-fill kpi-card__progress-fill--animated" [style.width.%]="kpi.progress"></div>
+        </div>
+        <p class="kpi-card__footer">{{ kpi.footerKey | translate }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="kpi.variant === 'cost'">
+        <div class="kpi-card__top">
+          <div>
+            <p class="kpi-card__label">{{ kpi.titleKey | translate }}</p>
+            <h2 class="kpi-card__value">{{ kpi.value }}</h2>
+          </div>
+          <div class="kpi-card__icon kpi-card__icon--blue">
+            <img [src]="kpi.icon" alt="" class="ui-icon ui-icon--md" />
+          </div>
+        </div>
+        <span class="kpi-card__badge" *ngIf="kpi.projectedKey">
+          {{ kpi.projectedKey | translate }}: {{ kpi.projectedValue }}
+        </span>
+        <div class="kpi-card__breakdown" *ngIf="kpi.breakdown">
+          <div *ngFor="let item of kpi.breakdown">
+            <span class="breakdown-label">{{ item.labelKey | translate }}</span>
+            <span class="breakdown-value">{{ item.value }}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="kpi.variant === 'budget'">
+        <p class="kpi-card__label kpi-card__label--caps">{{ kpi.titleKey | translate }}</p>
+        <div class="kpi-card__donut-wrap">
+          <svg viewBox="0 0 100 100" class="donut-chart">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#e8edf5" stroke-width="10" />
+            <circle
+              cx="50" cy="50" r="42" fill="none"
+              stroke="#1a3b8b" stroke-width="10"
+              stroke-linecap="round"
+              class="donut-chart__progress"
+              [attr.stroke-dasharray]="264"
+              [attr.stroke-dashoffset]="donutOffset(kpi.budgetPercent ?? 0)"
+              transform="rotate(-90 50 50)"
+            />
+            <text x="50" y="54" text-anchor="middle" class="donut-label">{{ kpi.budgetPercent }}%</text>
+          </svg>
+        </div>
+        <p class="kpi-card__budget-footer">{{ kpi.budgetCurrent }} / {{ kpi.budgetTotal }}</p>
+      </ng-container>
+    </article>
+  </section>
+
+  <section class="mid-grid">
+    <article class="chart-panel sme-animate sme-animate--up" style="animation-delay: 420ms">
+      <div class="chart-panel__header">
+        <div>
+          <h2>{{ 'smeHub.loadDistribution.title' | translate }}</h2>
+          <p>{{ 'smeHub.loadDistribution.subtitle' | translate }}</p>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-item"><i class="legend-dot legend-dot--hvac"></i>{{ 'smeHub.loadDistribution.hvac' | translate }}</span>
+          <span class="legend-item"><i class="legend-dot legend-dot--lighting"></i>{{ 'smeHub.loadDistribution.lighting' | translate }}</span>
+          <span class="legend-item"><i class="legend-dot legend-dot--servers"></i>{{ 'smeHub.loadDistribution.servers' | translate }}</span>
+        </div>
+      </div>
+      <div class="bar-chart">
+        <div
+          class="bar-group"
+          *ngFor="let bar of loadBars(); let i = index"
+          [class.bar-group--active]="bar.highlighted"
+        >
+          <div class="bar-stack">
+            <div class="bar bar--servers bar--grow" [style.height.%]="barHeight(bar.servers)" [style.animation-delay.ms]="500 + i * 60"></div>
+            <div class="bar bar--lighting bar--grow" [style.height.%]="barHeight(bar.lighting)" [style.animation-delay.ms]="520 + i * 60"></div>
+            <div class="bar bar--hvac bar--grow" [style.height.%]="barHeight(bar.hvac)" [style.animation-delay.ms]="540 + i * 60"></div>
+          </div>
+          <span class="bar-label">{{ bar.time }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="alerts-panel sme-animate sme-animate--up" style="animation-delay: 500ms">
+      <div class="alerts-panel__header">
+        <div class="alerts-panel__title">
+          <img [src]="icons.warning" alt="" class="ui-icon ui-icon--sm" />
+          <h2>{{ 'smeHub.alerts.title' | translate }}</h2>
+        </div>
+        <span class="alerts-panel__badge">{{ criticalAlertCount() }} {{ 'smeHub.alerts.critical' | translate }}</span>
+      </div>
+      <ul class="alerts-list">
+        <li
+          *ngFor="let alert of alerts(); let i = index"
+          class="sme-animate sme-animate--left alerts-list__item--clickable"
+          [class.alerts-list__item--critical]="alert.critical"
+          [style.animation-delay.ms]="560 + i * 80"
+          (click)="onAlertClick(alert)"
+          tabindex="0"
+          (keydown.enter)="onAlertClick(alert)"
+        >
+          <h3>{{ alert.titleKey | translate }}</h3>
+          <p>{{ alert.descriptionKey | translate }}</p>
+          <span class="alerts-list__time">{{ alert.timeKey | translate }}</span>
+        </li>
+      </ul>
+      <button type="button" mat-button color="primary" class="alerts-panel__cta" (click)="onViewAllLogs()">
+        {{ 'smeHub.alerts.viewAll' | translate }}
+      </button>
+    </article>
+  </section>
+
+  <section class="device-status-row">
+    <article
+      class="device-chip sme-animate sme-animate--up device-chip--clickable"
+      *ngFor="let device of deviceStatuses(); let i = index"
+      [attr.data-variant]="device.variant"
+      [style.animation-delay.ms]="680 + i * 70"
+      (click)="onDeviceClick(device)"
+      tabindex="0"
+      (keydown.enter)="onDeviceClick(device)"
+    >
+      <div class="device-chip__icon">
+        <img [src]="device.icon" alt="" class="ui-icon ui-icon--sm" />
+      </div>
+      <div class="device-chip__info">
+        <h3>{{ device.nameKey | translate }}</h3>
+        <span class="device-chip__status">{{ device.statusKey | translate }}</span>
+      </div>
+      <span class="device-chip__power">{{ device.power }}</span>
+      <img [src]="icons.arrowForward" alt="" class="device-chip__arrow ui-icon ui-icon--sm" />
+    </article>
+  </section>
+
+  <section class="bottom-grid">
+    <article class="facility-map sme-animate sme-animate--up" style="animation-delay: 760ms">
+      <h2>{{ 'smeHub.facility.title' | translate }}</h2>
+      <div class="facility-map__canvas">
+        <app-facility-interactive-map
+          [markers]="facilityMapMarkers()"
+          (markerClick)="onFacilityMarkerClick($event)"
+        />
+        <div class="facility-map__overlay">
+          <button
+            type="button"
+            mat-stroked-button
+            class="facility-map__zone facility-map__zone--clickable"
+            *ngFor="let zone of facilityZones()"
+            (click)="onZoneClick(zone)"
+          >
+            <strong>{{ zone.nameKey | translate }}</strong>
+            <span>{{ zone.power }}</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="sustainability-card sme-animate sme-animate--up" style="animation-delay: 840ms">
+      <div class="sustainability-card__score">
+        <span class="sustainability-card__label">{{ 'smeHub.sustainability.title' | translate }}</span>
+        <h2>{{ sustainabilityScore() }}/100</h2>
+        <p>{{ 'smeHub.sustainability.comparison' | translate }}</p>
+      </div>
+      <button type="button" matRipple class="sustainability-card__action" (click)="onSolarIntegration()">
+        <div class="sustainability-card__action-icon">
+          <img [src]="icons.solarPower" alt="" class="ui-icon ui-icon--sm" />
+        </div>
+        <div>
+          <h3>{{ 'smeHub.sustainability.solarTitle' | translate }}</h3>
+          <p>{{ 'smeHub.sustainability.solarSavings' | translate }}</p>
+        </div>
+        <span class="sustainability-card__schedule">
+          {{ 'smeHub.sustainability.solarScheduled' | translate }}
+          <img [src]="icons.arrowForward" alt="" class="ui-icon ui-icon--sm" />
+        </span>
+      </button>
+    </article>
+  </section>
+</main>
