@@ -1,0 +1,516 @@
+<div class="settings-container">
+  <header class="page-header">
+    <div>
+      <h1>{{ 'settings.title' | translate }}</h1>
+      <p>{{ subtitleKey() | translate }}</p>
+    </div>
+  </header>
+
+  <div *ngIf="loading()" class="settings-loading" aria-live="polite">
+    <div class="settings-loading__bar"></div>
+  </div>
+
+  <nav class="settings-tabs" [attr.aria-label]="'common.a11y.settingsSections' | translate">
+    <button
+      *ngFor="let tab of tabItems"
+      mat-button
+      [class.active]="activeTab === tab.id"
+      class="settings-tab"
+      type="button"
+      (click)="selectTab(tab.id)">
+      <img [src]="tab.icon" alt="" class="ui-icon ui-icon--sm" />
+      <span>{{ tabLabelKey(tab.id, tab.labelKey) | translate }}</span>
+    </button>
+  </nav>
+
+  <main class="settings-content" [class.settings-content--loading]="loading()">
+    <section *ngIf="activeTab === 'profile'" class="settings-section">
+      <div class="profile-photo-section">
+        <div class="photo-content">
+          <div class="profile-photo">
+            <img [src]="profilePhotoUrl" [alt]="'settings.profilePhotoAlt' | translate" />
+            <span class="photo-badge" [attr.aria-label]="'settings.onlineStatus' | translate"></span>
+          </div>
+          <div class="photo-info">
+            <h3>{{ formData.fullName }}</h3>
+            <p class="profile-role">
+              {{ (formData.roleKey || 'settings.administrator') | translate }}
+              <span>•</span>
+              {{ (formData.jobTitleKey || 'settings.systemOwner') | translate }}
+            </p>
+            <p>{{ profilePhotoDescriptionKey() | translate }}</p>
+          </div>
+        </div>
+        <div class="photo-actions">
+          <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event)" />
+          <button mat-stroked-button class="btn-upload" type="button" (click)="uploadPhoto()">{{ 'settings.uploadNew' | translate }}</button>
+          <button mat-stroked-button class="btn-remove" type="button" (click)="removePhoto()">{{ 'settings.removePhoto' | translate }}</button>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+      <div class="personal-details">
+        <div class="section-title">
+          <h3>{{ 'settings.personalDetails' | translate }}</h3>
+          <button mat-icon-button class="btn-edit" type="button" (click)="toggleProfileEdit()" [title]="(profileLocked ? 'settings.unlockEditing' : 'settings.lockEditing') | translate">
+            <img [src]="icons.edit" alt="" class="ui-icon ui-icon--sm" />
+          </button>
+        </div>
+
+        <div class="form-grid">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'settings.fullName' | translate }}</mat-label>
+            <input matInput type="text" [ngModel]="formData.fullName" (ngModelChange)="updateField('fullName', $event)" [readonly]="profileLocked" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'settings.emailAddress' | translate }}</mat-label>
+            <input matInput type="email" [ngModel]="formData.email" (ngModelChange)="updateField('email', $event)" [readonly]="profileLocked" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ zoneLabelKey() | translate }}</mat-label>
+            <mat-select [ngModel]="homeZoneKey" (ngModelChange)="setHomeZone($event)">
+              <mat-option *ngFor="let key of zoneOptions()" [value]="key">{{ key | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="form-group form-group--display-mode">
+            <label>{{ 'settings.displayMode' | translate }}</label>
+            <div class="btn-group">
+              <button
+                matRipple
+                type="button"
+                class="display-mode-btn"
+                [class.active]="formData.displayMode === 'light'"
+                (click)="setDisplayMode('light')">
+                <img [src]="icons.lightMode" alt="" class="ui-icon ui-icon--sm" />
+                {{ 'settings.lightMode' | translate }}
+              </button>
+              <button
+                matRipple
+                type="button"
+                class="display-mode-btn"
+                [class.active]="formData.displayMode === 'dark'"
+                (click)="setDisplayMode('dark')">
+                <img [src]="icons.darkMode" alt="" class="ui-icon ui-icon--sm" />
+                {{ 'settings.darkMode' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="account-retention">
+        <div>
+          <h4>{{ 'settings.accountRetention' | translate }}</h4>
+          <p>{{ 'settings.accountRetentionDescription' | translate }}</p>
+          <p class="retention-current">
+            {{ 'settings.currentRetention' | translate }}:
+            <strong>{{ retentionLabelKey | translate }}</strong>
+          </p>
+        </div>
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="manageRetention()">
+          {{ 'settings.manageRetention' | translate }}
+        </button>
+      </section>
+    </section>
+
+    <section *ngIf="activeTab === 'access'" class="settings-section">
+      <div class="business-access-banner" *ngIf="isBusinessMode()">
+        <div>
+          <h4>{{ 'settings.business.teamAccessTitle' | translate }}</h4>
+          <p>{{ 'settings.business.teamAccessDescription' | translate }}</p>
+        </div>
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="openTeamManagement()">
+          {{ 'settings.business.openTeamManagement' | translate }}
+        </button>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <h3>{{ 'settings.authorizedUsers' | translate }}</h3>
+          <p>{{ (isBusinessMode() ? 'settings.business.authorizedUsersDescription' : 'settings.authorizedUsersDescription') | translate }}</p>
+        </div>
+        <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="grantAccess()">
+          <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+          {{ 'settings.grantAccess' | translate }}
+        </button>
+      </div>
+
+      <div class="users-table-wrap">
+        <table mat-table [dataSource]="authorizedUsers()" class="users-table full-width">
+          <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef>{{ 'settings.table.user' | translate }}</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="user-cell">
+                <img *ngIf="user.avatarUrl" [src]="user.avatarUrl" [alt]="user.name" class="user-avatar-img" />
+                <span *ngIf="!user.avatarUrl" class="user-avatar">{{ getInitials(user.name) }}</span>
+                <div>
+                  <strong>{{ user.name }}</strong>
+                  <span>{{ user.email }}</span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="accessLevel">
+            <th mat-header-cell *matHeaderCellDef>{{ 'settings.table.accessLevel' | translate }}</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="access-badge" [class]="'access-badge--' + user.accessLevel">
+                {{ ('settings.accessLevels.' + user.accessLevel) | translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="lastEntry">
+            <th mat-header-cell *matHeaderCellDef>{{ 'settings.table.lastEntry' | translate }}</th>
+            <td mat-cell *matCellDef="let user">{{ user.lastEntry }}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{ 'settings.table.actions' | translate }}</th>
+            <td mat-cell *matCellDef="let user">
+              <button type="button" mat-icon-button class="row-action" (click)="openUserActions(user)" [attr.aria-label]="'settings.table.actions' | translate">
+                <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+              <button
+                *ngIf="user.accessLevel === 'guest'"
+                type="button"
+                mat-icon-button
+                class="row-action row-action--danger"
+                (click)="revokeGuestAccess(user.id)"
+                [attr.aria-label]="'settings.revokeAccess' | translate"
+              >
+                <img [src]="icons.close" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="userTableColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: userTableColumns"></tr>
+        </table>
+      </div>
+    </section>
+
+    <section *ngIf="activeTab === 'privacy'" class="settings-section">
+      <mat-card class="card security-card content-card">
+        <mat-card-content>
+        <div class="card-icon">
+          <img [src]="icons.security" alt="" class="ui-icon ui-icon--lg" />
+        </div>
+        <div class="card-content">
+          <h3>{{ 'settings.security' | translate }}</h3>
+          <p>{{ 'settings.securityDescription' | translate }}</p>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="section-divider"></div>
+
+      <div class="security-item">
+        <div class="item-content">
+          <h4>{{ 'settings.changePassword' | translate }}</h4>
+          <p class="item-meta">{{ passwordLastUpdatedLabel }}</p>
+        </div>
+        <button mat-stroked-button class="btn-secondary" type="button" (click)="openChangePassword()">{{ 'settings.change' | translate }}</button>
+      </div>
+
+      <div class="security-item">
+        <div class="item-content">
+          <h4>{{ 'settings.twoFactorAuth' | translate }}</h4>
+          <p class="item-meta">
+            <span [class]="formData.twoFactorEnabled ? 'badge-enabled' : 'badge-disabled'">
+              {{ (formData.twoFactorEnabled ? 'common.enabled' : 'common.disabled') | translate }}
+            </span>
+          </p>
+        </div>
+        <mat-slide-toggle
+          [checked]="formData.twoFactorEnabled"
+          (change)="toggleTwoFactor()">
+        </mat-slide-toggle>
+      </div>
+    </section>
+
+    <section *ngIf="activeTab === 'devices'" class="settings-section">
+      <mat-card class="card connections-card content-card">
+        <mat-card-content>
+        <div class="card-icon">
+          <img [src]="icons.automation" alt="" class="ui-icon ui-icon--lg" />
+        </div>
+        <div class="card-content">
+          <h3>{{ connectionsTitleKey() | translate }}</h3>
+          <p>{{ connectionsDescriptionKey() | translate }}</p>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="section-divider"></div>
+
+      <div class="connections-list">
+        <div *ngFor="let conn of connections; let i = index" class="connection-item">
+          <div class="conn-icon">
+            <img [src]="conn.icon" alt="" class="ui-icon ui-icon--md" />
+          </div>
+          <div class="conn-name">{{ conn.nameKey | translate }}</div>
+          <mat-slide-toggle
+            [checked]="conn.status"
+            [attr.aria-label]="conn.nameKey | translate"
+            (change)="toggleConnection(i)">
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <button mat-button class="btn-link" type="button" (click)="manageAllHubs()">{{ manageHubsLabelKey() | translate }}</button>
+    </section>
+
+    <section *ngIf="activeTab === 'system'" class="settings-section system-section">
+      <div class="system-grid">
+        <article class="system-card">
+          <h3>{{ 'settings.systemNotifications.title' | translate }}</h3>
+          <p>{{ 'settings.systemNotifications.description' | translate }}</p>
+          <div class="system-toggle-list">
+            <div class="system-toggle-item">
+              <div>
+                <strong>{{ 'settings.systemNotifications.energyAlertsEnabled' | translate }}</strong>
+                <span>{{ 'settings.systemNotifications.energyAlertsHint' | translate }}</span>
+              </div>
+              <mat-slide-toggle
+                [checked]="formData.energyAlertsEnabled"
+                (change)="toggleNotification('energyAlertsEnabled')">
+              </mat-slide-toggle>
+            </div>
+            <div class="system-toggle-item">
+              <div>
+                <strong>{{ 'settings.systemNotifications.deviceFailureAlertsEnabled' | translate }}</strong>
+                <span>{{ 'settings.systemNotifications.deviceFailureAlertsHint' | translate }}</span>
+              </div>
+              <mat-slide-toggle
+                [checked]="formData.deviceFailureAlertsEnabled"
+                (change)="toggleNotification('deviceFailureAlertsEnabled')">
+              </mat-slide-toggle>
+            </div>
+            <div class="system-toggle-item">
+              <div>
+                <strong>{{ 'settings.systemNotifications.weeklyReportEmailsEnabled' | translate }}</strong>
+                <span>{{ 'settings.systemNotifications.weeklyReportEmailsHint' | translate }}</span>
+              </div>
+              <mat-slide-toggle
+                [checked]="formData.weeklyReportEmailsEnabled"
+                (change)="toggleNotification('weeklyReportEmailsEnabled')">
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </article>
+
+        <article class="system-card">
+          <h3>{{ 'settings.systemPreferences.title' | translate }}</h3>
+          <div class="form-grid system-form-grid">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'settings.systemPreferences.timezone' | translate }}</mat-label>
+              <mat-select [ngModel]="formData.timezone" (ngModelChange)="updateField('timezone', $event)">
+                <mat-option *ngFor="let timezone of timezoneOptions" [value]="timezone">{{ timezone }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'settings.systemPreferences.sessionTimeout' | translate }}</mat-label>
+              <mat-select [ngModel]="formData.sessionTimeoutMinutes" (ngModelChange)="updateField('sessionTimeoutMinutes', +$event)">
+                <mat-option *ngFor="let minutes of sessionTimeoutOptions" [value]="minutes">
+                  {{ minutes }} {{ 'settings.systemPreferences.minutes' | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </article>
+
+        <article class="system-card system-card--links">
+          <h3>{{ 'settings.systemShortcuts.title' | translate }}</h3>
+          <p>{{ (isBusinessMode() ? 'settings.business.systemShortcutsDescription' : 'settings.systemShortcuts.description') | translate }}</p>
+          <div class="system-links">
+            <button type="button" mat-stroked-button class="btn-secondary" (click)="selectTab('profile')">
+              {{ 'settings.openProfileSettings' | translate }}
+            </button>
+            <button type="button" mat-stroked-button class="btn-secondary" *ngIf="isBusinessMode()" (click)="openBusinessProfile()">
+              {{ 'settings.business.openBusinessProfile' | translate }}
+            </button>
+            <button type="button" mat-stroked-button class="btn-secondary" *ngIf="isBusinessMode()" (click)="openAuditHistory()">
+              {{ 'settings.business.openAuditHistory' | translate }}
+            </button>
+            <button type="button" mat-stroked-button class="btn-secondary" (click)="exportSettings()">
+              {{ 'settings.systemShortcuts.exportSettings' | translate }}
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="settings-footer">
+    <button
+      mat-flat-button
+      color="primary"
+      class="btn-save"
+      type="button"
+      (click)="saveChanges()"
+      [disabled]="!dirty || saving() || loading()">
+      <span *ngIf="saving()">
+        <img [src]="icons.save" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'settings.saving' | translate }}
+      </span>
+      <span *ngIf="!saving()">
+        <img [src]="icons.save" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'settings.saveAllChanges' | translate }}
+      </span>
+    </button>
+    <span *ngIf="saved" class="save-status">
+      <img [src]="icons.checkCircle" alt="" class="ui-icon ui-icon--sm" />
+      {{ 'settings.changesSaved' | translate }}
+    </span>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showGrantAccessModal" (click)="closeGrantAccessModal()">
+  <div class="settings-modal" (click)="$event.stopPropagation()">
+    <div class="settings-modal__header">
+      <h3>{{ 'settings.grantAccess' | translate }}</h3>
+      <button type="button" mat-icon-button class="settings-modal__close" (click)="closeGrantAccessModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form class="settings-modal__form" (ngSubmit)="submitGrantAccess()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.grantAccessFields.name' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="grantAccessName" name="grantAccessName" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.grantAccessFields.email' | translate }}</mat-label>
+        <input matInput type="email" [(ngModel)]="grantAccessEmail" name="grantAccessEmail" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.table.accessLevel' | translate }}</mat-label>
+        <mat-select [(ngModel)]="grantAccessLevel" name="grantAccessLevel">
+          <mat-option *ngFor="let level of accessLevels" [value]="level">
+            {{ ('settings.accessLevels.' + level) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="settings-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeGrantAccessModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-save">{{ 'settings.grantAccess' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showTwoFactorModal" (click)="closeTwoFactorModal()">
+  <div class="settings-modal" (click)="$event.stopPropagation()">
+    <div class="settings-modal__header">
+      <h3>{{ 'settings.twoFactorSetup.title' | translate }}</h3>
+      <button type="button" mat-icon-button class="settings-modal__close" (click)="closeTwoFactorModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="settings-modal__form">
+      <p class="modal-description">{{ 'settings.twoFactorSetup.description' | translate }}</p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.twoFactorSetup.code' | translate }}</mat-label>
+        <input matInput type="text" maxlength="6" [(ngModel)]="twoFactorCode" name="twoFactorCode" placeholder="000000" />
+      </mat-form-field>
+      <div class="settings-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeTwoFactorModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="button" mat-flat-button color="primary" class="btn-save" (click)="confirmTwoFactor()">{{ 'settings.twoFactorSetup.confirm' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPasswordModal" (click)="closeChangePassword()">
+  <div class="settings-modal" (click)="$event.stopPropagation()">
+    <div class="settings-modal__header">
+      <h3>{{ 'settings.changePassword' | translate }}</h3>
+      <button type="button" mat-icon-button class="settings-modal__close" (click)="closeChangePassword()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form class="settings-modal__form" (ngSubmit)="submitPasswordChange()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.currentPassword' | translate }}</mat-label>
+        <input matInput type="password" [(ngModel)]="currentPassword" name="currentPassword" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.newPassword' | translate }}</mat-label>
+        <input matInput type="password" [(ngModel)]="newPassword" name="newPassword" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.confirmNewPassword' | translate }}</mat-label>
+        <input matInput type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+      </mat-form-field>
+      <div class="settings-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeChangePassword()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-save">{{ 'settings.updatePassword' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showRetentionModal" (click)="closeRetentionModal()">
+  <div class="settings-modal" (click)="$event.stopPropagation()">
+    <div class="settings-modal__header">
+      <h3>{{ 'settings.accountRetention' | translate }}</h3>
+      <button type="button" mat-icon-button class="settings-modal__close" (click)="closeRetentionModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="settings-modal__form">
+      <p class="modal-description">{{ 'settings.retentionDescription' | translate }}</p>
+      <div class="retention-options">
+        <button
+          *ngFor="let option of retentionOptions"
+          type="button"
+          mat-stroked-button
+          class="retention-option"
+          [class.retention-option--active]="formData.dataRetentionDays === option.days"
+          (click)="setRetention(option.days)">
+          {{ option.labelKey | translate }}
+        </button>
+      </div>
+      <div class="settings-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeRetentionModal()">{{ 'common.cancel' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showUserActionsModal && selectedUser" (click)="closeUserActions()">
+  <div class="settings-modal" (click)="$event.stopPropagation()">
+    <div class="settings-modal__header">
+      <h3>{{ selectedUser.name }}</h3>
+      <button type="button" mat-icon-button class="settings-modal__close" (click)="closeUserActions()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="settings-modal__form">
+      <p class="modal-description">{{ 'settings.userActionsDescription' | translate }}</p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.table.accessLevel' | translate }}</mat-label>
+        <mat-select
+          [ngModel]="selectedUser.accessLevel"
+          (ngModelChange)="changeUserAccessLevel($event)"
+          [disabled]="selectedUser.accessLevel === 'admin'">
+          <mat-option *ngFor="let level of accessLevels" [value]="level">
+            {{ ('settings.accessLevels.' + level) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="settings-modal__actions">
+        <button
+          *ngIf="selectedUser.accessLevel === 'guest'"
+          type="button"
+          mat-stroked-button
+          color="warn"
+          class="btn-secondary row-action--danger-text"
+          (click)="revokeSelectedUser()">
+          {{ 'settings.revokeAccess' | translate }}
+        </button>
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeUserActions()">{{ 'common.cancel' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
