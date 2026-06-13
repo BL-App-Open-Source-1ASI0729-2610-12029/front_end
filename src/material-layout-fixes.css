@@ -1,0 +1,122 @@
+/*
+ * Fixes for Angular Material buttons used as custom card / layout controls.
+ * Material wraps label content in .mdc-button__label which breaks grid/flex layouts.
+ */
+
+:is(
+  .sustainability-card__action,
+  .facility-map__zone,
+  .rule-card,
+  .rule-card--new,
+  .timeline__slot,
+  .btn-toggle,
+  .device-chip,
+  .date-picker__btn,
+  .alerts-list__item--clickable,
+  .chip-btn,
+  .mode-btn,
+  .stat-card,
+  .period-tab,
+  .trigger-card,
+  .action-card,
+  .modal-option,
+  .btn-dashed
+).mat-mdc-button {
+  height: auto;
+  min-height: unset;
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+  line-height: inherit;
+  --mdc-text-button-container-height: auto;
+  --mdc-outlined-button-container-height: auto;
+  --mdc-filled-button-container-height: auto;
+  --mat-outlined-button-horizontal-padding: 0;
+  --mat-text-button-horizontal-padding: 0;
+  --mat-filled-button-horizontal-padding: 0;
+}
+
+:is(
+  .sustainability-card__action,
+  .facility-map__zone,
+  .rule-card,
+  .rule-card--new,
+  .timeline__slot,
+  .btn-toggle,
+  .device-chip,
+  .date-picker__btn,
+  .alerts-list__item--clickable,
+  .chip-btn,
+  .mode-btn,
+  .stat-card,
+  .period-tab,
+  .trigger-card,
+  .action-card,
+  .modal-option,
+  .btn-dashed
+).mat-mdc-button .mdc-button__label {
+  display: contents;
+}
+
+/* Sustainability score card action */
+.sustainability-card__action.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-width: 0;
+  --mdc-outlined-button-outline-color: transparent;
+  --mdc-outlined-button-container-shape: 12px;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  width: 100%;
+  padding: 0.85rem;
+}
+
+.sustainability-card__action.mat-mdc-outlined-button:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.sustainability-card {
+  min-height: fit-content;
+  overflow: visible;
+}
+
+/* Map zone chips on facility overlay */
+.facility-map__zone.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-width: 1px;
+  --mdc-outlined-button-outline-color: var(--sme-border, #dfe6f2);
+  --mdc-outlined-button-container-shape: 8px;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: inherit !important;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+/* Timeline absolute slots */
+.timeline__slot.mat-mdc-outlined-button {
+  position: absolute;
+  --mdc-outlined-button-outline-width: 0;
+  min-width: unset;
+  padding: 0 0.55rem;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Rule cards in automation grid */
+.rule-card.mat-mdc-outlined-button,
+.rule-card--new.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-width: 0;
+  width: 100%;
+  text-align: left;
+  padding: 1.1rem;
+  border-radius: 16px;
+}
+
+.rule-card--new.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-width: 2px;
+  --mdc-outlined-button-outline-color: #c7d2e5;
+  border-style: dashed;
+}
+
+/* Service toggle pills */
+.btn-toggle.mat-mdc-outlined-button {
+  --mdc-outlined-button-container-shape: 999px;
+  padding: 0.5rem 1rem;
+}

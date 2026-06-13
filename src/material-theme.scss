@@ -1,0 +1,65 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+        theme-type: light,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include mat.theme-overrides(
+    (
+      primary: #3455d1,
+      on-primary: #ffffff,
+      primary-container: #d8e2ff,
+      on-primary-container: #00174d,
+      surface: #faf9fd,
+      background: #eef3fb,
+    )
+  );
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+        theme-type: dark,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include mat.theme-overrides(
+    (
+      primary: #7c9bff,
+      on-primary: #002a78,
+      primary-container: #223eb3,
+      on-primary-container: #d8e2ff,
+      surface: #1e293b,
+      background: #0f172a,
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
