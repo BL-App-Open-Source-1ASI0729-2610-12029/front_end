@@ -1,0 +1,222 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(90, 102, 129, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.navbar-start {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar-center {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-end {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-search {
+  width: min(100%, 420px);
+  margin: 0;
+}
+
+.navbar-search .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.navbar-search .mat-mdc-text-field-wrapper {
+  max-height: 44px;
+}
+
+.navbar-search .mat-mdc-form-field-flex {
+  align-items: center;
+  min-height: 44px;
+}
+
+.navbar-search .mat-mdc-form-field-infix {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-height: unset;
+}
+
+.navbar-search input {
+  font-size: 0.88rem;
+}
+
+.navbar-search .search-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.navbar-search .mdc-notched-outline__leading {
+  border-radius: 999px 0 0 999px;
+  width: 28px;
+}
+
+.navbar-search .mdc-notched-outline__trailing {
+  border-radius: 0 999px 999px 0;
+}
+
+.hamburger-btn {
+  border-radius: 14px !important;
+  border: 1px solid rgba(90, 102, 129, 0.12);
+  background: var(--white);
+}
+
+.btn-icon {
+  border-radius: 14px !important;
+  border: 1px solid rgba(90, 102, 129, 0.12);
+  background: var(--white);
+}
+
+.btn-profile.btn-profile--photo {
+  min-width: 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(90, 102, 129, 0.12);
+  overflow: hidden;
+}
+
+.btn-profile.btn-profile--photo .navbar-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.user-profile-small {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 12px;
+  background: rgba(41, 73, 199, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(41, 73, 199, 0.1);
+  flex-shrink: 0;
+}
+
+.user-info-small {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.user-name-small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-900);
+  line-height: 1.2;
+}
+
+.user-role-small {
+  font-size: 10px;
+  color: var(--gray-500);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@media (min-width: 1025px) {
+  .navbar.layout-sidebar-open {
+    padding-left: calc(260px + 1.5rem);
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar-center {
+    justify-content: stretch;
+  }
+
+  .navbar-search {
+    width: 100%;
+    max-width: none;
+  }
+
+  .user-info-small {
+    display: none;
+  }
+
+  .user-profile-small {
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-center {
+    display: none;
+  }
+
+  .navbar-end {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 max(0.75rem, env(safe-area-inset-left)) 0 max(0.75rem, env(safe-area-inset-right));
+    gap: 0.35rem;
+  }
+
+  .navbar-end .btn-icon--help {
+    display: none;
+  }
+
+  .hamburger-btn,
+  .btn-icon,
+  .btn-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+}
+
+:root[data-theme='dark'] .navbar {
+  background: rgba(18, 18, 28, 0.97);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+:root[data-theme='dark'] .navbar-search {
+  background: var(--surface-soft);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme='dark'] .hamburger-btn,
+:root[data-theme='dark'] .btn-icon,
+:root[data-theme='dark'] .btn-profile {
+  background: var(--surface);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--gray-300);
+}
+
+:root[data-theme='dark'] .user-profile-small {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}

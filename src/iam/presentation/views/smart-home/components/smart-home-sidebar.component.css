@@ -1,0 +1,33 @@
+:host {
+  --view-primary: #2949c7;
+  --view-primary-soft: #eef2ff;
+  --view-accent: #22c55e;
+  --view-sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+  --view-status-bg: linear-gradient(145deg, #1a2f7a, #2949c7);
+}
+
+:root[data-theme='dark'] :host {
+  --view-primary: #6b8ef5;
+  --view-primary-soft: rgba(107, 142, 245, 0.12);
+  --view-sidebar-bg: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.view-sidebar--home .nav-link.active {
+  background: var(--view-primary-soft);
+  color: var(--view-primary);
+  border-left-color: var(--view-primary);
+}
+
+.view-badge--home {
+  background: rgba(41, 73, 199, 0.1);
+  color: var(--view-primary);
+}
+
+.status-card--home {
+  background: var(--view-status-bg);
+}
+
+.status-dot {
+  background: var(--view-accent);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+}

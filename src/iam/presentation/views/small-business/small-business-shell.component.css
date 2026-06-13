@@ -1,0 +1,62 @@
+:host {
+  display: block;
+}
+
+.account-view--business {
+  --view-shell-accent: #1a3b8b;
+  --view-shell-accent-soft: rgba(26, 59, 139, 0.08);
+  min-height: 100vh;
+  background: #f8f9fb;
+  color: var(--gray-900);
+}
+
+:root[data-theme='dark'] .account-view--business {
+  background: var(--background);
+  color: var(--gray-100);
+}
+
+.account-view__body {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 72px;
+}
+
+.account-view__main {
+  flex: 1;
+  margin-left: 0;
+  padding: 1.5rem 2rem 2rem;
+  min-height: calc(100vh - 72px);
+  transition: margin-left 0.3s ease;
+}
+
+.account-view--sidebar-open .account-view__main {
+  margin-left: 260px;
+}
+
+.account-view__backdrop {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .account-view--sidebar-open .account-view__main {
+    margin-left: 0;
+  }
+
+  .account-view__backdrop {
+    display: block;
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: rgba(15, 23, 42, 0.35);
+    z-index: 997;
+  }
+
+  .account-view__main {
+    padding: 1rem 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .account-view__main {
+    padding: 0.85rem 0.85rem 1.25rem;
+  }
+}
