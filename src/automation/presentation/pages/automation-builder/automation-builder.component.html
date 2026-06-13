@@ -1,0 +1,272 @@
+<div class="builder-page" *ngIf="store.recipe() as recipe">
+  <div class="page-toolbar">
+    <a routerLink="/app/automation/center" class="back-link">
+      <span aria-hidden="true">←</span>
+      {{ 'automationBuilder.back' | translate }}
+    </a>
+
+    <div class="search-box">
+      <img [src]="icons.search" alt="" class="ui-icon ui-icon--sm search-box__icon" />
+      <input
+        type="search"
+        [placeholder]="'automationBuilder.searchPlaceholder' | translate"
+        [value]="store.searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+
+    <button type="button" mat-flat-button color="primary" class="btn-save-recipe" (click)="saveRecipe()">
+      {{ 'automationBuilder.saveRecipe' | translate }}
+    </button>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <h1>{{ 'automationBuilder.title' | translate }}</h1>
+      <div class="recipe-meta">
+        <span class="recipe-meta__label">{{ 'automationBuilder.recipeLabel' | translate }}</span>
+        <strong>{{ recipe.nameKey | translate }}</strong>
+        <span class="recipe-tag" [class.recipe-tag--draft]="recipe.status === 'draft'" [class.recipe-tag--published]="recipe.status === 'published'">
+          {{ 'automationBuilder.status.' + recipe.status | translate }}
+        </span>
+        <span class="recipe-tag recipe-tag--category">{{ 'automationBuilder.category.' + recipe.category | translate }}</span>
+      </div>
+    </div>
+  </header>
+
+  <app-automation-nav></app-automation-nav>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="builder-steps card">
+    <div class="builder-step">
+      <div class="builder-step__heading">
+        <span class="step-number">1</span>
+        <h2>{{ 'automationBuilder.chooseTrigger' | translate }}</h2>
+      </div>
+
+      <div class="trigger-grid">
+        <button
+          type="button"
+          matRipple
+          class="trigger-card"
+          *ngFor="let trigger of store.triggers()"
+          [class.trigger-card--selected]="recipe.selectedTriggerId === trigger.id"
+          (click)="onSelectTrigger(trigger.id)"
+        >
+          <span class="trigger-card__check" *ngIf="recipe.selectedTriggerId === trigger.id">✓</span>
+          <img [src]="getIcon(trigger.icon)" alt="" class="ui-icon ui-icon--md trigger-card__icon" />
+          <strong>{{ trigger.titleKey | translate }}</strong>
+          <p>{{ trigger.descriptionKey | translate }}</p>
+          <label
+            class="time-picker"
+            *ngIf="trigger.id === 'time-of-day' && recipe.selectedTriggerId === trigger.id"
+            (click)="$event.stopPropagation()"
+          >
+            <span>{{ 'automationBuilder.atTime' | translate }}</span>
+            <input
+              type="time"
+              [value]="recipe.triggerTime"
+              (change)="onTriggerTimeChange($event)"
+            />
+          </label>
+        </button>
+      </div>
+    </div>
+
+    <div class="builder-step">
+      <div class="builder-step__heading builder-step__heading--split">
+        <div>
+          <span class="step-number">2</span>
+          <h2>{{ 'automationBuilder.setCondition' | translate }}</h2>
+        </div>
+        <button type="button" mat-button color="primary" class="link-btn" (click)="openAddConditionModal()">
+          + {{ 'automationBuilder.addCondition' | translate }}
+        </button>
+      </div>
+
+      <p class="empty-conditions" *ngIf="store.conditions().length === 0">
+        {{ 'automationBuilder.noConditions' | translate }}
+      </p>
+
+      <article class="condition-card" *ngFor="let condition of store.conditions()">
+        <div class="condition-card__info">
+          <span class="condition-card__icon">
+            <img [src]="getIcon(condition.icon)" alt="" class="ui-icon ui-icon--sm" />
+          </span>
+          <div>
+            <strong>{{ condition.titleKey | translate }}</strong>
+            <p>{{ conditionRule(condition) }}</p>
+          </div>
+        </div>
+        <div class="condition-card__actions">
+          <button
+            type="button"
+            mat-icon-button
+            class="icon-btn"
+            [attr.aria-label]="'automationBuilder.editCondition' | translate"
+            (click)="openEditCondition(condition)"
+          >
+            <img [src]="icons.settings" alt="" class="ui-icon ui-icon--sm" />
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            class="icon-btn icon-btn--danger"
+            [attr.aria-label]="'automationBuilder.removeCondition' | translate"
+            (click)="removeCondition(condition.id)"
+          >
+            <img [src]="icons.close" alt="" class="ui-icon ui-icon--sm" />
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <div class="builder-step">
+      <div class="builder-step__heading">
+        <span class="step-number">3</span>
+        <h2>{{ 'automationBuilder.chooseAction' | translate }}</h2>
+      </div>
+
+      <div class="action-grid">
+        <button
+          type="button"
+          matRipple
+          class="action-card"
+          *ngFor="let action of store.actions()"
+          [class.action-card--selected]="recipe.selectedActionId === action.id"
+          [class.action-card--primary]="action.tone === 'primary' && recipe.selectedActionId === action.id"
+          [class.action-card--blue]="action.tone === 'blue'"
+          [class.action-card--orange]="action.tone === 'orange'"
+          [class.action-card--neutral]="action.tone === 'neutral'"
+          (click)="onSelectAction(action.id)"
+        >
+          <img [src]="getIcon(action.icon)" alt="" class="ui-icon ui-icon--md" />
+          <span class="action-card__label">{{ action.titleKey | translate }}</span>
+          <span class="action-card__check" *ngIf="recipe.selectedActionId === action.id">✓</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="suggested-section">
+    <div class="suggested-section__header">
+      <div>
+        <h2>{{ 'automationBuilder.suggestedTitle' | translate }}</h2>
+        <p>{{ 'automationBuilder.suggestedSubtitle' | translate }}</p>
+      </div>
+      <button type="button" mat-button color="primary" class="link-btn" (click)="viewAllTemplates()">
+        {{ (store.showAllTemplates() ? 'automationBuilder.showFeaturedOnly' : 'automationBuilder.viewAllTemplates') | translate }}
+      </button>
+    </div>
+
+    <div class="suggested-grid">
+      <article
+        class="template-card template-card--featured"
+        *ngIf="featuredTemplate() as featured"
+        (click)="applyTemplate(featured)"
+        (keyup.enter)="applyTemplate(featured)"
+        tabindex="0"
+        role="button"
+      >
+        <div class="template-card__content">
+          <span class="template-tag">{{ featured.tagKey | translate }}</span>
+          <h3>{{ featured.titleKey | translate }}</h3>
+          <p>{{ featured.descriptionKey | translate }}</p>
+          <button type="button" mat-flat-button color="primary" class="btn-quick-setup" (click)="applyTemplate(featured); $event.stopPropagation()">
+            {{ featured.ctaKey | translate }}
+          </button>
+        </div>
+        <div class="template-card__image" *ngIf="featured.imageUrl">
+          <img [src]="featured.imageUrl" alt="" />
+        </div>
+      </article>
+
+      <article
+        class="template-card template-card--compact"
+        *ngFor="let template of compactTemplates()"
+        [class.template-card--lavender]="template.tone === 'lavender'"
+        (click)="applyTemplate(template)"
+        (keyup.enter)="applyTemplate(template)"
+        tabindex="0"
+        role="button"
+      >
+        <img [src]="getIcon(template.icon ?? 'eco')" alt="" class="ui-icon ui-icon--md template-card__leaf" />
+        <h3>{{ template.titleKey | translate }}</h3>
+        <p>{{ template.descriptionKey | translate }}</p>
+        <span class="template-card__arrow" aria-hidden="true">↗</span>
+      </article>
+    </div>
+
+    <p class="empty-templates" *ngIf="store.filteredTemplates().length === 0">
+      {{ 'automationBuilder.noTemplatesFound' | translate }}
+    </p>
+  </section>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddConditionModal()" (click)="closeAddConditionModal()">
+  <div class="builder-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automationBuilder.addConditionTitle' | translate }}</h3>
+    <p>{{ 'automationBuilder.addConditionDesc' | translate }}</p>
+    <div class="modal-options">
+      <button type="button" matRipple class="modal-option" (click)="addCondition('humidity')">
+        <img [src]="icons.airPurifier" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automationBuilder.conditions.humidity.title' | translate }}
+      </button>
+      <button type="button" matRipple class="modal-option" (click)="addCondition('motion')">
+        <img [src]="icons.signal" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automationBuilder.conditions.motion.title' | translate }}
+      </button>
+      <button type="button" matRipple class="modal-option" (click)="addCondition('door')">
+        <img [src]="icons.door" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automationBuilder.conditions.doorOpen.title' | translate }}
+      </button>
+    </div>
+    <button type="button" mat-stroked-button class="btn-modal-cancel" (click)="closeAddConditionModal()">
+      {{ 'common.cancel' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="editingCondition() as condition" (click)="closeEditCondition()">
+  <div class="builder-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automationBuilder.editConditionTitle' | translate }}</h3>
+    <p>{{ condition.titleKey | translate }}</p>
+    <label class="modal-field">
+      <span>{{ 'automationBuilder.thresholdLabel' | translate }}</span>
+      <input type="text" [(ngModel)]="editConditionValue" />
+    </label>
+    <div class="modal-actions">
+      <button type="button" mat-stroked-button class="btn-modal-cancel" (click)="closeEditCondition()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button type="button" mat-flat-button color="primary" class="btn-modal-save" (click)="saveConditionEdit()">
+        {{ 'automationBuilder.saveCondition' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showMoreActionsModal()" (click)="closeMoreActionsModal()">
+  <div class="builder-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automationBuilder.moreActionsTitle' | translate }}</h3>
+    <p>{{ 'automationBuilder.moreActionsDesc' | translate }}</p>
+    <div class="modal-options">
+      <button
+        type="button"
+        matRipple
+        class="modal-option"
+        *ngFor="let action of store.extraActions"
+        (click)="onSelectExtraAction(action.id)"
+      >
+        <img [src]="getIcon(action.icon)" alt="" class="ui-icon ui-icon--sm" />
+        {{ action.titleKey | translate }}
+      </button>
+    </div>
+    <button type="button" mat-stroked-button class="btn-modal-cancel" (click)="closeMoreActionsModal()">
+      {{ 'common.cancel' | translate }}
+    </button>
+  </div>
+</div>
