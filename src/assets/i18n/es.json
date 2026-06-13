@@ -1,0 +1,2021 @@
+{
+  "app": {
+    "title": "DOMOTICORE",
+    "subtitle": "Energía Empresarial"
+  },
+  "shared": {
+    "facilityMap": {
+      "panHint": "Arrastra para mover · Doble clic para centrar",
+      "zoomIn": "Acercar mapa",
+      "zoomOut": "Alejar mapa"
+    }
+  },
+  "navigation": {
+    "dashboard": "Panel",
+    "smartIntegrations": "Integraciones Inteligentes",
+    "devices": "Dispositivos",
+    "deviceManagement": "Gestión de Dispositivos",
+    "energy": "Energía",
+    "automations": "Automatizaciones",
+    "automation": "Automatización",
+    "alerts": "Alertas",
+    "history": "Historial",
+    "profile": "Perfil",
+    "integrations": "Integraciones",
+    "businessProfile": "Perfil Empresarial",
+    "connectedServices": "Servicios Conectados",
+    "syncStatus": "Estado de Sync",
+    "automationIntegrations": "Automatizaciones (Integr.)",
+    "details": "Detalles",
+    "helpCenter": "Centro de Ayuda",
+    "signOut": "Cerrar Sesión",
+    "settings": "Configuración",
+    "security": "Seguridad",
+    "reports": "Reportes",
+    "users": "Usuarios",
+    "menu": "Menú"
+  },
+  "sidebar": {
+    "tagline": "ENTORNO INTELIGENTE",
+    "sectionMain": "PRINCIPAL",
+    "help": "Ayuda",
+    "securityStatus": "Estado de Seguridad",
+    "fullyProtected": "Totalmente Protegido"
+  },
+  "navbar": {
+    "logoAlt": "Logo DomotiCore",
+    "adminUser": "Admin",
+    "homeManager": "Administrador del Hogar",
+    "searchPlaceholder": "Buscar eventos o usuarios...",
+    "searchPlaceholderBusiness": "Buscar instalaciones o dispositivos...",
+    "facilityManager": "GERENTE DE INSTALACIÓN",
+    "searchNavigating": "Buscando \"{{query}}\"..."
+  },
+  "security": {
+    "title": "Seguridad y Acceso",
+    "subtitle": "Monitorea cámaras, cerraduras y actividad reciente de seguridad.",
+    "liveMonitoring": "Monitoreo en Vivo",
+    "live": "EN VIVO",
+    "viewAll": "Ver Todo",
+    "showLess": "Ver Menos",
+    "smartLocks": "Cerraduras Inteligentes",
+    "secured": "PROTEGIDO",
+    "unlocked": "DESBLOQUEADO",
+    "lockAllEntries": "Bloquear Todas las Entradas",
+    "securityLog": "Registro de Seguridad",
+    "reviewFootage": "Revisar Grabación",
+    "authorizedUsers": "Usuarios Autorizados",
+    "grantAccess": "Conceder Acceso",
+    "revokeAccess": "Revocar Acceso",
+    "partiallyProtected": "Parcialmente Protegido",
+    "neverEntered": "Sin ingresos",
+    "grantAccessPrompt": "Ingresa el nombre de la persona para conceder acceso:",
+    "expiresIn": "Expira en {{time}}",
+    "noUsersFound": "No hay usuarios que coincidan con la búsqueda.",
+    "noLogFound": "No hay eventos que coincidan con la búsqueda.",
+    "table": {
+      "user": "USUARIO",
+      "accessLevel": "NIVEL DE ACCESO",
+      "lastEntry": "ÚLTIMA ENTRADA",
+      "actions": "ACCIONES"
+    },
+    "accessLevels": {
+      "admin": "Admin",
+      "member": "Miembro",
+      "guest": "Invitado"
+    },
+    "cameras": {
+      "livingRoom": "Sala",
+      "driveway": "Entrada",
+      "patio": "Cámara del Patio",
+      "backyard": "Patio Trasero"
+    },
+    "locks": {
+      "frontDoor": "Puerta Principal",
+      "garageDoor": "Puerta del Garaje",
+      "backGate": "Portón Trasero"
+    },
+    "log": {
+      "marcusEntered": "Marcus Chen ingresó",
+      "elenaExited": "Elena Rodriguez salió",
+      "motionDetected": "Movimiento no reconocido detectado",
+      "motionSubtitle": "La cámara de la entrada detectó actividad fuera del horario programado.",
+      "systemDisarmed": "Sistema desarmado",
+      "snapshotSaved": "Captura guardada",
+      "locations": {
+        "frontDoor": "Puerta Principal",
+        "backGate": "Portón Trasero",
+        "patioCamera": "Cámara del Patio",
+        "manualEntry": "Entrada Manual"
+      }
+    },
+    "toast": {
+      "allLocked": "Todas las entradas bloqueadas correctamente.",
+      "lockSecured": "{{name}} asegurado.",
+      "lockUnlocked": "{{name}} desbloqueado.",
+      "openingCameras": "Abriendo panel de cámaras...",
+      "showingAllCameras": "Mostrando todas las cámaras.",
+      "showingPrimaryCameras": "Mostrando cámaras principales.",
+      "openingCamera": "Abriendo transmisión de {{name}}...",
+      "openingFootage": "Abriendo revisión de grabación...",
+      "accessGranted": "Acceso concedido a {{name}}.",
+      "accessRevoked": "Acceso de invitado revocado.",
+      "userActions": "Acciones para {{name}}"
+    }
+  },
+  "myDevices": {
+    "title": "Mis Dispositivos",
+    "subtitle": "Administra {{devices}} dispositivos inteligentes conectados en {{rooms}} habitaciones.",
+    "addDevice": "Agregar Dispositivo",
+    "addDeviceTitle": "Agregar Nuevo Dispositivo",
+    "activeDevices": "DISPOSITIVOS ACTIVOS",
+    "total": "Total",
+    "powerUsage": "Consumo",
+    "totalConsumption": "Consumo Total",
+    "temp": "TEMP",
+    "humidity": "HUMEDAD",
+    "deviceName": "Nombre del dispositivo",
+    "room": "Habitación",
+    "livingRoom": "Sala",
+    "kitchen": "Cocina",
+    "masterBedroom": "Dormitorio Principal",
+    "deviceType": "Tipo de dispositivo",
+    "typeClimate": "Clima (AC / Termostato)",
+    "typeGeneric": "Dispositivo genérico",
+    "cancel": "Cancelar"
+  },
+  "deviceDetail": {
+    "breadcrumbDevices": "Dispositivos",
+    "searchPlaceholder": "Buscar sistemas...",
+    "activeOnline": "Activo y en línea",
+    "inactive": "Inactivo",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "current": "Actual",
+    "mainPower": "ENERGÍA PRINCIPAL",
+    "operational": "Operativo",
+    "standby": "En espera",
+    "setTemperature": "Ajustar Temperatura",
+    "targetingIdeal": "Objetivo ideal",
+    "setTimer": "Programar",
+    "ecoMode": "Modo Eco",
+    "operationMode": "Modo de Operación",
+    "powerConsumption": "Consumo de Energía",
+    "currentLoad": "Carga actual",
+    "fanSpeed": "Velocidad del ventilador",
+    "swing": "Oscilación",
+    "humidity": "Humedad",
+    "deleteDevice": "Eliminar dispositivo",
+    "confirmDelete": "¿Eliminar este dispositivo?",
+    "powerOnToAdjust": "Enciende el dispositivo para ajustar la temperatura.",
+    "tapToCycle": "Toca para cambiar",
+    "alertActions": {
+      "enableEco": "Activar modo Eco",
+      "scheduleService": "Programar servicio",
+      "dismiss": "Descartar"
+    },
+    "modes": {
+      "cool": "Frío",
+      "heat": "Calor",
+      "fan": "Solo ventilador"
+    },
+    "periods": {
+      "realtime": "Tiempo real",
+      "day": "Día",
+      "month": "Mes"
+    },
+    "timerModal": {
+      "description": "Programa cuándo debe aplicarse la temperatura objetivo.",
+      "hour": "Hora",
+      "minute": "Minuto",
+      "clear": "Quitar programación"
+    },
+    "maintenanceModal": {
+      "title": "Programar mantenimiento",
+      "description": "Elige una fecha para la próxima visita de servicio.",
+      "date": "Fecha de servicio",
+      "confirm": "Programar servicio"
+    },
+    "toast": {
+      "timerSet": "Temporizador configurado para las {{time}}.",
+      "timerCleared": "Temporizador eliminado.",
+      "fanSpeedSet": "Velocidad del ventilador: {{speed}}.",
+      "swingSet": "Oscilación: {{swing}}.",
+      "alertDismissed": "Alerta descartada.",
+      "ecoEnabled": "Modo Eco activado para ahorrar energía.",
+      "maintenanceScheduled": "Mantenimiento programado para {{date}}."
+    }
+  },
+  "history": {
+    "navEnergy": "Inteligencia Energética",
+    "breadcrumbRoot": "Historial",
+    "breadcrumbCurrent": "Monitoreo de Energía",
+    "title": "Inteligencia Energética",
+    "totalConsumption": "Consumo Total",
+    "totalConsumptionSubtitle": "Uso en tiempo real en todos los circuitos activos.",
+    "highestConsumer": "Mayor Consumidor",
+    "responsibleFor": "Responsable del {{percent}}% de la energía total.",
+    "dailyAverage": "Promedio Diario",
+    "consumptionByDevice": "Consumo por Dispositivo",
+    "viewDetailedReport": "Ver Reporte Detallado",
+    "toast": {
+      "openingDetailedReport": "Abriendo reporte detallado de consumo."
+    },
+    "addReading": "Agregar lectura",
+    "addDevice": "Agregar Dispositivo",
+    "addDeviceTitle": "Agregar Consumo de Dispositivo",
+    "addDeviceSubtitle": "Registra un nuevo dispositivo para incluirlo en el desglose energético.",
+    "deviceName": "Nombre del dispositivo",
+    "deviceNamePlaceholder": "ej. Calentador de piscina",
+    "consumptionKwh": "Consumo (kWh)",
+    "consumptionPlaceholder": "ej. 3.5",
+    "deviceAdded": "Dispositivo agregado correctamente.",
+    "cancel": "Cancelar",
+    "period": {
+      "day": "Día",
+      "week": "Semana",
+      "month": "Mes"
+    }
+  },
+  "historyNotifications": {
+    "nav": "Centro de Notificaciones",
+    "title": "Centro de Notificaciones",
+    "subtitle": "Información inteligente y alertas del sistema para tu entorno.",
+    "searchPlaceholder": "Buscar registros...",
+    "activityFeed": "Feed de Actividad",
+    "activityFeedDesc": "Información inteligente y alertas del sistema para tu entorno.",
+    "filter": "Filtrar",
+    "markAllRead": "Marcar todo como leído",
+    "unreadOnly": "Solo no leídos",
+    "emptyFeed": "No hay notificaciones disponibles en este momento.",
+    "emptyFiltered": "No hay notificaciones que coincidan con los filtros actuales.",
+    "clearFilters": "Limpiar filtros",
+    "summary": {
+      "total": "Alertas totales",
+      "unread": "Sin leer",
+      "uptime": "Tiempo activo"
+    },
+    "sections": {
+      "new": "NUEVO",
+      "earlierToday": "HOY TEMPRANO",
+      "yesterday": "AYER"
+    },
+    "severity": {
+      "all": "Todos",
+      "critical": "Crítico",
+      "info": "Info",
+      "success": "Éxito",
+      "warning": "Advertencia",
+      "security": "Seguridad"
+    },
+    "actions": {
+      "viewDetails": "Ver Detalles",
+      "muteCircuit": "Silenciar Circuito",
+      "dismiss": "Descartar",
+      "orderBattery": "Pedir repuesto"
+    },
+    "items": {
+      "powerSpike": {
+        "title": "Pico Crítico de Energía",
+        "description": "El circuito de cocina superó el umbral máximo en un 18%. Autopilot aisló la carga para evitar daños."
+      },
+      "ecoMode": {
+        "title": "Modo Eco Autopilot",
+        "description": "La IA ajustó HVAC e iluminación según patrones de ocupación para reducir el consumo."
+      },
+      "firmwareUpdate": {
+        "title": "Actualización de Firmware Exitosa",
+        "description": "El hub se actualizó a v3.2.1. Todos los dispositivos conectados operan con normalidad."
+      },
+      "batteryLow": {
+        "title": "Batería Baja en Sensor de Jardín",
+        "description": "La batería del sensor exterior está al 12%. Reemplázala en 48 horas para evitar interrupciones."
+      },
+      "doorLocked": {
+        "title": "Puerta Principal Bloqueada",
+        "description": "La cerradura inteligente se activó automáticamente tras el horario nocturno. Todas las entradas están aseguradas."
+      }
+    },
+    "insights": {
+      "uptimeTitle": "Confiabilidad de Uptime",
+      "optimal": "ÓPTIMO",
+      "storageTitle": "Gestión de Almacenamiento",
+      "storageDescription": "Los registros y capturas se conservan 90 días antes del archivo automático.",
+      "storageUsage": "{{used}}GB de {{total}}GB"
+    },
+    "toast": {
+      "allRead": "Todas las notificaciones marcadas como leídas.",
+      "viewingDetails": "Abriendo detalles de \"{{title}}\".",
+      "circuitMuted": "Alertas del circuito silenciadas por 24 horas.",
+      "dismissed": "Notificación descartada.",
+      "openingStore": "Abriendo tienda de repuestos."
+    }
+  },
+  "historyLog": {
+    "title": "Registro de Historial",
+    "navActivity": "Flujos de Actividad",
+    "searchPlaceholder": "Buscar actividad...",
+    "activityStreams": "Flujos de Actividad",
+    "activityStreamsDesc": "Monitoreo del sistema en tiempo real y seguimiento de eventos.",
+    "applyFilters": "Aplicar Filtros",
+    "exportCsv": "Exportar CSV",
+    "colTime": "HORA Y FECHA",
+    "colDevice": "DISPOSITIVO",
+    "colAction": "ACCIÓN",
+    "colLocation": "UBICACIÓN",
+    "colStatus": "ESTADO",
+    "markSuccess": "Marcar como Éxito",
+    "markCritical": "Marcar como Crítico",
+    "delete": "Eliminar entrada",
+    "confirmDeleteTitle": "¿Eliminar entrada de actividad?",
+    "confirmDeleteBody": "Esta acción no se puede deshacer. La entrada se eliminará del flujo de actividad.",
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} entradas",
+    "systemHealth": "Salud del Sistema",
+    "uptime": "Disponibilidad",
+    "lastSync": "Última sincronización: hace {{minutes}} minutos",
+    "eventVolume": "Volumen de Eventos",
+    "securityAlerts": "Alertas de Seguridad",
+    "hoursAgo": "hace {{hours}} hora(s)",
+    "dateRange": {
+      "last_24h": "Últimas 24 horas",
+      "last_7d": "Últimos 7 días",
+      "last_30d": "Últimos 30 días"
+    },
+    "deviceTypes": {
+      "all": "Todos los tipos",
+      "lighting": "Iluminación",
+      "sensor": "Sensores",
+      "climate": "Clima",
+      "camera": "Cámaras",
+      "appliance": "Electrodomésticos"
+    },
+    "status": {
+      "success": "Éxito",
+      "critical": "Crítico",
+      "warning": "Advertencia"
+    }
+  },
+  "automationBuilder": {
+    "nav": "Constructor de Automatización",
+    "back": "Volver",
+    "title": "Constructor de Automatización",
+    "searchPlaceholder": "Buscar plantillas...",
+    "saveRecipe": "Guardar Receta",
+    "recipeLabel": "Receta:",
+    "chooseTrigger": "Elegir Disparador",
+    "setCondition": "Establecer Condición (Opcional)",
+    "addCondition": "Agregar Condición",
+    "chooseAction": "Elegir Acción",
+    "atTime": "A las",
+    "editCondition": "Editar condición",
+    "removeCondition": "Eliminar condición",
+    "suggestedTitle": "Automatizaciones Sugeridas",
+    "suggestedSubtitle": "Plantillas populares según tu hardware.",
+    "viewAllTemplates": "Ver todas las plantillas",
+    "status": {
+      "draft": "BORRADOR",
+      "published": "PUBLICADO"
+    },
+    "category": {
+      "efficiency": "EFICIENCIA",
+      "security": "SEGURIDAD",
+      "comfort": "CONFORT"
+    },
+    "recipes": {
+      "nightlyPowerSaver": "Ahorro Nocturno de Energía",
+      "presenceSimulation": "Simulación de Presencia Mejorada",
+      "ecoCooling": "Enfriamiento Eco"
+    },
+    "triggers": {
+      "timeOfDay": {
+        "title": "Hora del Día",
+        "description": "Ejecuta esta receta a una hora específica cada día."
+      },
+      "energySpike": {
+        "title": "Pico de Energía",
+        "description": "Reacciona cuando el consumo supera el umbral configurado."
+      },
+      "geofencing": {
+        "title": "Geocercas",
+        "description": "Dispara cuando alguien entra o sale de una zona mapeada."
+      }
+    },
+    "addConditionTitle": "Agregar Condición",
+    "addConditionDesc": "Elige una regla de sensor para refinar cuándo se ejecuta esta receta.",
+    "editConditionTitle": "Editar Condición",
+    "thresholdLabel": "Valor umbral",
+    "saveCondition": "Guardar Condición",
+    "noConditions": "Sin condiciones aún. Usa + Agregar Condición para refinar esta receta.",
+    "noTemplatesFound": "No hay plantillas que coincidan con la búsqueda.",
+    "showFeaturedOnly": "Solo destacadas",
+    "moreActionsTitle": "Más Acciones",
+    "moreActionsDesc": "Elige una acción adicional para esta receta de automatización.",
+    "extraActions": {
+      "notify": "Enviar Notificación Push",
+      "armSecurity": "Armar Sistema de Seguridad",
+      "runScene": "Ejecutar Escena Personalizada"
+    },
+    "conditions": {
+      "indoorTemperature": {
+        "title": "Temperatura Interior",
+        "rule": "Si la temperatura es mayor a {{value}}°C"
+      },
+      "humidity": {
+        "title": "Humedad Interior",
+        "rule": "Si la humedad supera el {{value}}%"
+      },
+      "motion": {
+        "title": "Inactividad por Movimiento",
+        "rule": "Si no hay movimiento durante {{value}} minutos"
+      },
+      "doorOpen": {
+        "title": "Puerta Abierta",
+        "rule": "Si alguna puerta permanece abierta más de 5 minutos"
+      }
+    },
+    "actions": {
+      "lockDoors": "Bloquear Puertas",
+      "lightsOff": "Apagar Luces",
+      "climateMode": "Modo Clima",
+      "more": "Más..."
+    },
+    "templates": {
+      "presenceSimulation": {
+        "tag": "SEGURIDAD INTELIGENTE",
+        "title": "Simulación de Presencia Mejorada",
+        "description": "Aleatoriza las luces interiores mientras estás fuera para simular ocupación y disuadir intrusos.",
+        "cta": "Configuración Rápida"
+      },
+      "ecoCooling": {
+        "title": "Enfriamiento Eco",
+        "description": "Optimiza los ciclos del AC según humedad exterior y ocupación."
+      }
+    },
+    "toast": {
+      "recipeSaved": "Receta \"{{name}}\" guardada y añadida a Escenas Activas.",
+      "recipeIncomplete": "Selecciona un disparador y una acción antes de guardar.",
+      "triggerSelected": "Disparador configurado: {{name}}.",
+      "timeUpdated": "Hora del disparador actualizada a {{time}}.",
+      "conditionRemoved": "Condición eliminada.",
+      "conditionAdded": "Condición \"{{name}}\" agregada.",
+      "conditionUpdated": "Condición actualizada correctamente.",
+      "templateApplied": "Plantilla \"{{name}}\" aplicada al constructor.",
+      "templateUnavailable": "Esta plantilla no se puede aplicar ahora.",
+      "showingAllTemplates": "Mostrando todas las plantillas disponibles.",
+      "showingFeaturedTemplates": "Mostrando solo plantillas destacadas.",
+      "actions": {
+        "lock-doors": "Todas las cerraduras inteligentes se activarán al ejecutar esta receta.",
+        "lights-off": "Las luces interiores se apagarán automáticamente.",
+        "climate-mode": "El HVAC cambiará a modo eco de enfriamiento."
+      },
+      "extraActions": {
+        "notify": "{{name}} habilitada para esta receta.",
+        "arm-security": "El sistema de seguridad se armará al dispararse.",
+        "run-scene": "{{name}} vinculada a esta receta."
+      }
+    }
+  },
+  "teamManagement": {
+    "navTeam": "Gestión de Equipo",
+    "title": "Gestión de Equipo",
+    "subtitle": "Administra los miembros de tu organización, asigna roles y configura el control de acceso por zona en tu infraestructura conectada.",
+    "addMember": "Agregar Miembro",
+    "filterByZone": "Filtrar por Zona",
+    "filterAllZones": "Todas las Zonas",
+    "more": "más",
+    "summary": {
+      "totalMembers": "Miembros Totales",
+      "administrators": "Administradores",
+      "administratorsLabel": "Acceso total al sistema",
+      "activeZones": "Zonas Activas",
+      "activeZonesLabel": "En 3 sucursales",
+      "recentActivity": "Actividad Reciente",
+      "recentActivityLabel": "Inicios de sesión hoy",
+      "membersTrend": "+{{count}} este mes"
+    },
+    "zones": {
+      "global": "Global",
+      "mainOffice": "Oficina Principal",
+      "hq": "Sede Central",
+      "northWarehouse": "Almacén Norte",
+      "dataCenter": "Centro de Datos",
+      "retailFloor": "Planta Retail",
+      "warehouse": "Almacén"
+    },
+    "tabs": {
+      "all": "Todos los Miembros",
+      "pending": "Invitaciones Pendientes",
+      "archived": "Archivados"
+    },
+    "roles": {
+      "administrator": "Administrador",
+      "manager": "Gerente",
+      "viewer": "Visualizador"
+    },
+    "status": {
+      "active": "Activo",
+      "offline": "Desconectado",
+      "pending": "Invitación Pendiente",
+      "archived": "Archivado"
+    },
+    "actions": {
+      "menu": "Acciones del miembro",
+      "editMember": "Editar Miembro",
+      "resendInvite": "Reenviar Invitación",
+      "archive": "Archivar Miembro",
+      "restore": "Restaurar Miembro",
+      "remove": "Eliminar Miembro"
+    },
+    "empty": {
+      "title": "No se encontraron miembros",
+      "description": "Prueba otro filtro de pestaña o zona, o invita un nuevo miembro para comenzar."
+    },
+    "modals": {
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "fields": {
+        "name": "Nombre Completo",
+        "email": "Correo Electrónico",
+        "role": "Rol",
+        "zones": "Acceso por Zona"
+      },
+      "addMember": {
+        "title": "Invitar Miembro del Equipo",
+        "submit": "Enviar Invitación"
+      },
+      "editMember": {
+        "title": "Editar Miembro del Equipo",
+        "submit": "Guardar Cambios"
+      },
+      "zoneAccess": {
+        "title": "Configuración de Acceso por Zona",
+        "description": "Habilita zonas y define el rol predeterminado para los miembros asignados a cada área de la instalación.",
+        "submit": "Guardar Permisos"
+      }
+    },
+    "footerModals": {
+      "terms": {
+        "title": "Términos de Servicio",
+        "body": "Los términos de DomotiCore Enterprise regulan el acceso del equipo, el registro de auditoría y las operaciones de infraestructura conectada en tu organización."
+      },
+      "privacy": {
+        "title": "Política de Privacidad",
+        "body": "Los perfiles de miembros, la actividad de inicio de sesión y los permisos por zona se procesan conforme a los estándares de privacidad de DomotiCore."
+      },
+      "status": {
+        "title": "Estado del Sistema",
+        "body": "Todos los servicios de gestión de equipo están operativos. La sincronización de identidad, actualizaciones de permisos y auditoría funcionan con normalidad."
+      }
+    },
+    "table": {
+      "userDetails": "DETALLES DEL USUARIO",
+      "role": "ROL",
+      "zoneAccess": "ACCESO POR ZONA",
+      "status": "ESTADO",
+      "actions": "ACCIONES"
+    },
+    "pagination": {
+      "showing": "Mostrando {{from}} a {{to}} de {{total}} miembros",
+      "empty": "No hay miembros con los filtros actuales"
+    },
+    "zonePermissions": {
+      "title": "Configurar Permisos por Zona",
+      "description": "Define reglas de acceso granulares para cada zona de la instalación y controla qué miembros pueden operar dispositivos conectados.",
+      "setup": "Configurar Acceso por Zona",
+      "docs": "Leer Documentación"
+    },
+    "auditLogs": {
+      "title": "Logs de Auditoría",
+      "description": "Monitorea cambios de permisos, actividad de inicio de sesión y acciones administrativas en tu organización.",
+      "cta": "Ver Historial de Auditoría"
+    },
+    "footer": {
+      "copyright": "© 2024 DomotiCore Enterprise Energy Systems",
+      "terms": "Términos de Servicio",
+      "privacy": "Política de Privacidad",
+      "status": "Estado del Sistema"
+    },
+    "toast": {
+      "memberInvited": "Invitación enviada a {{name}}.",
+      "memberUpdated": "{{name}} actualizado correctamente.",
+      "inviteResent": "Invitación reenviada a {{name}}.",
+      "memberArchived": "{{name}} movido a miembros archivados.",
+      "memberRestored": "{{name}} restaurado como miembro activo.",
+      "memberRemoved": "{{name}} eliminado del equipo.",
+      "zonePermissionsSaved": "Permisos por zona guardados correctamente."
+    }
+  },
+  "businessDevices": {
+    "navManagement": "Gestión de Dispositivos",
+    "title": "Gestión de Dispositivos",
+    "subtitle": "Administra {{count}} dispositivos activos en {{zones}} zonas principales.",
+    "totalConsumption": "CONSUMO TOTAL",
+    "turnAllOff": "Apagar Todo",
+    "zoneDevices": "{{name}} ({{count}} Dispositivos)",
+    "viewAll": "Ver los {{count}} Dispositivos",
+    "lightingGroup": "Grupo de Iluminación",
+    "activeUnits": "UNIDADES ACTIVAS",
+    "efficiency": "EFICIENCIA",
+    "airQuality": "CALIDAD DEL AIRE",
+    "table": {
+      "deviceName": "DISPOSITIVO",
+      "status": "ESTADO",
+      "load": "CARGA",
+      "action": "ACCIÓN"
+    },
+    "tableStatus": {
+      "active": "ACTIVO",
+      "standby": "EN ESPERA",
+      "offline": "DESCONECTADO"
+    },
+    "zones": {
+      "office": {
+        "ecoPromo": "Modo de energía optimizado disponible para Office Zone",
+        "ecoCta": "ACTIVAR SMART ECO"
+      }
+    },
+    "environment": {
+      "excellent": "Excelente"
+    },
+    "ecoModeActive": "Smart Eco activo en {{zone}}",
+    "addEnvironmentTitle": "Nueva zona de ambiente",
+    "addEnvironmentHint": "Crea una zona para monitorear calidad del aire y condiciones ambientales.",
+    "environmentName": "Nombre de la zona",
+    "environmentNamePlaceholder": "Ej. Almacén Frío B",
+    "addEnvironmentConfirm": "Crear zona",
+    "detail": {
+      "back": "Volver a dispositivos",
+      "status": "Estado",
+      "load": "Carga actual",
+      "power": "Encendido",
+      "openExplorer": "Abrir en explorador",
+      "backToManagement": "Volver a gestión",
+      "notFound": "Dispositivo no encontrado en esta zona.",
+      "toast": {
+        "turnedOn": "{{name}} encendido.",
+        "turnedOff": "{{name}} apagado."
+      }
+    },
+    "toast": {
+      "turnAllOff": "Todos los dispositivos fueron apagados.",
+      "ecoEnabled": "Smart Eco activado en {{zone}}.",
+      "ecoAlreadyEnabled": "Smart Eco ya está activo en {{zone}}.",
+      "viewAll": "Mostrando los {{count}} dispositivos...",
+      "addEnvironment": "Abriendo asistente de ambiente...",
+      "environmentAdded": "Zona \"{{name}}\" creada correctamente.",
+      "environmentNameRequired": "Ingresa un nombre para la zona."
+    }
+  },
+  "deviceExplorer": {
+    "nav": "Explorador de Dispositivos",
+    "breadcrumb": {
+      "devices": "Dispositivos",
+      "current": "Descubrimiento Avanzado"
+    },
+    "title": "Explorador de Dispositivos",
+    "subtitle": "Búsqueda avanzada multicriterio en clústeres de instalaciones.",
+    "exportResult": "Exportar Resultado",
+    "addDevice": "Agregar Dispositivo",
+    "networkScan": "Escaneo de Red",
+    "addModal": {
+      "title": "Agregar Nuevo Dispositivo",
+      "subtitle": "Registra un dispositivo manualmente y asígnalo a una zona de la instalación.",
+      "name": "Nombre del dispositivo",
+      "zone": "Zona de instalación",
+      "category": "Categoría",
+      "protocol": "Protocolo",
+      "nameRequired": "Ingresa un nombre de dispositivo para continuar."
+    },
+    "scanningTitle": "Escaneando red...",
+    "scanningHint": "Buscando dispositivos IoT en las subredes de la instalación.",
+    "resultsFound": "{{count}} Resultados Encontrados",
+    "viewList": "Vista de lista",
+    "viewGrid": "Vista de cuadrícula",
+    "pagination": "Mostrando {{start}}-{{end}} de {{total}} resultados",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "quickAssist": "Asistente de descubrimiento",
+    "filters": {
+      "title": "Filtros Avanzados",
+      "facilityHierarchy": "Jerarquía de Instalación",
+      "allZones": "Todas las Zonas (Global)",
+      "categorization": "Categorización de Dispositivos",
+      "protocol": "Protocolo",
+      "subnet": "Subred",
+      "subnetPlaceholder": "192.168.x.x",
+      "lastSeen": "Última Conexión",
+      "to": "a",
+      "onlineOnly": "Solo Dispositivos en Línea",
+      "firmwareOutdated": "Firmware Desactualizado"
+    },
+    "facilityZones": {
+      "main-office": "Oficina Principal",
+      "north-wing": "Ala Norte",
+      "loading-dock": "Muelle de Carga",
+      "cold-storage": "Almacenamiento en Frío"
+    },
+    "categories": {
+      "hvac": "HVAC",
+      "lighting": "Iluminación",
+      "security": "Seguridad",
+      "sensors": "Sensores",
+      "powerPlugs": "Enchufes Inteligentes"
+    },
+    "map": {
+      "liveCoverage": "COBERTURA EN VIVO",
+      "reachability": "Alcance",
+      "zoomIn": "Acercar mapa",
+      "zoomOut": "Alejar mapa",
+      "layers": "Capas del mapa",
+      "layerZones": "Vista de zonas activada",
+      "layerFloor": "Vista de plano activada",
+      "panHint": "Arrastra para mover · Doble clic para centrar"
+    },
+    "table": {
+      "device": "ID / Nombre del Dispositivo",
+      "ipAddress": "Dirección IP",
+      "zoneHierarchy": "Jerarquía de Zona",
+      "status": "Estado"
+    },
+    "zones": {
+      "lobby": "Principal > Ala Norte > Lobby",
+      "northWing": "Principal > Ala Norte > Planta Abierta",
+      "loadingDock": "Principal > Muelle de Carga > Bahía 2",
+      "mainOffice": "Principal > Suite Ejecutiva",
+      "kitchen": "Principal > Zona Cocina",
+      "coldStorage": "Principal > Anexo de Frío"
+    },
+    "status": {
+      "online": "En línea",
+      "standby": "Standby",
+      "offline": "Fuera de línea"
+    },
+    "toast": {
+      "exportResult": "Exportando resultados del explorador...",
+      "exportReady": "Resultados exportados correctamente",
+      "networkScan": "Escaneo de red iniciado en subredes de la instalación.",
+      "networkScanStarted": "Escaneando subredes de la instalación...",
+      "scanComplete": "Escaneo completado: 1 dispositivo nuevo detectado",
+      "deviceAdded": "{{name}} agregado al inventario de la instalación.",
+      "deviceActions": "Abriendo acciones para {{deviceId}}...",
+      "quickAssist": "Abriendo asistente de descubrimiento..."
+    }
+  },
+  "businessReports": {
+    "navComparative": "Reportes Comparativos",
+    "title": "Reportes Comparativos de Energía",
+    "subtitle": "Revisa tendencias históricas y métricas de eficiencia en las zonas de tu instalación.",
+    "selectPeriod": "Seleccionar Período",
+    "consumptionHistory": "Historial de Consumo",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "efficiencyGoal": "Meta de Eficiencia",
+    "zoneComparison": "Comparación por Zona",
+    "kwhUsage": "USO KWH",
+    "applyStrategy": "Aplicar Estrategia",
+    "strategyApplied": "Estrategia Aplicada",
+    "exportPdf": "Exportar PDF",
+    "exportCsv": "Exportar CSV",
+    "deviceReports": "Reportes por Dispositivo",
+    "viewAllDevices": "Ver Todos los Dispositivos",
+    "footer": "© 2024 DomotiCore Enterprise Energy Management. Todos los sistemas operativos.",
+    "period": {
+      "thisMonth": "Este mes",
+      "lastMonth": "Mes anterior",
+      "thisQuarter": "Este trimestre"
+    },
+    "efficiency": {
+      "optimal": "ÓPTIMO",
+      "comparison": "Eres un 12% más eficiente que en el mismo período de la semana pasada."
+    },
+    "peak": {
+      "title": "PRÓXIMO PICO ESTIMADO",
+      "message": "El análisis sugiere mover tareas de producción pesada a la ventana nocturna para reducir el costo por kWh un 15%.",
+      "messageApplied": "El turno de producción nocturno ya está programado. Ahorro estimado: 15% en costo por kWh."
+    },
+    "actions": {
+      "menu": "Acciones del dispositivo",
+      "viewDevice": "Ver en Dispositivos",
+      "exportRow": "Exportar fila",
+      "toggleStatus": "Cambiar estado"
+    },
+    "devices": {
+      "hvacSublabel": "Climatización principal",
+      "lightingSublabel": "Red de iluminación",
+      "serverSublabel": "Infraestructura IT"
+    },
+    "status": {
+      "optimal": "ÓPTIMO",
+      "steady": "ESTABLE"
+    },
+    "table": {
+      "deviceName": "DISPOSITIVO",
+      "zone": "ZONA",
+      "consumption": "CONSUMO",
+      "trend": "TENDENCIA",
+      "status": "ESTADO",
+      "actions": "ACCIONES"
+    },
+    "toast": {
+      "exportPdf": "Reporte descargado correctamente.",
+      "exportCsv": "CSV exportado correctamente.",
+      "periodSelected": "Datos cargados para {{period}}.",
+      "strategyApplied": "Estrategia de reducción de pico aplicada.",
+      "strategyAlreadyApplied": "La estrategia ya está activa.",
+      "viewingDevice": "Abriendo dispositivos para {{device}}.",
+      "deviceExported": "{{device}} exportado a CSV.",
+      "deviceStatusUpdated": "Estado actualizado para {{device}}."
+    }
+  },
+  "costAnalysis": {
+    "nav": "Análisis de Costos",
+    "title": "Detalle de Análisis de Costos",
+    "subtitle": "Auditoría detallada del gasto energético, rendimiento en picos de demanda y modelado estratégico de ROI para infraestructura empresarial inteligente.",
+    "exportPdf": "Exportar PDF",
+    "recalculateRoi": "Recalcular ROI",
+    "totalBilling": "Facturación Energética Total",
+    "billingCycle": "Ciclo de Facturación",
+    "vsLastMonth": "vs mes anterior",
+    "chart": {
+      "legendBase": "Facturación base",
+      "legendPeak": "Recargo por pico",
+      "avgLine": "Prom. 6 meses",
+      "tooltipTotal": "Total",
+      "tooltipPeak": "Pico",
+      "tooltipBase": "Base"
+    },
+    "operationalEfficiency": "Eficiencia Operativa por Área",
+    "unitPerSqFt": "USD / pie²",
+    "peak": {
+      "title": "Exposición a Recargo por Pico",
+      "ofInvoice": "de la factura total",
+      "riskWindow": "Lun - Vie (11AM - 4PM) Alto Riesgo",
+      "suggestionTitle": "Sugerencia Estratégica",
+      "suggestion": "Ajusta el ciclo HVAC -2°C durante intervalos pico para ahorrar aprox. $650/mes."
+    },
+    "areas": {
+      "productionFloor": "Planta de Producción",
+      "corporateSuites": "Oficinas Corporativas",
+      "coldStorage": "Anexo de Almacenamiento en Frío"
+    },
+    "roi": {
+      "title": "ROI de Mejoras Inteligentes",
+      "subtitle": "Proyecta períodos de recuperación y ahorros del primer año para mejoras de infraestructura aprobadas.",
+      "paybackPeriod": "Período de Recuperación",
+      "months": "Meses",
+      "estimatedSavings": "Ahorro Est. (Año 1)",
+      "statusApproved": "APROBADO",
+      "statusReview": "REVISIÓN",
+      "hvac": { "name": "Automatización HVAC Inteligente" },
+      "led": { "name": "Red de Luminarias LED" }
+    },
+    "audit": {
+      "title": "Auditoría Integral de Facturación",
+      "statusPaid": "PAGADO",
+      "filters": {
+        "last6Months": "Últimos 6 Meses",
+        "last12Months": "Últimos 12 Meses",
+        "yearToDate": "Año en Curso"
+      },
+      "columns": {
+        "period": "Período de Facturación",
+        "baseUsage": "Uso Base (kWh)",
+        "peakDemand": "Demanda Pico (kWh)",
+        "demandCharge": "Cargo por Demanda",
+        "taxesFees": "Impuestos y Tasas",
+        "netAmount": "Monto Neto",
+        "status": "Estado"
+      }
+    },
+    "toast": {
+      "exportPdf": "Reporte de análisis de costos descargado.",
+      "recalculateRoi": "Modelo ROI recalculado correctamente.",
+      "filterSelected": "Filtro aplicado: {{filter}}"
+    }
+  },
+  "alertsHistory": {
+    "nav": "Alertas e Historial",
+    "title": "Alertas e Historial",
+    "subtitle": "Registro integral de fallas del sistema, sobreconsumo y anulaciones manuales.",
+    "exportCsv": "Exportar CSV",
+    "filters": "Filtros",
+    "activityLog": "Registro de Actividad",
+    "showingRecords": "Mostrando {{count}}+ registros",
+    "pagination": "Mostrando página {{page}} de {{total}}",
+    "summary": {
+      "criticalAlerts": "Alertas Críticas",
+      "deviceFailures": "Fallos de Dispositivos",
+      "energyPeaks": "Picos de Energía",
+      "resolution": "Resolución"
+    },
+    "tabs": {
+      "all": "Todos",
+      "alerts": "Alertas",
+      "manual": "Manual"
+    },
+    "priority": {
+      "critical": "Crítica",
+      "medium": "Media",
+      "low": "Baja"
+    },
+    "status": {
+      "unresolved": "SIN RESOLVER",
+      "acknowledged": "RECONOCIDA",
+      "systemNormal": "SISTEMA NORMAL",
+      "investigating": "INVESTIGANDO"
+    },
+    "table": {
+      "priority": "Prioridad",
+      "eventDetail": "Detalle del Evento",
+      "location": "Ubicación / Dispositivo",
+      "timestamp": "Fecha/Hora",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "locations": {
+      "productionFloor": "Planta de Producción Principal",
+      "coldStorage": "Anexo de Almacenamiento en Frío",
+      "loadingDock": "Muelle de Carga",
+      "mainOffice": "Oficina Principal",
+      "kitchen": "Zona de Cocina"
+    },
+    "events": {
+      "overConsumption": {
+        "title": "Sobreconsumo Inusual",
+        "detail": "Pico de 2.4kW detectado en los últimos 5 min"
+      },
+      "coldChain": {
+        "title": "Desviación de Cadena de Frío",
+        "detail": "Deriva de temperatura fuera del umbral configurado"
+      },
+      "manualOverride": {
+        "title": "Anulación Manual Registrada",
+        "detail": "Operador omitió el protocolo automático de apagado"
+      },
+      "peakStabilized": {
+        "title": "Pico de Carga Estabilizado",
+        "detail": "Demanda normalizada tras redistribución HVAC"
+      },
+      "sensorOffline": {
+        "title": "Sensor Fuera de Línea",
+        "detail": "Monitor de línea de producción perdió conexión"
+      },
+      "energyPeak": {
+        "title": "Pico de Energía Detectado",
+        "detail": "Zona cocina superó presupuesto horario"
+      }
+    },
+    "filterOptions": {
+      "all": "Todos los registros",
+      "critical": "Solo críticas",
+      "last24h": "Últimas 24 horas",
+      "unresolved": "Sin resolver"
+    },
+    "actions": {
+      "menu": "Acciones del registro",
+      "acknowledge": "Reconocer",
+      "investigate": "Investigar",
+      "resolve": "Marcar resuelto",
+      "viewLocation": "Ver ubicación"
+    },
+    "insights": {
+      "alertFrequency": "Mayor Frecuencia de Alertas",
+      "primaryAlertType": "Eventos de sobreconsumo",
+      "meanTime": "Tiempo Medio de Resolución",
+      "fromLastWeek": "respecto a la semana pasada",
+      "systemIntegrity": "Integridad del Sistema",
+      "stability": "ESTABILIDAD",
+      "integrityOptimal": "ÓPTIMO"
+    },
+    "toast": {
+      "exportCsv": "Registro de actividad exportado a CSV.",
+      "filterApplied": "Filtro aplicado: {{filter}}",
+      "entryAcknowledged": "Alerta reconocida.",
+      "entryInvestigating": "Alerta marcada como en investigación.",
+      "entryResolved": "Alerta marcada como resuelta.",
+      "viewingLocation": "Abriendo dispositivos para {{location}}."
+    }
+  },
+  "automation": {
+    "navCenter": "Automatizaciones Inteligentes",
+    "navBusinessCenter": "Centro de Automatización",
+    "title": "Automatizaciones Inteligentes",
+    "businessTitle": "Centro de Automatización",
+    "businessDescription": "Configura comportamientos inteligentes y protocolos energéticos para tu empresa.",
+    "description": "Configura disparadores inteligentes y escenas programadas para que tu hogar reaccione automáticamente a tu estilo de vida.",
+    "searchPlaceholder": "Buscar automatizaciones...",
+    "notifications": "Notificaciones",
+    "help": "Ayuda",
+    "newAutomation": "Nueva Automatización",
+    "activeScenes": "Escenas Activas",
+    "upcoming": "Próximos",
+    "viewMoreEvents": "Ver {{count}} eventos más",
+    "buildCustomLogic": "Crear Lógica Personalizada",
+    "buildCustomLogicDesc": "Crea cadenas complejas de \"Si Esto Entonces Aquello\" para vincular cualquier dispositivo, sensor o disparador de tiempo en tu hogar.",
+    "openBuilder": "Abrir Constructor",
+    "smartSuggestion": "Sugerencia Inteligente",
+    "createAutomation": "Crear Automatización",
+    "dismiss": "Descartar",
+    "viewAuditLog": "Ver Log de Auditoría",
+    "createBusinessRule": "Crear Regla de Negocio",
+    "activeRuleTimeline": "Línea de Tiempo de Reglas Activas",
+    "realTimeStatus": "Estado en tiempo real",
+    "rulesActive": "reglas activas",
+    "operationalBusinessRules": "Reglas de Negocio Operacionales",
+    "efficiencyInsights": "Análisis de Eficiencia",
+    "insightsSummary": "Las automatizaciones ahorraron",
+    "insightsSummarySuffix": "en costos de energía este mes.",
+    "totalSaved": "Total Ahorrado",
+    "co2Avoided": "CO2 Evitado",
+    "groupBasedSchedules": "Horarios por Grupo",
+    "assetGroup": "Grupo de Activos",
+    "morningOn": "Encendido (Mañana)",
+    "eveningOff": "Apagado (Tarde)",
+    "overtimeRule": "Regla Overtime",
+    "overtimeTypes": {
+      "manual": "Anulación manual",
+      "motion": "Sensor de movimiento",
+      "photo": "Fotosensor"
+    },
+    "editShutdownProtocol": "Editar Protocolo de Cierre",
+    "postponeShutdown": "Posponer 15 min",
+    "shutdownModalHint": "Activa o desactiva pasos del protocolo de cierre.",
+    "timeline": {
+      "operationalRules": "Reglas operativas",
+      "securityProtocols": "Protocolos de seguridad",
+      "zoom": "Zoom de línea de tiempo",
+      "filter": "Filtrar reglas",
+      "zoomBusiness": "Horario laboral",
+      "zoomExtended": "Día completo",
+      "zoomFocus": "Enfoque actual",
+      "filterAll": "Todas",
+      "filterOperational": "Operativas",
+      "filterSecurity": "Seguridad",
+      "runningNow": "en ejecución",
+      "conflicts": "conflictos",
+      "conflictHint": "Esta regla se superpone con otra activa",
+      "conflictDetected": "Conflicto de horario detectado",
+      "endsIn": "Termina en {{minutes}} min",
+      "viewRule": "Ver regla",
+      "editSchedule": "Editar horario",
+      "closeDetail": "Cerrar",
+      "status": {
+        "running": "En ejecución ahora",
+        "scheduled": "Programada próximamente",
+        "waiting": "En espera"
+      }
+    },
+    "tons": "Toneladas",
+    "viewList": "Vista de lista",
+    "viewGrid": "Vista de cuadrícula",
+    "newScenario": "Nuevo Escenario",
+    "newScenarioDescription": "Define disparadores y acciones para un evento personalizado.",
+    "active": "ACTIVO",
+    "inactive": "INACTIVO",
+    "modal": {
+      "name": "Nombre",
+      "trigger": "Disparador",
+      "automationName": "Nombre de automatización",
+      "condition": "Condición",
+      "action": "Acción",
+      "create": "Crear",
+      "saveLogic": "Guardar Lógica",
+      "triggerOptions": {
+        "scheduledTime": "Hora programada",
+        "motion": "Movimiento detectado",
+        "sunset": "Al atardecer"
+      }
+    },
+    "toast": {
+      "created": "Automatización \"{{name}}\" creada.",
+      "showingAllEvents": "Mostrando todos los eventos programados.",
+      "logicSaved": "Lógica personalizada \"{{name}}\" guardada.",
+      "createdFromSuggestion": "Automatización creada desde sugerencia inteligente.",
+      "showingAuditLog": "Abriendo log de auditoría...",
+      "editShutdownProtocol": "Abriendo editor del protocolo de cierre...",
+      "businessRuleCreated": "Regla de negocio creada correctamente.",
+      "ruleEnabled": "{{name}} activada.",
+      "ruleDisabled": "{{name}} desactivada.",
+      "ruleNameRequired": "Ingresa un nombre para la regla.",
+      "shutdownPostponed": "Cierre pospuesto 15 minutos.",
+      "shutdownSaved": "Protocolo de cierre guardado.",
+      "openingBuilder": "Abriendo constructor de automatización...",
+      "openingSchedule": "Abriendo horario de {{group}}..."
+    },
+    "suggestionAutomationTitle": "Automatización por Sugerencia",
+    "days": {
+      "mon": "L", "tue": "M", "wed": "X", "thu": "J", "fri": "V", "sat": "S", "sun": "D"
+    },
+    "mock": {
+      "scenes": {
+        "nightMode": { "name": "Modo Nocturno", "description": "Se activa a las 11:00 PM" },
+        "awayMode": { "name": "Modo Ausente", "description": "Cuando todos salen de casa" },
+        "morningRoutine": { "name": "Rutina Matutina", "description": "Días laborales a las 6:30 AM" },
+        "movieNight": { "name": "Noche de Película", "description": "Luces tenues, persianas cerradas" }
+      },
+      "events": {
+        "turnOffLights": { "title": "APAGAR TODAS LAS LUCES", "footer": "24 dispositivos conectados" },
+        "morningWakeup": { "title": "DESPERTAR MATUTINO", "footer": "Objetivo: 22°C" },
+        "eveningSecurity": { "title": "REVISIÓN DE SEGURIDAD NOCTURNA", "footer": "Sensores perimetrales" }
+      },
+      "suggestion": {
+        "message": "Según tus patrones de uso, sugerimos crear una automatización para apagar el televisor de la sala cuando no haya movimiento durante 30 minutos."
+      }
+    }
+  },
+  "zoneConfiguration": {
+    "nav": "Configuración de Zonas",
+    "breadcrumb": {
+      "automation": "Automatización",
+      "current": "Configuración de Zonas"
+    },
+    "title": "Configuración de Zonas",
+    "subtitle": "Define umbrales operativos, presupuestos energéticos y alertas de seguridad para sectores específicos del negocio.",
+    "saveAll": "Guardar Todo",
+    "activeMonitoring": "Monitoreo Activo",
+    "targetEnergyBudget": "Presupuesto Energético Objetivo (Mensual)",
+    "currentEfficiency": "Eficiencia Actual",
+    "vsLastYear": "vs año ant.",
+    "criticalTempAlerts": "Alertas Críticas de Temp.",
+    "upperLimit": "Límite Superior",
+    "lowerLimit": "Límite Inferior",
+    "targetBudget": "Presupuesto Objetivo",
+    "alertThreshold": "Umbral de Alerta",
+    "editBounds": "Editar Límites",
+    "quickInsights": "Insights Rápidos",
+    "globalOptimizer": {
+      "title": "Optimizador Global",
+      "description": "La IA está gestionando la distribución de carga en todas las zonas para mantener el cumplimiento del presupuesto.",
+      "score": "Puntuación de Optimización"
+    },
+    "zones": {
+      "mainOffice": {
+        "name": "Oficina Principal",
+        "subtitle": "24 dispositivos conectados • Pisos 4 y 5"
+      },
+      "loadingDock": {
+        "name": "Muelle de Carga",
+        "subtitle": "8 dispositivos conectados • Acceso trasero"
+      },
+      "kitchen": {
+        "name": "Cocina",
+        "subtitle": "12 dispositivos conectados • Almacenamiento en frío"
+      }
+    },
+    "insights": {
+      "kitchenTemp": {
+        "title": "Temperatura de Cocina en Aumento",
+        "detail": "Acercándose al umbral: 24.2°C"
+      },
+      "budgetCompliance": {
+        "title": "Cumplimiento de Presupuesto",
+        "detail": "Muelle de Carga $420 por debajo del objetivo"
+      }
+    },
+    "options": {
+      "menu": "Opciones de zona",
+      "setPrimary": "Establecer como zona principal",
+      "enableMonitoring": "Activar monitoreo",
+      "disableMonitoring": "Desactivar monitoreo",
+      "resetDefaults": "Restaurar valores predeterminados"
+    },
+    "boundsModal": {
+      "title": "Editar límites — {{zone}}",
+      "description": "Ajusta el presupuesto energético y los umbrales de temperatura para esta zona."
+    },
+    "schedule": {
+      "title": "Horario — {{zone}}",
+      "description": "Define los horarios de encendido y apagado automático para esta zona.",
+      "morningOn": "Encendido (Mañana)",
+      "eveningOff": "Apagado (Tarde)",
+      "overtimeRule": "Regla Overtime",
+      "overtime": {
+        "manual": "Anulación manual",
+        "motion": "Sensor de movimiento",
+        "photo": "Fotosensor"
+      }
+    },
+    "footerModal": {
+      "privacy": {
+        "title": "Política de Privacidad",
+        "body": "DomotiCore procesa datos operativos y de dispositivos únicamente para automatización, alertas y reportes energéticos de tu negocio."
+      },
+      "health": {
+        "title": "Estado del Sistema",
+        "body": "Todos los servicios de automatización están operativos. Última sincronización hace 2 minutos. Latencia promedio: 42 ms."
+      }
+    },
+    "audit": {
+      "title": "Auditoría de Configuración",
+      "viewFullLog": "Ver Log Completo",
+      "statusApplied": "APLICADO",
+      "allZones": "Todas las zonas",
+      "columns": {
+        "timestamp": "Fecha/Hora",
+        "modifier": "Modificador",
+        "action": "Acción",
+        "zone": "Zona",
+        "status": "Estado"
+      },
+      "actions": {
+        "budgetUpdate": "Actualización de presupuesto: +$500",
+        "tempBoundAdjusted": "Límite inferior de temperatura ajustado",
+        "configSaved": "Configuración de zonas guardada"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 DomotiCore Enterprise Systems",
+      "privacy": "Política de Privacidad",
+      "health": "Estado del Sistema",
+      "version": "V2.4.8-STABLE"
+    },
+    "toast": {
+      "saved": "Configuraciones de zona guardadas correctamente.",
+      "discarded": "Cambios descartados.",
+      "editBounds": "Abriendo editor de límites para {{zone}}...",
+      "boundsUpdated": "Límites actualizados para {{zone}}. Usa Guardar Todo para aplicar.",
+      "scheduleUpdated": "Horario actualizado para {{zone}}. Usa Guardar Todo para aplicar.",
+      "primarySet": "{{zone}} establecida como zona principal.",
+      "monitoringEnabled": "Monitoreo activado en {{zone}}.",
+      "monitoringDisabled": "Monitoreo desactivado en {{zone}}.",
+      "zoneReset": "Valores predeterminados restaurados en {{zone}}.",
+      "openingAudit": "Abriendo log de auditoría completo...",
+      "footerLink": "Abriendo {{link}}..."
+    }
+  },
+  "apiAccess": {
+    "title": "Acceso API",
+    "description": "Genere claves seguras para conectar sus datos DomotiCore en tiempo real.",
+    "primaryMonitoringKey": "CLAVE PRINCIPAL DE MONITOREO",
+    "generateNewKey": "Generar Nueva Clave"
+  },
+  "hooks": {
+    "title": "Hooks Activos",
+    "connected": "Conectado",
+    "grafana": "Panel de Grafana",
+    "sap": "Integración SAP de Energía"
+  },
+  "integrationHealth": {
+    "title": "Salud de Integración",
+    "description": "Las conexiones seguras están activas para su ERP y paneles de monitoreo.",
+    "healthy": "Saludable",
+    "uptime": "disponibilidad",
+    "uptimeValue": "{{percent}}% de disponibilidad",
+    "sapErp": "SAP ERP"
+  },
+  "throughput": {
+    "title": "Rendimiento de Datos API",
+    "monthlyLimit": "Límite mensual",
+    "requestsUsed": "solicitudes de",
+    "usageAmount": "{{used}} / {{total}}",
+    "usageSummary": "{{amount}} de cuota empresarial usada en este ciclo de facturación."
+  },
+  "buttons": {
+    "saveConfiguration": "Guardar Configuración",
+    "discardChanges": "Descartar Cambios",
+    "upgradeNow": "Actualizar Ahora",
+    "addNewAutomation": "Agregar Nueva Automatización",
+    "disable": "Desactivar",
+    "enable": "Activar",
+    "turnOnAll": "Encender todo",
+    "turnOffAll": "Apagar todo",
+    "on": "ENCENDIDO",
+    "off": "APAGADO",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "viewDetails": "Ver Detalles",
+    "listView": "Vista de lista",
+    "gridView": "Vista de cuadrícula",
+    "aiAssistant": "Asistente IA",
+    "cancel": "Cancelar"
+  },
+  "deviceManagement": {
+    "title": "Gestiona dispositivos conectados",
+    "subtitle": "Revisa el estado de los dispositivos, renombra entradas y elimina equipos inactivos rápidamente.",
+    "totalDevices": "Total de dispositivos",
+    "online": "En línea",
+    "offline": "Desconectados",
+    "noDevicesTitle": "No se encontraron dispositivos",
+    "noDevicesDescription": "Conecta o agrega dispositivos para comenzar a gestionar tu sistema doméstico.",
+    "renameDevicePlaceholder": "Renombrar dispositivo",
+    "saveButton": "Guardar"
+  },
+  "deviceControl": {
+    "statusOn": "ENCENDIDO",
+    "statusOff": "APAGADO",
+    "statusNoConnection": "SIN CONEXIÓN"
+  },
+  "connectedServices": {
+    "online": "En línea",
+    "offline": "Desconectado",
+    "toast": {
+      "offlineCannotEnable": "{{name}} está desconectado. No se puede activar.",
+      "toggled": "{{name}} {{status}}."
+    },
+    "status": {
+      "enabled": "activado",
+      "disabled": "desactivado"
+    },
+    "samples": {
+      "livingRoomLight": { "name": "Luz de la Sala", "type": "Bombilla Inteligente" },
+      "kitchenThermostat": { "name": "Termostato de Cocina", "type": "Control de Clima" },
+      "frontDoorCamera": { "name": "Cámara de Entrada", "type": "Cámara de Seguridad" },
+      "bedroomSpeaker": { "name": "Altavoz del Dormitorio", "type": "Dispositivo de Audio" }
+    }
+  },
+  "integrations": {
+    "toast": {
+      "configSaved": "Configuración empresarial guardada correctamente.",
+      "keyGenerated": "Nueva clave de monitoreo API generada.",
+      "fileUploaded": "\"{{name}}\" subido para revisión.",
+      "upgradeSubmitted": "Solicitud de upgrade empresarial enviada. Nuestro equipo te contactará."
+    }
+  },
+  "overview": {
+    "sectionLabel": "Contextos acotados",
+    "title": "Visión general de la arquitectura de la aplicación",
+    "description": "Un resumen visual de los dominios principales de DomotiCore para que los equipos y usuarios identifiquen rápidamente cada contexto.",
+    "iamIconAlt": "Icono IAM",
+    "integrationsIconAlt": "Icono de Integraciones Inteligentes",
+    "automationIconAlt": "Icono de Automatización",
+    "iamTitle": "IAM",
+    "iamDescription": "Autenticación, registro y protección de rutas para usuarios y accesos.",
+    "integrationsTitle": "Integraciones Inteligentes",
+    "integrationsDescription": "Gestione servicios conectados, sincronización y detalles avanzados de integración.",
+    "automationTitle": "Automatizaciones",
+    "automationDescription": "Flujos inteligentes y reglas que conectan dispositivos y acciones dentro del sistema."
+  },
+  "syncStatus": {
+    "lastSync": "Última sincronización",
+    "pendingSync": "Sincronizaciones pendientes",
+    "reliability": "Confiabilidad de sincronización",
+    "mins": "min",
+    "items": "elementos",
+    "changePositive": "Arriba 2% respecto a la última ejecución",
+    "changeNegative": "+12% en cola",
+    "changeStable": "Estable esta semana",
+    "chartPlaceholderLine1": "La visualización de actividad de sincronización iría aquí",
+    "chartPlaceholderLine2": "Gráfico de sincronización en tiempo real de la plataforma"
+  },
+  "dashboard": {
+    "searchPlaceholder": "Buscar dispositivos, escenas...",
+    "energyConsumptionTitle": "Consumo de energía",
+    "energyConsumptionDescription": "Dibujo de energía histórica en las últimas 24 horas",
+    "last24Hours": "Últimas 24h",
+    "last7Days": "Últimos 7 días",
+    "last30Days": "Últimos 30 días",
+    "recentAlertsTitle": "Alertas recientes",
+    "shutdownDevice": "Apagar dispositivo",
+    "viewAllAlerts": "Ver todas las alertas",
+    "addDevice": "Agregar dispositivo",
+    "activeDevices": "Dispositivos Activos",
+    "all": "Todo",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "viewDetails": "Ver Detalles",
+    "energySaver": "Ahorrador de Energía",
+    "ecoModeActive": "Modo Eco está activo en",
+    "rooms": "habitaciones",
+    "viewDetailsBtn": "Ver Detalles",
+    "peakLabel": "Pico",
+    "normalConsumption": "Consumo normal",
+    "energyUsageLegend": "Uso de Energía",
+    "peakStat": "Pico",
+    "avgStat": "Prom",
+    "totalStat": "Total",
+    "comparisonLabel": "Comparación",
+    "insightLabel": "Análisis",
+    "addAlertTitle": "Agregar nueva alerta",
+    "addAlert": "Agregar",
+    "liveBadge": "EN VIVO",
+    "quickAddDevice": "Agregar dispositivo rápido",
+    "ecoModeActiveRooms": "Modo Eco activo en 3 habitaciones.",
+    "statusLabel": "Estado",
+    "liveFeedActive": "Transmisión en vivo activa",
+    "manageInDevices": "Administrar en Dispositivos",
+    "deviceNamePlaceholder": "ej. Lámpara del dormitorio",
+    "detectedLabel": "Detectado",
+    "dismiss": "Descartar",
+    "energySaverModalDescription": "Modo Eco activo en 3 habitaciones y reduce el consumo hasta un 40%.",
+    "deviceType": {
+      "climate": "Clima",
+      "lights": "Luces",
+      "security": "Seguridad",
+      "generic": "Genérico"
+    },
+    "energySaverRooms": {
+      "livingRoom": "Sala — Eco activo",
+      "masterBedroom": "Dormitorio Principal — Eco activo",
+      "kitchen": "Cocina — Eco activo"
+    },
+    "stats": {
+      "currentPower": { "title": "Consumo Actual", "description": "4% menor de lo habitual" },
+      "activeDevices": { "title": "Dispositivos Activos", "description": "Dispositivos en línea" },
+      "monthlySavings": { "title": "Ahorro Mensual", "description": "Est. $182.00 / año" }
+    },
+    "alerts": {
+      "highConsumption": { "type": "ALTO CONSUMO", "title": "Horno de cocina encendido 3 horas", "description": "Pico de energía: +450% sobre la línea base.", "time": "hace 24m" },
+      "maintenance": { "type": "MANTENIMIENTO", "title": "Filtro HVAC necesita limpieza", "description": "Programado para revisión.", "time": "hace 2h" },
+      "info": { "type": "INFO", "title": "Ciclo de lavavajillas completado", "description": "Todos los sistemas operan con normalidad.", "time": "hace 5h" },
+      "new": { "type": "NUEVA ALERTA", "title": "Nueva alerta personalizada", "description": "Has creado una nueva regla de alerta.", "time": "ahora" }
+    },
+    "devices": {
+      "livingRoomAc": { "name": "AC Sala", "status": "22°C • Modo Auto" },
+      "kitchenLights": { "name": "Luces Cocina", "status": "Apagado • Sin movimiento" },
+      "frontPorchCam": { "name": "Cámara Entrada", "status": "Seguro • Todo despejado" },
+      "garageDoor": { "name": "Puerta Garaje", "status": "Cerrada" },
+      "readyAdded": "Listo • Recién agregado",
+      "shutdown": "Apagado • Modo seguridad"
+    },
+    "energy": {
+      "24h": { "title": "Últimas 24h", "description": "Datos históricos de consumo de las últimas 24 horas", "comparison": "4% menor de lo habitual", "insight": "El consumo está optimizado gracias al Modo Eco" },
+      "7d": { "title": "Últimos 7 días", "description": "Consumo de energía de los últimos 7 días", "comparison": "2.1% vs semana anterior", "insight": "Días laborales 35% más altos que fines de semana" },
+      "30d": { "title": "Últimos 30 días", "description": "Consumo de energía de los últimos 30 días", "comparison": "8.5% mayor que el mes anterior", "insight": "Tendencia estacional: activar protocolos de ahorro energético" }
+    },
+    "toast": {
+      "shutdownInitiated": "Apagado iniciado. El dispositivo se apagará en 30 segundos.",
+      "shutdownSuccess": "Dispositivo apagado correctamente.",
+      "alertCreated": "Regla de alerta creada correctamente.",
+      "deviceToggled": "{{name}} {{status}}",
+      "deviceAdded": "{{name}} agregado a tu hogar.",
+      "chartUpdated": "Gráfico actualizado: {{range}}",
+      "range24h": "Últimas 24 horas",
+      "range7d": "Últimos 7 días",
+      "range30d": "Últimos 30 días"
+    }
+  },
+  "businessProfile": {
+    "nav": "Perfil Empresarial & API",
+    "breadcrumb": "ADMIN · PERFIL EMPRESARIAL",
+    "title": "Perfil Empresarial & Configuración API",
+    "description": "Configure su identidad corporativa, integre proveedores de servicios públicos para facturación directa y gestione acceso API seguro.",
+    "corporateIdentity": "Identidad Corporativa",
+    "corporateIdentityDesc": "Actualice los datos empresariales registrados.",
+    "legalBusinessName": "Nombre Legal de la Empresa",
+    "tin": "Número de Identificación Fiscal (RUC)",
+    "headquartersAddress": "Dirección de Sede Central",
+    "utilityProviderIntegration": "Integración con Proveedor de Servicios",
+    "utilityProviderDesc": "Estado de conexión en vivo con su cuenta de energía.",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "accountSummary": "ID de cuenta: {{accountId}} · {{rateSchedule}}",
+    "backupProvider": "Proveedor alternativo",
+    "currentSyncInterval": "Intervalo de sync",
+    "minutes": "min",
+    "enterpriseQuota": "de cuota empresarial usada en este ciclo de facturación.",
+    "uploadedOn": "Subido {{date}}",
+    "placeholders": {
+      "businessName": "Sterling Energy Solutions LLC",
+      "tin": "XX-XXXX5678",
+      "address": "452 Innovation Way, Ste 300, Palo Alto, CA 94304"
+    },
+    "samples": {
+      "businessName": "Sterling Energy Solutions LLC",
+      "providerName": "Pacific Gas & Electric (PG&E)",
+      "rateSchedule": "Tarifa Comercial B-19",
+      "pgeBrand": "PG&E"
+    },
+    "documents": {
+      "form3468": "Formulario IRS 3468 - Crédito de Inversión 2023",
+      "solarAudit": "Auditoría Solar Comercial - Sitio Palo Alto",
+      "form3468Short": "Formulario IRS 3468",
+      "form3468Subtitle": "Crédito de Inversión 2023",
+      "solarAuditShort": "Auditoría Solar Comercial",
+      "solarAuditSite": "Sitio Palo Alto"
+    },
+    "backupProviders": {
+      "sce": "Southern California Edison",
+      "sdge": "San Diego Gas & Electric",
+      "smud": "Sacramento Municipal Utility District"
+    },
+    "copyApiKey": "Copiar Clave API",
+    "downloadDocument": "Descargar documento",
+    "hookDisabled": "Deshabilitado",
+    "hookDisconnected": "Desconectado",
+    "manageConnection": "Gestionar Conexión",
+    "connectBackupProvider": "Conectar Proveedor Alternativo",
+    "syncIntervalSettings": "Configuración de Intervalo de Sync",
+    "taxCreditDocumentation": "Documentación de Crédito Fiscal",
+    "taxCreditDesc": "Almacene certificaciones y formularios para validación de incentivos energéticos.",
+    "uploadNewDocumentation": "Subir Nueva Documentación de Energía",
+    "verified": "Verificado",
+    "pendingReview": "Pendiente de Revisión",
+    "uploaded": "Subido",
+    "upgradeCtaTitle": "¿Necesitas límites API mayores?",
+    "upgradeCtaDescription": "Actualiza al nivel Platinum para endpoints ilimitados y supervisión SLA avanzada.",
+    "modals": {
+      "connection": {
+        "title": "Gestionar Conexión de Servicios",
+        "description": "Actualiza los datos de la cuenta PG&E vinculada y controla si la sincronización de facturación permanece activa.",
+        "accountId": "ID de Cuenta",
+        "rateSchedule": "Tarifa Comercial",
+        "keepConnected": "Mantener proveedor conectado",
+        "save": "Guardar Conexión"
+      },
+      "backup": {
+        "title": "Conectar Proveedor Alternativo",
+        "description": "Selecciona un proveedor secundario para sincronización de respaldo y redundancia.",
+        "connect": "Conectar Proveedor"
+      },
+      "sync": {
+        "title": "Intervalo de Sincronización",
+        "description": "Define con qué frecuencia DomotiCore obtiene datos de facturación y consumo.",
+        "save": "Aplicar Intervalo"
+      },
+      "webhook": {
+        "title": "Webhook de {{name}}",
+        "endpoint": "URL del Endpoint",
+        "enabled": "Habilitar entrega del webhook",
+        "test": "Enviar Evento de Prueba",
+        "save": "Guardar Webhook"
+      },
+      "upgrade": {
+        "title": "Actualizar a Nivel Platinum",
+        "description": "Desbloquea mayor throughput API, webhooks ilimitados y monitoreo SLA prioritario.",
+        "benefit1": "10M solicitudes API mensuales",
+        "benefit2": "Destinos webhook ilimitados",
+        "benefit3": "Soporte empresarial prioritario",
+        "submit": "Enviar Solicitud de Upgrade"
+      }
+    },
+    "toast": {
+      "connectionUpdated": "Configuración de conexión actualizada.",
+      "backupConnected": "{{provider}} conectado como proveedor alternativo.",
+      "syncIntervalSet": "Intervalo de sync configurado cada {{minutes}} minutos.",
+      "downloading": "\"{{name}}\" descargado.",
+      "fileUploadedTax": "\"{{name}}\" subido para revisión de crédito fiscal.",
+      "keyGenerated": "Nueva clave de monitoreo API generada.",
+      "keyCopied": "Clave API copiada al portapapeles.",
+      "webhookSaved": "Configuración de webhook guardada.",
+      "webhookTested": "Evento de prueba enviado a {{name}}.",
+      "upgradeSubmitted": "Solicitud de upgrade empresarial enviada.",
+      "changesDiscarded": "Cambios descartados.",
+      "configSaved": "Configuración guardada correctamente."
+    }
+  },
+  "forms": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "fullName": "Nombre Completo",
+    "confirmPassword": "Confirmar Contraseña",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?"
+  },
+  "errors": {
+    "emailRequired": "El correo electrónico es obligatorio",
+    "invalidEmail": "Por favor introduce un correo válido",
+    "passwordRequired": "La contraseña es obligatoria",
+    "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "confirmPasswordRequired": "Por favor confirma tu contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "invalidCredentials": "Correo electrónico o contraseña inválidos. Intenta registrarte con una nueva cuenta o usa: admin@domoticore.local / SecurePass123",
+    "emailAlreadyRegistered": "Este correo ya está registrado. Por favor inicia sesión con tus credenciales existentes.",
+    "fullNameRequired": "El nombre completo es obligatorio",
+    "registerFailed": "No se pudo completar el registro. Inténtalo de nuevo.",
+    "loginFailed": "No se pudo iniciar sesión. Inténtalo de nuevo."
+  },
+  "messages": {
+    "accountCreated": "¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...",
+    "accountCreatedOnboarding": "¡Cuenta creada! Configurando tu experiencia...",
+    "notSignedIn": "No has iniciado sesión todavía."
+  },
+  "views": {
+    "smartHome": {
+      "tagline": "ENTORNO INTELIGENTE",
+      "badge": "Hogares Inteligentes",
+      "heroBadge": "Hogar Inteligente",
+      "heroText": "Panel, seguridad, dispositivos y automatización para tu residencia."
+    },
+    "smallBusiness": {
+      "tagline": "ENERGÍA EMPRESARIAL",
+      "badge": "Pequeños Negocios",
+      "section": "PRINCIPAL",
+      "syncLabel": "Estado de integraciones",
+      "syncValue": "Sincronización activa",
+      "heroBadge": "Pequeño Negocio",
+      "heroText": "Integraciones, APIs y servicios conectados para tu operación.",
+      "addDevice": "Agregar Dispositivo",
+      "addDeviceToast": "Abriendo asistente para agregar dispositivo...",
+      "addDeviceNavigating": "Abriendo explorador con escaneo de red..."
+    }
+  },
+  "onboarding": {
+    "eyebrow": "Configuración inicial",
+    "title": "Configura tu espacio DomotiCore",
+    "subtitle": "Completa estos pasos para personalizar la aplicación según tu tipo de cuenta.",
+    "steps": {
+      "1": "Paso 1 · Bienvenida",
+      "2": "Paso 2 · Tipo de cuenta",
+      "3": "Paso 3 · Confirmación"
+    },
+    "welcome": {
+      "title": "¡Hola, {{name}}!",
+      "description": "Tu cuenta está lista. Ahora elige cómo quieres usar DomotiCore.",
+      "point1": "Gestiona dispositivos, seguridad y automatizaciones del hogar.",
+      "point2": "O administra integraciones, APIs y operaciones de negocio.",
+      "point3": "Podrás cambiar la configuración más adelante desde Ajustes."
+    },
+    "chooseType": {
+      "title": "¿Qué tipo de cuenta quieres crear?",
+      "subtitle": "Selecciona la opción que mejor describe tu uso principal."
+    },
+    "accountTypes": {
+      "smartHome": {
+        "title": "Usuarios de Hogares Inteligentes",
+        "description": "Controla luces, cerraduras, cámaras y automatizaciones de tu hogar.",
+        "features": "Panel · Seguridad · Dispositivos · Automatización"
+      },
+      "smallBusiness": {
+        "title": "Pequeños Negocios y Emprendedores",
+        "description": "Conecta servicios, APIs y herramientas para operar tu negocio.",
+        "features": "Integraciones · Perfil empresarial · Servicios · Sincronización"
+      }
+    },
+    "confirm": {
+      "title": "Todo listo para comenzar",
+      "subtitle": "Revisa tu selección y entra a tu espacio de trabajo.",
+      "destination": "Destino inicial"
+    },
+    "destinations": {
+      "smartHome": "Panel del hogar inteligente",
+      "smallBusiness": "Centro de Operaciones SME"
+    },
+    "actions": {
+      "back": "Atrás",
+      "continue": "Continuar",
+      "start": "Entrar a la aplicación"
+    }
+  },
+  "profile": {
+    "roleLabel": "Rol:"
+  },
+  "overlay": {
+    "notifications": "Notificaciones",
+    "markAllRead": "Marcar todas como leídas",
+    "helpCenter": "Centro de Ayuda",
+    "gotIt": "Entendido",
+    "helpIntro": {
+      "general": "Bienvenido a DomotiCore. Estas son las áreas principales de la aplicación.",
+      "dashboard": "Guía rápida para monitorear tu panel del hogar.",
+      "devices": "Aprende a controlar y configurar tus dispositivos conectados.",
+      "automation": "Crea automatizaciones con escenas, horarios y sugerencias inteligentes.",
+      "settings": "Administra tu perfil, seguridad y servicios conectados.",
+      "integrations": "Configura perfil empresarial, claves API y webhooks."
+    },
+    "helpTopics": {
+      "dashboard": { "title": "Panel", "description": "Monitorea consumo energético, alertas y dispositivos activos en tiempo real." },
+      "devices": { "title": "Dispositivos", "description": "Controla dispositivos individuales, temperatura y ajustes de energía." },
+      "automation": { "title": "Automatización", "description": "Crea escenas y horarios para automatizar tu hogar inteligente." },
+      "integrations": { "title": "Integraciones", "description": "Conecta plataformas externas y gestiona credenciales API." }
+    },
+    "sampleNotifications": {
+      "highConsumption": { "title": "Alto consumo", "message": "El horno de cocina superó la línea base en 450%.", "time": "hace 24m" },
+      "automationDone": { "title": "Automatización completada", "message": "La escena Luces de la Tarde se activó correctamente.", "time": "hace 1h" },
+      "deviceOnline": { "title": "Dispositivo en línea", "message": "La cámara de entrada se reconectó a la red.", "time": "hace 3h" }
+    }
+  },
+  "common": {
+    "a11y": {
+      "breadcrumb": "Ruta de navegación",
+      "close": "Cerrar",
+      "settingsSections": "Secciones de configuración",
+      "businessUsersSections": "Secciones de usuarios empresariales",
+      "businessReportsSections": "Secciones de reportes empresariales",
+      "businessDevicesSections": "Secciones de dispositivos empresariales",
+      "businessAutomationSections": "Secciones de automatización empresarial",
+      "historySections": "Secciones de historial",
+      "automationSections": "Secciones de automatización"
+    },
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "dismiss": "Descartar",
+    "name": "Nombre",
+    "description": "Descripción",
+    "status": "Estado",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "on": "ENCENDIDO",
+    "off": "APAGADO",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
+    "severity": "Severidad",
+    "severityLevels": {
+      "critical": "Crítico",
+      "warning": "Advertencia",
+      "info": "Información",
+      "success": "Éxito"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Administra tu perfil, accesos y servicios conectados.",
+    "searchPlaceholder": "Buscar configuración...",
+    "smartEnvironment": "ENTORNO INTELIGENTE",
+    "administrator": "Administrador",
+    "systemOwner": "Propietario del Sistema",
+    "profilePhoto": "Foto de Perfil",
+    "profilePhotoAlt": "Perfil",
+    "profilePhotoDescription": "Actualiza tu foto de perfil para identificarte en el hogar inteligente.",
+    "uploadNew": "Subir Nueva",
+    "removePhoto": "Eliminar Foto",
+    "personalDetails": "Datos Personales",
+    "unlockEditing": "Desbloquear edición",
+    "lockEditing": "Bloquear edición",
+    "fullName": "Nombre Completo",
+    "emailAddress": "Correo Electrónico",
+    "homeZone": "Zona del Hogar",
+    "displayMode": "Modo de Visualización",
+    "lightMode": "Modo Claro",
+    "darkMode": "Modo Oscuro",
+    "security": "Seguridad",
+    "securityDescription": "Administra la autenticación de tu cuenta y sesiones activas.",
+    "changePassword": "Cambiar Contraseña",
+    "passwordLastUpdatedDefault": "Actualizada recientemente",
+    "passwordLastUpdatedDays": "Última actualización hace {{days}} días",
+    "passwordLastUpdatedMonths": "Última actualización hace {{months}} meses",
+    "primaryFacility": "Instalación Principal",
+    "change": "Cambiar",
+    "twoFactorAuth": "Autenticación de Dos Factores",
+    "connections": "Conexiones",
+    "connectionsDescription": "Servicios y plataformas de hogar inteligente conectados.",
+    "manageAllHubs": "Administrar Todos los Hubs",
+    "systemSettings": "Configuración del Sistema",
+    "systemSettingsDescription": "Configuración y preferencias a nivel de sistema.",
+    "accountRetention": "Retención de Cuenta",
+    "accountRetentionDescription": "Administra cuánto tiempo se conservan los datos de tu cuenta.",
+    "manageRetention": "Administrar Retención",
+    "currentRetention": "Política actual",
+    "retentionDescription": "Elige cuánto tiempo se conservan la actividad y los registros de tu cuenta.",
+    "revokeAccess": "Revocar acceso",
+    "userActionsDescription": "Administra los permisos de este usuario.",
+    "onlineStatus": "En línea",
+    "grantAccessPrompt": "Ingresa el nombre de la persona para conceder acceso:",
+    "neverEntered": "Sin ingresos",
+    "openProfileSettings": "Abrir Configuración de Perfil",
+    "saving": "Guardando...",
+    "saveAllChanges": "Guardar Todos los Cambios",
+    "changesSaved": "Cambios guardados correctamente",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmNewPassword": "Confirmar nueva contraseña",
+    "updatePassword": "Actualizar Contraseña",
+    "tabs": {
+      "profile": "Perfil",
+      "access": "Acceso",
+      "privacy": "Privacidad",
+      "devices": "Dispositivos",
+      "integrations": "Integraciones",
+      "system": "Sistema"
+    },
+    "authorizedUsers": "Usuarios Autorizados",
+    "authorizedUsersDescription": "Administra quién puede acceder a tu hogar inteligente y sus permisos.",
+    "grantAccess": "Conceder Acceso",
+    "table": {
+      "user": "USUARIO",
+      "accessLevel": "NIVEL DE ACCESO",
+      "lastEntry": "ÚLTIMA ENTRADA",
+      "actions": "ACCIONES"
+    },
+    "accessLevels": {
+      "admin": "Admin",
+      "member": "Miembro",
+      "guest": "Invitado"
+    },
+    "homeZones": {
+      "northWing": "Ala Norte / Residencia Principal",
+      "southWing": "Ala Sur / Secundaria",
+      "garage": "Garaje / Exterior"
+    },
+    "connectionsList": {
+      "googleHome": "Google Home",
+      "appleHomeKit": "Apple HomeKit",
+      "nestServices": "Nest Services"
+    },
+    "businessConnections": {
+      "pge": "Facturación PG&E",
+      "grafana": "Monitoreo Grafana",
+      "sap": "Integración SAP ERP"
+    },
+    "business": {
+      "subtitle": "Administra tu perfil de instalación, acceso del equipo, integraciones y preferencias empresariales.",
+      "profilePhotoDescription": "Actualiza tu foto de perfil para paneles, auditoría y visibilidad del equipo.",
+      "integrationsTitle": "Integraciones Empresariales",
+      "integrationsDescription": "Servicios conectados de utilidades, monitoreo y ERP para tu operación.",
+      "manageIntegrations": "Abrir Perfil Empresarial & API",
+      "teamAccessTitle": "Gestión de Equipo y Roles",
+      "teamAccessDescription": "Administra administradores, gerentes y permisos por zona desde Gestión de Equipo.",
+      "openTeamManagement": "Abrir Gestión de Equipo",
+      "authorizedUsersDescription": "Administra el acceso a instalaciones para operadores, gerentes e invitados temporales.",
+      "openBusinessProfile": "Perfil Empresarial & API",
+      "openAuditHistory": "Historial de Auditoría",
+      "systemShortcutsDescription": "Enlaces rápidos al perfil empresarial, auditoría y exportación de configuración.",
+      "facilities": {
+        "headquarters": "Sede / Campus Palo Alto",
+        "warehouseNorth": "Complejo Norte de Almacén",
+        "retailFloor": "Planta de Operaciones Retail"
+      }
+    },
+    "grantAccessFields": {
+      "name": "Nombre completo",
+      "email": "Correo electrónico"
+    },
+    "twoFactorSetup": {
+      "title": "Activar Autenticación de Dos Factores",
+      "description": "Ingresa el código de 6 dígitos de tu app autenticadora para activar 2FA.",
+      "code": "Código de verificación",
+      "confirm": "Activar 2FA"
+    },
+    "systemNotifications": {
+      "title": "Notificaciones",
+      "description": "Elige qué alertas operativas debe enviar DomotiCore a tu cuenta.",
+      "energyAlertsEnabled": "Alertas de umbral energético",
+      "energyAlertsHint": "Notificar cuando el consumo supere los límites configurados.",
+      "deviceFailureAlertsEnabled": "Alertas de fallo de dispositivos",
+      "deviceFailureAlertsHint": "Notificar cuando dispositivos se desconecten o reporten fallas.",
+      "weeklyReportEmailsEnabled": "Resumen semanal por email",
+      "weeklyReportEmailsHint": "Recibir un resumen semanal de operaciones y costos."
+    },
+    "systemPreferences": {
+      "title": "Regional y Sesión",
+      "timezone": "Zona horaria",
+      "sessionTimeout": "Tiempo de sesión",
+      "minutes": "minutos"
+    },
+    "systemShortcuts": {
+      "title": "Accesos y Exportación",
+      "description": "Ir a áreas relacionadas o exportar una copia de tu configuración actual.",
+      "exportSettings": "Exportar Configuración"
+    },
+    "retention": {
+      "30days": "30 días",
+      "90days": "90 días",
+      "1year": "1 año",
+      "forever": "Conservar siempre"
+    },
+    "toast": {
+      "connectionToggled": "{{name}} {{status}}.",
+      "connected": "conectado",
+      "disconnected": "desconectado",
+      "saved": "Configuración guardada correctamente.",
+      "photoUpdated": "Foto de perfil actualizada. Guarda los cambios para aplicar.",
+      "photoRemoved": "Foto de perfil restablecida por defecto.",
+      "invalidImage": "Selecciona un archivo de imagen válido.",
+      "profileLocked": "Campos de perfil bloqueados.",
+      "profileUnlocked": "Campos de perfil desbloqueados para edición.",
+      "passwordFieldsRequired": "Completa todos los campos de contraseña.",
+      "passwordMinLength": "La nueva contraseña debe tener al menos 8 caracteres.",
+      "passwordMismatch": "Las contraseñas nuevas no coinciden.",
+      "passwordUpdated": "Contraseña actualizada. Guarda los cambios para confirmar.",
+      "grantAccessNameRequired": "Ingresa un nombre para conceder acceso.",
+      "twoFactorCodeInvalid": "Ingresa un código de verificación válido de 6 dígitos.",
+      "facilityUpdated": "Instalación principal configurada en {{zone}}.",
+      "notificationEnabled": "{{name}} activado.",
+      "notificationDisabled": "{{name}} desactivado.",
+      "settingsExported": "Configuración exportada correctamente.",
+      "grantAccessOpened": "Flujo de concesión de acceso abierto.",
+      "accessGranted": "Acceso concedido a {{name}}.",
+      "accessRevoked": "Acceso de invitado revocado.",
+      "userActions": "Acciones para {{name}}.",
+      "homeZoneUpdated": "Zona del hogar configurada en {{zone}}.",
+      "displayModeChanged": "Modo de visualización cambiado a {{mode}}.",
+      "twoFactorEnabled": "Autenticación de dos factores habilitada.",
+      "twoFactorDisabled": "Autenticación de dos factores deshabilitada.",
+      "retentionPolicyOpened": "Configuración de retención abierta.",
+      "retentionUpdated": "Política de retención configurada en {{period}}.",
+      "accessLevelChanged": "{{name}} ahora es {{level}}.",
+      "saveFailed": "No se pudo guardar la configuración. Inténtalo de nuevo.",
+      "openedProfile": "Configuración de perfil abierta."
+    }
+  },
+  "integrationDetails": {
+    "activeIssues": "Problemas Activos",
+    "criticalIssues": "Problemas Críticos",
+    "resolvedToday": "Resueltos Hoy",
+    "severityLabel": "Severidad",
+    "markResolved": "Marcar como resuelto",
+    "alerts": {
+      "syncDelay": { "title": "Retraso de Sincronización", "message": "La latencia de sincronización superó el umbral esperado.", "time": "hace 2 horas" },
+      "serviceOffline": { "title": "Servicio Desconectado", "message": "La integración conectada no responde. Verifica las credenciales.", "time": "hace 5 horas" },
+      "automationCompleted": { "title": "Automatización Completada", "message": "La automatización de integración se completó a las 7:30 PM.", "time": "hace 12 horas" },
+      "newService": { "title": "Nuevo Servicio Conectado", "message": "Se descubrió y agregó una nueva plataforma externa al ecosistema.", "time": "hace 1 día" }
+    },
+    "toast": {
+      "dismissed": "Alerta \"{{title}}\" descartada.",
+      "resolved": "Alerta \"{{title}}\" marcada como resuelta."
+    }
+  },
+  "automationIntegrations": {
+    "modal": { "name": "Nombre", "description": "Descripción", "create": "Crear" },
+    "triggers": {
+      "sunset": "Atardecer",
+      "motionDetected": "Movimiento detectado",
+      "alarmClock": "Despertador",
+      "weekday": "Día laboral",
+      "doorSensor": "Sensor de puerta",
+      "afterTenPm": "Hora > 22:00",
+      "manual": "Manual"
+    },
+    "samples": {
+      "eveningLights": { "name": "Luces de la Tarde", "description": "Encender luces de la sala al atardecer" },
+      "morningCoffee": { "name": "Café Matutino", "description": "Iniciar cafetera cuando suena la alarma" },
+      "securityAlert": { "name": "Alerta de Seguridad", "description": "Notificar cuando la puerta se abre después de las 10 PM" }
+    },
+    "toast": {
+      "toggled": "\"{{name}}\" {{status}}.",
+      "activated": "activada",
+      "deactivated": "desactivada",
+      "created": "Automatización \"{{name}}\" creada."
+    }
+  },
+  "smeHub": {
+    "title": "Centro de Operaciones SME",
+    "subtitle": "Huella energética en tiempo real para la Instalación Ala Norte",
+    "exportAudit": "Exportar Auditoría",
+    "exporting": "Exportando...",
+    "dateRange": {
+      "thisMonth": "Este Mes",
+      "lastMonth": "Mes Anterior",
+      "thisQuarter": "Este Trimestre"
+    },
+    "kpis": {
+      "consumption": {
+        "title": "Consumo Total",
+        "footer": "75% de la capacidad máxima alcanzada"
+      },
+      "cost": {
+        "title": "Estimación de Costo",
+        "projected": "Proyectado",
+        "offPeak": "FUERA DE PICO",
+        "peak": "PICO"
+      },
+      "budget": {
+        "title": "Progreso del Presupuesto Mensual"
+      }
+    },
+    "loadDistribution": {
+      "title": "Distribución de Carga (Tiempo Real)",
+      "subtitle": "Consumo por categoría durante el día",
+      "hvac": "HVAC",
+      "lighting": "Iluminación",
+      "servers": "Servidores"
+    },
+    "alerts": {
+      "title": "Alertas del Sistema",
+      "critical": "CRÍTICAS",
+      "viewAll": "VER TODOS LOS REGISTROS",
+      "serverRack": {
+        "title": "Rack de Servidores B-04",
+        "description": "Temperatura anormal detectada en el compartimento superior. Umbral excedido en 8°C.",
+        "time": "hace 2 min"
+      },
+      "hvacOverload": {
+        "title": "Sobrecarga HVAC Zona 3",
+        "description": "El sistema de climatización está operando al 95% de capacidad durante más de 30 minutos.",
+        "time": "hace 15 min"
+      },
+      "lightingSchedule": {
+        "title": "Horario de Iluminación",
+        "description": "Las luces del almacén permanecieron encendidas fuera del horario programado.",
+        "time": "hace 1 h"
+      }
+    },
+    "devices": {
+      "hvac": { "name": "Sistema HVAC", "status": "EN LÍNEA" },
+      "lighting": { "name": "Iluminación Principal", "status": "ACTIVA" },
+      "production": { "name": "Línea de Producción 1", "status": "INACTIVA" },
+      "servers": { "name": "Stack de Servidores", "status": "ÓPTIMO" }
+    },
+    "facility": {
+      "title": "Mapa de Instalación",
+      "northWing": "Ala Norte",
+      "warehouse": "Almacén"
+    },
+    "sustainability": {
+      "title": "Puntuación de Sostenibilidad",
+      "comparison": "Estás rindiendo 12% mejor que instalaciones SME de tamaño similar en tu región.",
+      "solarTitle": "Integración Solar",
+      "solarSavings": "Ahorro potencial de $450/mes",
+      "solarScheduled": "Programado: 12 Oct"
+    },
+    "toast": {
+      "rangeUpdated": "Rango de fechas actualizado",
+      "exportStarted": "Exportación de auditoría iniciada",
+      "exportReady": "Auditoría descargada correctamente",
+      "openingLogs": "Abriendo registro completo de alertas...",
+      "solarDetails": "Abriendo análisis de costos e integración solar...",
+      "openingDevice": "Abriendo {{name}}...",
+      "openingZone": "Abriendo zona {{name}}..."
+    }
+  },
+  "pages": {
+    "login": "Bienvenido a DomotiCore",
+    "register": "Únete a DomotiCore",
+    "automationIntegrations": "Integraciones de Automatización",
+    "connectedServices": "Servicios Conectados",
+    "syncStatus": "Estado de Sincronización",
+    "syncActivity": "Actividad de Sincronización",
+    "integrationDetails": "Detalles de Integración",
+    "history": "Inteligencia Energética"
+  }
+}
