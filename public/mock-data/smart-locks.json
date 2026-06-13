@@ -1,0 +1,23 @@
+[
+  {
+    "id": "front-door",
+    "nameKey": "security.locks.frontDoor",
+    "iconUrl": "assets/icons/smart-home/lock-front-door.svg",
+    "secured": true,
+    "active": true
+  },
+  {
+    "id": "garage-door",
+    "nameKey": "security.locks.garageDoor",
+    "iconUrl": "assets/icons/smart-home/lock-garage.svg",
+    "secured": false,
+    "active": false
+  },
+  {
+    "id": "back-gate",
+    "nameKey": "security.locks.backGate",
+    "iconUrl": "assets/icons/smart-home/lock-gate.svg",
+    "secured": true,
+    "active": true
+  }
+]

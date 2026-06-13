@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "uptimePercent": 99.98,
+    "uptimeStatusKey": "historyNotifications.insights.optimal",
+    "storageUsedPercent": 42,
+    "storageUsedGb": 4.2,
+    "storageTotalGb": 10,
+    "storageDescriptionKey": "historyNotifications.insights.storageDescription"
+  }
+]

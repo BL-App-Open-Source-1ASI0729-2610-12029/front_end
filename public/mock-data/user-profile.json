@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "fullName": "Alexander Domotic",
+    "email": "alexander@domoticore.io",
+    "homeZone": "North Wing / Primary Residence",
+    "homeZoneKey": "settings.homeZones.northWing",
+    "displayMode": "light",
+    "profilePhoto": "assets/icons/shared/profile-admin.jpg",
+    "twoFactorEnabled": true,
+    "googleConnected": true,
+    "appleKitConnected": false,
+    "nestConnected": true,
+    "roleKey": "settings.administrator",
+    "jobTitleKey": "settings.systemOwner",
+    "dataRetentionDays": 365
+  }
+]

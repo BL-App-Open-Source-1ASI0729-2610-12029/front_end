@@ -1,0 +1,2021 @@
+{
+  "app": {
+    "title": "DOMOTICORE",
+    "subtitle": "Enterprise Energy"
+  },
+  "shared": {
+    "facilityMap": {
+      "panHint": "Drag to pan · Double-click to reset",
+      "zoomIn": "Zoom in map",
+      "zoomOut": "Zoom out map"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "smartIntegrations": "Smart Integrations",
+    "devices": "Devices",
+    "deviceManagement": "Device Management",
+    "energy": "Energy",
+    "automations": "Automations",
+    "automation": "Automation",
+    "alerts": "Alerts",
+    "history": "History",
+    "profile": "Profile",
+    "integrations": "Integrations",
+    "businessProfile": "Business Profile",
+    "connectedServices": "Connected Services",
+    "syncStatus": "Sync Status",
+    "automationIntegrations": "Automations (Integrations)",
+    "details": "Details",
+    "helpCenter": "Help Center",
+    "signOut": "Sign Out",
+    "settings": "Settings",
+    "security": "Security",
+    "reports": "Reports",
+    "users": "Users",
+    "menu": "Menu"
+  },
+  "sidebar": {
+    "tagline": "SMART ENVIRONMENT",
+    "sectionMain": "MAIN",
+    "help": "Help",
+    "securityStatus": "Security Status",
+    "fullyProtected": "Fully Protected"
+  },
+  "navbar": {
+    "logoAlt": "DomotiCore logo",
+    "adminUser": "Admin",
+    "homeManager": "Home Manager",
+    "searchPlaceholder": "Search events or users...",
+    "searchPlaceholderBusiness": "Search facilities or devices...",
+    "facilityManager": "FACILITY MANAGER",
+    "searchNavigating": "Searching for \"{{query}}\"..."
+  },
+  "security": {
+    "title": "Security & Access",
+    "subtitle": "Monitor cameras, locks and recent security activity.",
+    "liveMonitoring": "Live Monitoring",
+    "live": "LIVE",
+    "viewAll": "View All",
+    "showLess": "Show Less",
+    "smartLocks": "Smart Locks",
+    "secured": "SECURED",
+    "unlocked": "UNLOCKED",
+    "lockAllEntries": "Lock All Entries",
+    "securityLog": "Security Log",
+    "reviewFootage": "Review Footage",
+    "authorizedUsers": "Authorized Users",
+    "grantAccess": "Grant Access",
+    "revokeAccess": "Revoke Access",
+    "partiallyProtected": "Partially Protected",
+    "neverEntered": "Never entered",
+    "grantAccessPrompt": "Enter the name of the person to grant access:",
+    "expiresIn": "Expires in {{time}}",
+    "noUsersFound": "No users match your search.",
+    "noLogFound": "No log entries match your search.",
+    "table": {
+      "user": "USER",
+      "accessLevel": "ACCESS LEVEL",
+      "lastEntry": "LAST ENTRY",
+      "actions": "ACTIONS"
+    },
+    "accessLevels": {
+      "admin": "Admin",
+      "member": "Member",
+      "guest": "Guest"
+    },
+    "cameras": {
+      "livingRoom": "Living Room",
+      "driveway": "Driveway",
+      "patio": "Patio Camera",
+      "backyard": "Backyard"
+    },
+    "locks": {
+      "frontDoor": "Front Door",
+      "garageDoor": "Garage Door",
+      "backGate": "Back Gate"
+    },
+    "log": {
+      "marcusEntered": "Marcus Chen entered",
+      "elenaExited": "Elena Rodriguez exited",
+      "motionDetected": "Unrecognized motion detected",
+      "motionSubtitle": "Driveway camera flagged activity outside scheduled access.",
+      "systemDisarmed": "System disarmed",
+      "snapshotSaved": "Snapshot saved",
+      "locations": {
+        "frontDoor": "Front Door",
+        "backGate": "Back Gate",
+        "patioCamera": "Patio Camera",
+        "manualEntry": "Manual Entry"
+      }
+    },
+    "toast": {
+      "allLocked": "All entries locked successfully.",
+      "lockSecured": "{{name}} secured.",
+      "lockUnlocked": "{{name}} unlocked.",
+      "openingCameras": "Opening camera dashboard...",
+      "showingAllCameras": "Showing all camera feeds.",
+      "showingPrimaryCameras": "Showing primary camera feeds.",
+      "openingCamera": "Opening {{name}} live feed...",
+      "openingFootage": "Opening footage review...",
+      "accessGranted": "Access granted to {{name}}.",
+      "accessRevoked": "Guest access revoked.",
+      "userActions": "Actions for {{name}}"
+    }
+  },
+  "myDevices": {
+    "title": "My Devices",
+    "subtitle": "Manage {{devices}} connected smart devices across {{rooms}} rooms.",
+    "addDevice": "Add Device",
+    "addDeviceTitle": "Add New Device",
+    "activeDevices": "ACTIVE DEVICES",
+    "total": "Total",
+    "powerUsage": "Power Usage",
+    "totalConsumption": "Total Consumption",
+    "temp": "TEMP",
+    "humidity": "HUMIDITY",
+    "deviceName": "Device name",
+    "room": "Room",
+    "livingRoom": "Living Room",
+    "kitchen": "Kitchen",
+    "masterBedroom": "Master Bedroom",
+    "deviceType": "Device type",
+    "typeClimate": "Climate (AC / Thermostat)",
+    "typeGeneric": "Generic device",
+    "cancel": "Cancel"
+  },
+  "deviceDetail": {
+    "breadcrumbDevices": "Devices",
+    "searchPlaceholder": "Search systems...",
+    "activeOnline": "Active & Online",
+    "inactive": "Inactive",
+    "online": "Online",
+    "offline": "Offline",
+    "current": "Current",
+    "mainPower": "MAIN POWER",
+    "operational": "Operational",
+    "standby": "Standby",
+    "setTemperature": "Set Temperature",
+    "targetingIdeal": "Targeting Ideal",
+    "setTimer": "Set Timer",
+    "ecoMode": "Eco Mode",
+    "operationMode": "Operation Mode",
+    "powerConsumption": "Power Consumption",
+    "currentLoad": "Current Load",
+    "fanSpeed": "Fan Speed",
+    "swing": "Swing",
+    "humidity": "Humidity",
+    "deleteDevice": "Delete Device",
+    "confirmDelete": "Delete this device?",
+    "powerOnToAdjust": "Turn on the device to adjust temperature.",
+    "tapToCycle": "Tap to change",
+    "alertActions": {
+      "enableEco": "Enable Eco Mode",
+      "scheduleService": "Schedule service",
+      "dismiss": "Dismiss"
+    },
+    "modes": {
+      "cool": "Cool",
+      "heat": "Heat",
+      "fan": "Fan Only"
+    },
+    "periods": {
+      "realtime": "Real-time",
+      "day": "Day",
+      "month": "Month"
+    },
+    "timerModal": {
+      "description": "Schedule when the target temperature should be applied.",
+      "hour": "Hour",
+      "minute": "Minute",
+      "clear": "Clear timer"
+    },
+    "maintenanceModal": {
+      "title": "Schedule Maintenance",
+      "description": "Choose a date for the next service visit.",
+      "date": "Service date",
+      "confirm": "Schedule service"
+    },
+    "toast": {
+      "timerSet": "Temperature timer set for {{time}}.",
+      "timerCleared": "Timer cleared.",
+      "fanSpeedSet": "Fan speed set to {{speed}}.",
+      "swingSet": "Swing set to {{swing}}.",
+      "alertDismissed": "Alert dismissed.",
+      "ecoEnabled": "Eco mode enabled to save energy.",
+      "maintenanceScheduled": "Maintenance scheduled for {{date}}."
+    }
+  },
+  "history": {
+    "navEnergy": "Energy Intelligence",
+    "breadcrumbRoot": "History",
+    "breadcrumbCurrent": "Energy Monitoring",
+    "title": "Energy Intelligence",
+    "totalConsumption": "Total Consumption",
+    "totalConsumptionSubtitle": "Real-time usage across all active circuits.",
+    "highestConsumer": "Highest Consumer",
+    "responsibleFor": "Responsible for {{percent}}% of total energy.",
+    "dailyAverage": "Daily Average",
+    "consumptionByDevice": "Consumption by Device",
+    "viewDetailedReport": "View Detailed Report",
+    "toast": {
+      "openingDetailedReport": "Opening detailed consumption report."
+    },
+    "addReading": "Add reading",
+    "addDevice": "Add Device",
+    "addDeviceTitle": "Add Device Consumption",
+    "addDeviceSubtitle": "Track a new device to include it in your energy breakdown.",
+    "deviceName": "Device name",
+    "deviceNamePlaceholder": "e.g. Pool Heater",
+    "consumptionKwh": "Consumption (kWh)",
+    "consumptionPlaceholder": "e.g. 3.5",
+    "deviceAdded": "Device added successfully.",
+    "cancel": "Cancel",
+    "period": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month"
+    }
+  },
+  "historyNotifications": {
+    "nav": "Notifications Center",
+    "title": "Notifications Center",
+    "subtitle": "Intelligent insights and system alerts for your environment.",
+    "searchPlaceholder": "Search logs...",
+    "activityFeed": "Activity Feed",
+    "activityFeedDesc": "Intelligent insights and system alerts for your environment.",
+    "filter": "Filter",
+    "markAllRead": "Mark all read",
+    "unreadOnly": "Unread only",
+    "emptyFeed": "No notifications available right now.",
+    "emptyFiltered": "No notifications match your current filters.",
+    "clearFilters": "Clear filters",
+    "summary": {
+      "total": "Total alerts",
+      "unread": "Unread",
+      "uptime": "System uptime"
+    },
+    "sections": {
+      "new": "NEW",
+      "earlierToday": "EARLIER TODAY",
+      "yesterday": "YESTERDAY"
+    },
+    "severity": {
+      "all": "All",
+      "critical": "Critical",
+      "info": "Info",
+      "success": "Success",
+      "warning": "Warning",
+      "security": "Security"
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "muteCircuit": "Mute Circuit",
+      "dismiss": "Dismiss",
+      "orderBattery": "Order replacement"
+    },
+    "items": {
+      "powerSpike": {
+        "title": "Critical Power Spike",
+        "description": "Kitchen circuit exceeded peak threshold by 18%. Autopilot has isolated the load to prevent damage."
+      },
+      "ecoMode": {
+        "title": "Autopilot Eco Mode",
+        "description": "AI adjusted HVAC and lighting schedules based on occupancy patterns to reduce consumption."
+      },
+      "firmwareUpdate": {
+        "title": "Firmware Update Success",
+        "description": "Hub controller updated to v3.2.1. All connected devices are operating normally."
+      },
+      "batteryLow": {
+        "title": "Garden Sensor Battery Low",
+        "description": "Outdoor motion sensor battery is at 12%. Replace within 48 hours to avoid downtime."
+      },
+      "doorLocked": {
+        "title": "Front Door Locked",
+        "description": "Smart lock engaged automatically after the evening schedule. All entry points are secured."
+      }
+    },
+    "insights": {
+      "uptimeTitle": "Uptime Reliability",
+      "optimal": "OPTIMAL",
+      "storageTitle": "Storage Management",
+      "storageDescription": "Activity logs and snapshots are retained for 90 days before automatic archival.",
+      "storageUsage": "{{used}}GB of {{total}}GB"
+    },
+    "toast": {
+      "allRead": "All notifications marked as read.",
+      "viewingDetails": "Opening details for \"{{title}}\".",
+      "circuitMuted": "Circuit alerts muted for 24 hours.",
+      "dismissed": "Notification dismissed.",
+      "openingStore": "Opening replacement parts store."
+    }
+  },
+  "historyLog": {
+    "title": "History Log",
+    "navActivity": "Activity Streams",
+    "searchPlaceholder": "Search activity...",
+    "activityStreams": "Activity Streams",
+    "activityStreamsDesc": "Real-time system monitoring and event tracking.",
+    "applyFilters": "Apply Filters",
+    "exportCsv": "Export CSV",
+    "colTime": "TIME & DATE",
+    "colDevice": "DEVICE",
+    "colAction": "ACTION",
+    "colLocation": "LOCATION",
+    "colStatus": "STATUS",
+    "markSuccess": "Mark as Success",
+    "markCritical": "Mark as Critical",
+    "delete": "Delete entry",
+    "confirmDeleteTitle": "Delete activity entry?",
+    "confirmDeleteBody": "This action cannot be undone. The entry will be removed from the activity stream.",
+    "showing": "Showing {{from}} to {{to}} of {{total}} entries",
+    "systemHealth": "System Health",
+    "uptime": "Uptime",
+    "lastSync": "Last sync: {{minutes}} minutes ago",
+    "eventVolume": "Event Volume",
+    "securityAlerts": "Security Alerts",
+    "hoursAgo": "{{hours}} hour(s) ago",
+    "dateRange": {
+      "last_24h": "Last 24 Hours",
+      "last_7d": "Last 7 Days",
+      "last_30d": "Last 30 Days"
+    },
+    "deviceTypes": {
+      "all": "All Device Types",
+      "lighting": "Lighting",
+      "sensor": "Sensors",
+      "climate": "Climate",
+      "camera": "Cameras",
+      "appliance": "Appliances"
+    },
+    "status": {
+      "success": "Success",
+      "critical": "Critical",
+      "warning": "Warning"
+    }
+  },
+  "automationBuilder": {
+    "nav": "Automation Builder",
+    "back": "Back",
+    "title": "Automation Builder",
+    "searchPlaceholder": "Search templates...",
+    "saveRecipe": "Save Recipe",
+    "recipeLabel": "Recipe:",
+    "chooseTrigger": "Choose Trigger",
+    "setCondition": "Set Condition (Optional)",
+    "addCondition": "Add Condition",
+    "chooseAction": "Choose Action",
+    "atTime": "At",
+    "editCondition": "Edit condition",
+    "removeCondition": "Remove condition",
+    "suggestedTitle": "Suggested Automations",
+    "suggestedSubtitle": "Popular templates based on your hardware.",
+    "viewAllTemplates": "View all templates",
+    "status": {
+      "draft": "DRAFT",
+      "published": "PUBLISHED"
+    },
+    "category": {
+      "efficiency": "EFFICIENCY",
+      "security": "SECURITY",
+      "comfort": "COMFORT"
+    },
+    "recipes": {
+      "nightlyPowerSaver": "Nightly Power Saver",
+      "presenceSimulation": "Enhanced Presence Simulation",
+      "ecoCooling": "Eco-Friendly Cooling"
+    },
+    "triggers": {
+      "timeOfDay": {
+        "title": "Time of Day",
+        "description": "Run this recipe at a specific time every day."
+      },
+      "energySpike": {
+        "title": "Energy Spike",
+        "description": "React when consumption exceeds your configured threshold."
+      },
+      "geofencing": {
+        "title": "Geofencing",
+        "description": "Trigger when someone enters or leaves a mapped zone."
+      }
+    },
+    "addConditionTitle": "Add a Condition",
+    "addConditionDesc": "Choose a sensor rule to refine when this recipe runs.",
+    "editConditionTitle": "Edit Condition",
+    "thresholdLabel": "Threshold value",
+    "saveCondition": "Save Condition",
+    "noConditions": "No conditions added yet. Use + Add Condition to refine this recipe.",
+    "noTemplatesFound": "No templates match your search.",
+    "showFeaturedOnly": "Show featured only",
+    "moreActionsTitle": "More Actions",
+    "moreActionsDesc": "Choose an additional action for this automation recipe.",
+    "extraActions": {
+      "notify": "Send Push Notification",
+      "armSecurity": "Arm Security System",
+      "runScene": "Run Custom Scene"
+    },
+    "conditions": {
+      "indoorTemperature": {
+        "title": "Indoor Temperature",
+        "rule": "If temperature is greater than {{value}}°C"
+      },
+      "humidity": {
+        "title": "Indoor Humidity",
+        "rule": "If humidity exceeds {{value}}%"
+      },
+      "motion": {
+        "title": "Motion Inactivity",
+        "rule": "If no motion detected for {{value}} minutes"
+      },
+      "doorOpen": {
+        "title": "Door Left Open",
+        "rule": "If any entry door remains open for more than 5 minutes"
+      }
+    },
+    "actions": {
+      "lockDoors": "Lock Doors",
+      "lightsOff": "Lights Off",
+      "climateMode": "Climate Mode",
+      "more": "More..."
+    },
+    "templates": {
+      "presenceSimulation": {
+        "tag": "SMART SECURITY",
+        "title": "Enhanced Presence Simulation",
+        "description": "Randomize interior lights while away to simulate occupancy and deter intruders.",
+        "cta": "Quick Setup"
+      },
+      "ecoCooling": {
+        "title": "Eco-Friendly Cooling",
+        "description": "Optimize AC cycles based on outdoor humidity and room occupancy."
+      }
+    },
+    "toast": {
+      "recipeSaved": "Recipe \"{{name}}\" saved and added to Active Scenes.",
+      "recipeIncomplete": "Select a trigger and action before saving.",
+      "triggerSelected": "Trigger set to {{name}}.",
+      "timeUpdated": "Trigger time updated to {{time}}.",
+      "conditionRemoved": "Condition removed.",
+      "conditionAdded": "Condition \"{{name}}\" added.",
+      "conditionUpdated": "Condition updated successfully.",
+      "templateApplied": "Template \"{{name}}\" applied to the builder.",
+      "templateUnavailable": "This template cannot be applied right now.",
+      "showingAllTemplates": "Showing all available templates.",
+      "showingFeaturedTemplates": "Showing featured templates only.",
+      "actions": {
+        "lock-doors": "All smart locks will engage when this recipe runs.",
+        "lights-off": "Interior lights will turn off automatically.",
+        "climate-mode": "HVAC will switch to eco cooling mode."
+      },
+      "extraActions": {
+        "notify": "{{name}} enabled for this recipe.",
+        "arm-security": "Security system will arm when triggered.",
+        "run-scene": "{{name}} linked to this recipe."
+      }
+    }
+  },
+  "teamManagement": {
+    "navTeam": "Team Management",
+    "title": "Team Management",
+    "subtitle": "Manage your organization's members, assign roles, and configure zone-specific access control for your connected infrastructure.",
+    "addMember": "Add Team Member",
+    "filterByZone": "Filter by Zone",
+    "filterAllZones": "All Zones",
+    "more": "more",
+    "summary": {
+      "totalMembers": "Total Members",
+      "administrators": "Administrators",
+      "administratorsLabel": "Full system access",
+      "activeZones": "Active Zones",
+      "activeZonesLabel": "Across 3 branches",
+      "recentActivity": "Recent Activity",
+      "recentActivityLabel": "Logins today",
+      "membersTrend": "+{{count}} this month"
+    },
+    "zones": {
+      "global": "Global",
+      "mainOffice": "Main Office",
+      "hq": "HQ",
+      "northWarehouse": "North Warehouse",
+      "dataCenter": "Data Center",
+      "retailFloor": "Retail Floor",
+      "warehouse": "Warehouse"
+    },
+    "tabs": {
+      "all": "All Members",
+      "pending": "Pending Invites",
+      "archived": "Archived"
+    },
+    "roles": {
+      "administrator": "Administrator",
+      "manager": "Manager",
+      "viewer": "Viewer"
+    },
+    "status": {
+      "active": "Active",
+      "offline": "Offline",
+      "pending": "Pending Invite",
+      "archived": "Archived"
+    },
+    "actions": {
+      "menu": "Member actions",
+      "editMember": "Edit Member",
+      "resendInvite": "Resend Invitation",
+      "archive": "Archive Member",
+      "restore": "Restore Member",
+      "remove": "Remove Member"
+    },
+    "empty": {
+      "title": "No members found",
+      "description": "Try another tab or zone filter, or invite a new team member to get started."
+    },
+    "modals": {
+      "cancel": "Cancel",
+      "close": "Close",
+      "fields": {
+        "name": "Full Name",
+        "email": "Email Address",
+        "role": "Role",
+        "zones": "Zone Access"
+      },
+      "addMember": {
+        "title": "Invite Team Member",
+        "submit": "Send Invitation"
+      },
+      "editMember": {
+        "title": "Edit Team Member",
+        "submit": "Save Changes"
+      },
+      "zoneAccess": {
+        "title": "Zone Access Configuration",
+        "description": "Enable zones and set the default role granted to members assigned to each facility area.",
+        "submit": "Save Permissions"
+      }
+    },
+    "footerModals": {
+      "terms": {
+        "title": "Terms of Service",
+        "body": "DomotiCore Enterprise terms govern team access, audit logging, and connected infrastructure operations across your organization."
+      },
+      "privacy": {
+        "title": "Privacy Policy",
+        "body": "Member profiles, login activity, and zone permissions are processed according to DomotiCore privacy standards and regional compliance requirements."
+      },
+      "status": {
+        "title": "System Status",
+        "body": "All team management services are operational. Identity sync, permission updates, and audit logging are running normally."
+      }
+    },
+    "table": {
+      "userDetails": "USER DETAILS",
+      "role": "ROLE",
+      "zoneAccess": "ZONE ACCESS",
+      "status": "STATUS",
+      "actions": "ACTIONS"
+    },
+    "pagination": {
+      "showing": "Showing {{from}} to {{to}} of {{total}} members",
+      "empty": "No members match the current filters"
+    },
+    "zonePermissions": {
+      "title": "Configure Zone-Specific Permissions",
+      "description": "Set granular access rules for each facility zone and control which members can operate connected devices.",
+      "setup": "Setup Zone Access",
+      "docs": "Read Documentation"
+    },
+    "auditLogs": {
+      "title": "Audit Logs",
+      "description": "Monitor permission changes, login activity, and administrative actions across your organization.",
+      "cta": "View Audit History"
+    },
+    "footer": {
+      "copyright": "© 2024 DomotiCore Enterprise Energy Systems",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "status": "System Status"
+    },
+    "toast": {
+      "memberInvited": "Invitation sent to {{name}}.",
+      "memberUpdated": "{{name}} updated successfully.",
+      "inviteResent": "Invitation resent to {{name}}.",
+      "memberArchived": "{{name}} moved to archived members.",
+      "memberRestored": "{{name}} restored to active members.",
+      "memberRemoved": "{{name}} removed from the team.",
+      "zonePermissionsSaved": "Zone permissions saved successfully."
+    }
+  },
+  "businessDevices": {
+    "navManagement": "Device Management",
+    "title": "Device Management",
+    "subtitle": "Manage {{count}} active devices across {{zones}} primary zones.",
+    "totalConsumption": "TOTAL CONSUMPTION",
+    "turnAllOff": "Turn All OFF",
+    "zoneDevices": "{{name}} ({{count}} Devices)",
+    "viewAll": "View All {{count}} Devices",
+    "lightingGroup": "Lighting Group",
+    "activeUnits": "ACTIVE UNITS",
+    "efficiency": "EFFICIENCY",
+    "airQuality": "AIR QUALITY",
+    "table": {
+      "deviceName": "DEVICE NAME",
+      "status": "STATUS",
+      "load": "LOAD",
+      "action": "ACTION"
+    },
+    "tableStatus": {
+      "active": "ACTIVE",
+      "standby": "STANDBY",
+      "offline": "OFFLINE"
+    },
+    "zones": {
+      "office": {
+        "ecoPromo": "Optimized energy mode available for Office Zone",
+        "ecoCta": "ENABLE SMART ECO"
+      }
+    },
+    "environment": {
+      "excellent": "Excellent"
+    },
+    "ecoModeActive": "Smart Eco active in {{zone}}",
+    "addEnvironmentTitle": "New environment zone",
+    "addEnvironmentHint": "Create a zone to monitor air quality and environmental conditions.",
+    "environmentName": "Zone name",
+    "environmentNamePlaceholder": "e.g. Cold Storage B",
+    "addEnvironmentConfirm": "Create zone",
+    "detail": {
+      "back": "Back to devices",
+      "status": "Status",
+      "load": "Current load",
+      "power": "Power",
+      "openExplorer": "Open in explorer",
+      "backToManagement": "Back to management",
+      "notFound": "Device not found in this zone.",
+      "toast": {
+        "turnedOn": "{{name}} turned on.",
+        "turnedOff": "{{name}} turned off."
+      }
+    },
+    "toast": {
+      "turnAllOff": "All devices were turned off.",
+      "ecoEnabled": "Smart Eco enabled for {{zone}}.",
+      "ecoAlreadyEnabled": "Smart Eco is already active in {{zone}}.",
+      "viewAll": "Showing all {{count}} devices...",
+      "addEnvironment": "Opening environment assistant...",
+      "environmentAdded": "Zone \"{{name}}\" created successfully.",
+      "environmentNameRequired": "Enter a name for the zone."
+    }
+  },
+  "deviceExplorer": {
+    "nav": "Device Explorer",
+    "breadcrumb": {
+      "devices": "Devices",
+      "current": "Advanced Discovery"
+    },
+    "title": "Device Explorer",
+    "subtitle": "Advanced multi-criteria search across facility clusters.",
+    "exportResult": "Export Result",
+    "addDevice": "Add Device",
+    "networkScan": "Network Scan",
+    "addModal": {
+      "title": "Add New Device",
+      "subtitle": "Register a device manually and assign it to a facility zone.",
+      "name": "Device name",
+      "zone": "Facility zone",
+      "category": "Category",
+      "protocol": "Protocol",
+      "nameRequired": "Enter a device name to continue."
+    },
+    "scanningTitle": "Scanning network...",
+    "scanningHint": "Searching for IoT devices across facility subnets.",
+    "resultsFound": "{{count}} Results Found",
+    "viewList": "List view",
+    "viewGrid": "Grid view",
+    "pagination": "Showing {{start}}-{{end}} of {{total}} results",
+    "previous": "Previous",
+    "next": "Next",
+    "quickAssist": "Discovery assistant",
+    "filters": {
+      "title": "Advanced Filters",
+      "facilityHierarchy": "Facility Hierarchy",
+      "allZones": "All Zones (Global)",
+      "categorization": "Device Categorization",
+      "protocol": "Protocol",
+      "subnet": "Subnet",
+      "subnetPlaceholder": "192.168.x.x",
+      "lastSeen": "Last Seen",
+      "to": "to",
+      "onlineOnly": "Online Devices Only",
+      "firmwareOutdated": "Firmware Outdated"
+    },
+    "facilityZones": {
+      "main-office": "Main Office",
+      "north-wing": "North Wing",
+      "loading-dock": "Loading Dock",
+      "cold-storage": "Cold Storage"
+    },
+    "categories": {
+      "hvac": "HVAC",
+      "lighting": "Lighting",
+      "security": "Security",
+      "sensors": "Sensors",
+      "powerPlugs": "Power Plugs"
+    },
+    "map": {
+      "liveCoverage": "LIVE COVERAGE",
+      "reachability": "Reachability",
+      "zoomIn": "Zoom in map",
+      "zoomOut": "Zoom out map",
+      "layers": "Map layers",
+      "layerZones": "Zone overlay enabled",
+      "layerFloor": "Floor plan view enabled",
+      "panHint": "Drag to pan · Double-click to reset"
+    },
+    "table": {
+      "device": "Device ID / Name",
+      "ipAddress": "IP Address",
+      "zoneHierarchy": "Zone Hierarchy",
+      "status": "Status"
+    },
+    "zones": {
+      "lobby": "Main > North Wing > Lobby",
+      "northWing": "Main > North Wing > Open Floor",
+      "loadingDock": "Main > Loading Dock > Bay 2",
+      "mainOffice": "Main > Executive Suite",
+      "kitchen": "Main > Kitchen Zone",
+      "coldStorage": "Main > Cold Storage Annex"
+    },
+    "status": {
+      "online": "Online",
+      "standby": "Standby",
+      "offline": "Offline"
+    },
+    "toast": {
+      "exportResult": "Exporting explorer results...",
+      "exportReady": "Results exported successfully",
+      "networkScan": "Network scan started across facility subnets.",
+      "networkScanStarted": "Scanning facility subnets...",
+      "scanComplete": "Scan complete: 1 new device detected",
+      "deviceAdded": "{{name}} added to the facility inventory.",
+      "deviceActions": "Opening actions for {{deviceId}}...",
+      "quickAssist": "Opening discovery assistant..."
+    }
+  },
+  "businessReports": {
+    "navComparative": "Comparative Reports",
+    "title": "Comparative Energy Reports",
+    "subtitle": "Review historical trends and efficiency metrics across facility zones.",
+    "selectPeriod": "Select Period",
+    "consumptionHistory": "Consumption History",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "efficiencyGoal": "Efficiency Goal",
+    "zoneComparison": "Zone Comparison",
+    "kwhUsage": "KWH USAGE",
+    "applyStrategy": "Apply Strategy",
+    "strategyApplied": "Strategy Applied",
+    "exportPdf": "Export PDF",
+    "exportCsv": "Export CSV",
+    "deviceReports": "Device-Specific Reports",
+    "viewAllDevices": "View All Devices",
+    "footer": "© 2024 DomotiCore Enterprise Energy Management. All systems operational.",
+    "period": {
+      "thisMonth": "This month",
+      "lastMonth": "Last month",
+      "thisQuarter": "This quarter"
+    },
+    "efficiency": {
+      "optimal": "OPTIMAL",
+      "comparison": "You are 12% more efficient than the same period last week."
+    },
+    "peak": {
+      "title": "NEXT PEAK ESTIMATED",
+      "message": "Analysis suggests shifting heavy production tasks to the evening window to reduce cost per kWh by 15%.",
+      "messageApplied": "Evening production shift is now scheduled. Estimated savings: 15% cost per kWh."
+    },
+    "actions": {
+      "menu": "Device actions",
+      "viewDevice": "View in Devices",
+      "exportRow": "Export row",
+      "toggleStatus": "Toggle status"
+    },
+    "devices": {
+      "hvacSublabel": "Primary climate system",
+      "lightingSublabel": "Lighting network",
+      "serverSublabel": "IT infrastructure"
+    },
+    "status": {
+      "optimal": "OPTIMAL",
+      "steady": "STEADY"
+    },
+    "table": {
+      "deviceName": "DEVICE NAME",
+      "zone": "ZONE",
+      "consumption": "CONSUMPTION",
+      "trend": "TREND",
+      "status": "STATUS",
+      "actions": "ACTIONS"
+    },
+    "toast": {
+      "exportPdf": "Report downloaded successfully.",
+      "exportCsv": "CSV exported successfully.",
+      "periodSelected": "Loaded data for {{period}}.",
+      "strategyApplied": "Peak reduction strategy applied.",
+      "strategyAlreadyApplied": "Strategy is already active.",
+      "viewingDevice": "Opening devices for {{device}}.",
+      "deviceExported": "{{device}} exported to CSV.",
+      "deviceStatusUpdated": "Status updated for {{device}}."
+    }
+  },
+  "costAnalysis": {
+    "nav": "Cost Analysis",
+    "title": "Cost Analysis Details",
+    "subtitle": "A detailed audit of energy expenditure, peak-load performance, and strategic ROI modeling for Smart Enterprise infrastructure.",
+    "exportPdf": "Export PDF",
+    "recalculateRoi": "Recalculate ROI",
+    "totalBilling": "Total Energy Billing",
+    "billingCycle": "Billing Cycle",
+    "vsLastMonth": "vs last month",
+    "chart": {
+      "legendBase": "Base billing",
+      "legendPeak": "Peak surcharge",
+      "avgLine": "6-mo avg",
+      "tooltipTotal": "Total",
+      "tooltipPeak": "Peak",
+      "tooltipBase": "Base"
+    },
+    "operationalEfficiency": "Operational Efficiency by Area",
+    "unitPerSqFt": "USD / Sq Ft",
+    "peak": {
+      "title": "Peak Surcharge Exposure",
+      "ofInvoice": "of total invoice",
+      "riskWindow": "Mon - Fri (11AM - 4PM) High Risk",
+      "suggestionTitle": "Strategic Suggestion",
+      "suggestion": "Offset HVAC cycle by -2°C during peak intervals to save approx. $650/mo."
+    },
+    "areas": {
+      "productionFloor": "Production Floor",
+      "corporateSuites": "Corporate Suites",
+      "coldStorage": "Cold Storage Annex"
+    },
+    "roi": {
+      "title": "Smart Upgrade ROI",
+      "subtitle": "Forecast payback periods and first-year savings for approved infrastructure upgrades.",
+      "paybackPeriod": "Payback Period",
+      "months": "Months",
+      "estimatedSavings": "Est. Savings (Year 1)",
+      "statusApproved": "APPROVED",
+      "statusReview": "REVIEW",
+      "hvac": { "name": "Smart HVAC Automation" },
+      "led": { "name": "LED Luminaire Network" }
+    },
+    "audit": {
+      "title": "Comprehensive Billing Audit",
+      "statusPaid": "PAID",
+      "filters": {
+        "last6Months": "Last 6 Months",
+        "last12Months": "Last 12 Months",
+        "yearToDate": "Year to Date"
+      },
+      "columns": {
+        "period": "Billing Period",
+        "baseUsage": "Base Usage (kWh)",
+        "peakDemand": "Peak Demand (kWh)",
+        "demandCharge": "Demand Charge",
+        "taxesFees": "Taxes & Fees",
+        "netAmount": "Net Amount",
+        "status": "Status"
+      }
+    },
+    "toast": {
+      "exportPdf": "Cost analysis report downloaded.",
+      "recalculateRoi": "ROI model recalculated successfully.",
+      "filterSelected": "Filter applied: {{filter}}"
+    }
+  },
+  "alertsHistory": {
+    "nav": "Alerts & History",
+    "title": "Alerts & History",
+    "subtitle": "Comprehensive log of system failures, over-consumption, and manual overrides.",
+    "exportCsv": "Export CSV",
+    "filters": "Filters",
+    "activityLog": "Activity Log",
+    "showingRecords": "Showing {{count}}+ records",
+    "pagination": "Showing page {{page}} of {{total}}",
+    "summary": {
+      "criticalAlerts": "Critical Alerts",
+      "deviceFailures": "Device Failures",
+      "energyPeaks": "Energy Peaks",
+      "resolution": "Resolution"
+    },
+    "tabs": {
+      "all": "All",
+      "alerts": "Alerts",
+      "manual": "Manual"
+    },
+    "priority": {
+      "critical": "Critical",
+      "medium": "Med",
+      "low": "Low"
+    },
+    "status": {
+      "unresolved": "UNRESOLVED",
+      "acknowledged": "ACKNOWLEDGED",
+      "systemNormal": "SYSTEM NORMAL",
+      "investigating": "INVESTIGATING"
+    },
+    "table": {
+      "priority": "Priority",
+      "eventDetail": "Event Detail",
+      "location": "Location / Device",
+      "timestamp": "Timestamp",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "locations": {
+      "productionFloor": "Main Production Floor",
+      "coldStorage": "Cold Storage Annex",
+      "loadingDock": "Loading Dock",
+      "mainOffice": "Main Office",
+      "kitchen": "Kitchen Zone"
+    },
+    "events": {
+      "overConsumption": {
+        "title": "Unusual Over-consumption",
+        "detail": "2.4kW surge detected in last 5 mins"
+      },
+      "coldChain": {
+        "title": "Cold Chain Deviation",
+        "detail": "Temperature drift beyond configured threshold"
+      },
+      "manualOverride": {
+        "title": "Manual Override Logged",
+        "detail": "Operator bypassed automated shutdown protocol"
+      },
+      "peakStabilized": {
+        "title": "Peak Load Stabilized",
+        "detail": "Demand normalized after HVAC load shift"
+      },
+      "sensorOffline": {
+        "title": "Sensor Offline",
+        "detail": "Production line monitor lost connection"
+      },
+      "energyPeak": {
+        "title": "Energy Peak Detected",
+        "detail": "Kitchen zone exceeded hourly budget"
+      }
+    },
+    "filterOptions": {
+      "all": "All records",
+      "critical": "Critical only",
+      "last24h": "Last 24 hours",
+      "unresolved": "Unresolved"
+    },
+    "actions": {
+      "menu": "Entry actions",
+      "acknowledge": "Acknowledge",
+      "investigate": "Investigate",
+      "resolve": "Mark resolved",
+      "viewLocation": "View location"
+    },
+    "insights": {
+      "alertFrequency": "Highest Alert Frequency",
+      "primaryAlertType": "Over-consumption events",
+      "meanTime": "Mean Time to Resolve",
+      "fromLastWeek": "from last week",
+      "systemIntegrity": "System Integrity",
+      "stability": "STABILITY",
+      "integrityOptimal": "OPTIMAL"
+    },
+    "toast": {
+      "exportCsv": "Activity log exported to CSV.",
+      "filterApplied": "Filter applied: {{filter}}",
+      "entryAcknowledged": "Alert acknowledged.",
+      "entryInvestigating": "Alert marked as investigating.",
+      "entryResolved": "Alert marked as resolved.",
+      "viewingLocation": "Opening devices for {{location}}."
+    }
+  },
+  "automation": {
+    "navCenter": "Smart Automations",
+    "navBusinessCenter": "Automation Center",
+    "title": "Smart Automations",
+    "businessTitle": "Automation Center",
+    "businessDescription": "Configure intelligent behaviors and energy protocols for your enterprise.",
+    "description": "Configure intelligent triggers and scheduled scenes to make your home react to your lifestyle automatically.",
+    "searchPlaceholder": "Search automations...",
+    "notifications": "Notifications",
+    "help": "Help",
+    "newAutomation": "New Automation",
+    "activeScenes": "Active Scenes",
+    "upcoming": "Upcoming",
+    "viewMoreEvents": "View {{count}} more events",
+    "buildCustomLogic": "Build Custom Logic",
+    "buildCustomLogicDesc": "Create complex \"If This Then That\" chains to link any device, sensor, or time trigger in your home.",
+    "openBuilder": "Open Builder",
+    "smartSuggestion": "Smart Suggestion",
+    "createAutomation": "Create Automation",
+    "dismiss": "Dismiss",
+    "viewAuditLog": "View Audit Log",
+    "createBusinessRule": "Create Business Rule",
+    "activeRuleTimeline": "Active Rule Timeline",
+    "realTimeStatus": "Real-time status",
+    "rulesActive": "rules active",
+    "operationalBusinessRules": "Operational Business Rules",
+    "efficiencyInsights": "Efficiency Insights",
+    "insightsSummary": "Automations saved",
+    "insightsSummarySuffix": "in energy costs this month.",
+    "totalSaved": "Total Saved",
+    "co2Avoided": "CO2 Avoided",
+    "groupBasedSchedules": "Group-Based Schedules",
+    "assetGroup": "Asset Group",
+    "morningOn": "Morning (On)",
+    "eveningOff": "Evening (Off)",
+    "overtimeRule": "Overtime Rule",
+    "overtimeTypes": {
+      "manual": "Manual Override",
+      "motion": "Motion Sensor",
+      "photo": "Photosensor"
+    },
+    "editShutdownProtocol": "Edit Shutdown Protocol",
+    "postponeShutdown": "Postpone 15 min",
+    "shutdownModalHint": "Enable or disable steps in the closing protocol.",
+    "timeline": {
+      "operationalRules": "Operational rules",
+      "securityProtocols": "Security protocols",
+      "zoom": "Timeline zoom",
+      "filter": "Filter rules",
+      "zoomBusiness": "Business hours",
+      "zoomExtended": "Full day",
+      "zoomFocus": "Current focus",
+      "filterAll": "All",
+      "filterOperational": "Operational",
+      "filterSecurity": "Security",
+      "runningNow": "running now",
+      "conflicts": "conflicts",
+      "conflictHint": "This rule overlaps with another active rule",
+      "conflictDetected": "Schedule conflict detected",
+      "endsIn": "Ends in {{minutes}} min",
+      "viewRule": "View rule",
+      "editSchedule": "Edit schedule",
+      "closeDetail": "Close",
+      "status": {
+        "running": "Running now",
+        "scheduled": "Scheduled soon",
+        "waiting": "Waiting"
+      }
+    },
+    "tons": "Tons",
+    "viewList": "List view",
+    "viewGrid": "Grid view",
+    "newScenario": "New Scenario",
+    "newScenarioDescription": "Define triggers and actions for a custom facility event.",
+    "active": "ACTIVE",
+    "inactive": "INACTIVE",
+    "modal": {
+      "name": "Name",
+      "trigger": "Trigger",
+      "automationName": "Automation name",
+      "condition": "Condition",
+      "action": "Action",
+      "create": "Create",
+      "saveLogic": "Save Logic",
+      "triggerOptions": {
+        "scheduledTime": "Scheduled time",
+        "motion": "Motion detected",
+        "sunset": "At sunset"
+      }
+    },
+    "toast": {
+      "created": "Automation \"{{name}}\" created.",
+      "showingAllEvents": "Showing all scheduled events.",
+      "logicSaved": "Custom logic \"{{name}}\" saved.",
+      "createdFromSuggestion": "Automation created from smart suggestion.",
+      "showingAuditLog": "Opening audit log...",
+      "editShutdownProtocol": "Opening shutdown protocol editor...",
+      "businessRuleCreated": "Business rule created successfully.",
+      "ruleEnabled": "{{name}} enabled.",
+      "ruleDisabled": "{{name}} disabled.",
+      "ruleNameRequired": "Enter a name for the rule.",
+      "shutdownPostponed": "Shutdown postponed by 15 minutes.",
+      "shutdownSaved": "Shutdown protocol saved.",
+      "openingBuilder": "Opening automation builder...",
+      "openingSchedule": "Opening schedule for {{group}}..."
+    },
+    "suggestionAutomationTitle": "Smart Suggestion Automation",
+    "days": {
+      "mon": "M", "tue": "T", "wed": "W", "thu": "T", "fri": "F", "sat": "S", "sun": "S"
+    },
+    "mock": {
+      "scenes": {
+        "nightMode": { "name": "Night Mode", "description": "Triggered at 11:00 PM" },
+        "awayMode": { "name": "Away Mode", "description": "When everyone leaves home" },
+        "morningRoutine": { "name": "Morning Routine", "description": "Weekdays at 6:30 AM" },
+        "movieNight": { "name": "Movie Night", "description": "Lights dimmed, blinds closed" }
+      },
+      "events": {
+        "turnOffLights": { "title": "TURN OFF ALL LIGHTS", "footer": "24 connected devices" },
+        "morningWakeup": { "title": "MORNING WAKE-UP", "footer": "Target: 72°F" },
+        "eveningSecurity": { "title": "EVENING SECURITY CHECK", "footer": "Perimeter sensors" }
+      },
+      "suggestion": {
+        "message": "Based on your usage patterns, we suggest creating an automation to turn off the living room TV when no motion is detected for 30 minutes."
+      }
+    }
+  },
+  "zoneConfiguration": {
+    "nav": "Zone Configuration",
+    "breadcrumb": {
+      "automation": "Automation",
+      "current": "Zone Configuration"
+    },
+    "title": "Zone Configuration",
+    "subtitle": "Define operational thresholds, energy budgets, and safety alerts for specific business sectors.",
+    "saveAll": "Save All Configs",
+    "activeMonitoring": "Active Monitoring",
+    "targetEnergyBudget": "Target Energy Budget (Monthly)",
+    "currentEfficiency": "Current Efficiency",
+    "vsLastYear": "vs LY",
+    "criticalTempAlerts": "Critical Temp Alerts",
+    "upperLimit": "Upper Limit",
+    "lowerLimit": "Lower Limit",
+    "targetBudget": "Target Budget",
+    "alertThreshold": "Alert Threshold",
+    "editBounds": "Edit Bounds",
+    "quickInsights": "Quick Insights",
+    "globalOptimizer": {
+      "title": "Global Optimizer",
+      "description": "AI is currently managing load distribution across all zones to maintain budget compliance.",
+      "score": "Optimization Score"
+    },
+    "zones": {
+      "mainOffice": {
+        "name": "Main Office",
+        "subtitle": "24 connected devices • Floor 4 & 5"
+      },
+      "loadingDock": {
+        "name": "Loading Dock",
+        "subtitle": "8 connected devices • Rear access"
+      },
+      "kitchen": {
+        "name": "Kitchen",
+        "subtitle": "12 connected devices • Cold storage"
+      }
+    },
+    "insights": {
+      "kitchenTemp": {
+        "title": "Kitchen Temp Rising",
+        "detail": "Approaching threshold: 24.2°C"
+      },
+      "budgetCompliance": {
+        "title": "Budget Compliance",
+        "detail": "Loading Dock under target by $420"
+      }
+    },
+    "options": {
+      "menu": "Zone options",
+      "setPrimary": "Set as primary zone",
+      "enableMonitoring": "Enable monitoring",
+      "disableMonitoring": "Disable monitoring",
+      "resetDefaults": "Reset to defaults"
+    },
+    "boundsModal": {
+      "title": "Edit bounds — {{zone}}",
+      "description": "Adjust the energy budget and temperature thresholds for this zone."
+    },
+    "schedule": {
+      "title": "Schedule — {{zone}}",
+      "description": "Define automatic on/off times for this zone.",
+      "morningOn": "Morning (On)",
+      "eveningOff": "Evening (Off)",
+      "overtimeRule": "Overtime Rule",
+      "overtime": {
+        "manual": "Manual Override",
+        "motion": "Motion Sensor",
+        "photo": "Photosensor"
+      }
+    },
+    "footerModal": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "body": "DomotiCore processes operational and device data only for automation, alerts, and energy reporting for your business."
+      },
+      "health": {
+        "title": "System Health",
+        "body": "All automation services are operational. Last sync 2 minutes ago. Average latency: 42 ms."
+      }
+    },
+    "audit": {
+      "title": "Configuration Audit",
+      "viewFullLog": "View Full Log",
+      "statusApplied": "APPLIED",
+      "allZones": "All zones",
+      "columns": {
+        "timestamp": "Timestamp",
+        "modifier": "Modifier",
+        "action": "Action",
+        "zone": "Zone",
+        "status": "Status"
+      },
+      "actions": {
+        "budgetUpdate": "Budget update: +$500",
+        "tempBoundAdjusted": "Lower temp bound adjusted",
+        "configSaved": "Zone configuration saved"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 DomotiCore Enterprise Systems",
+      "privacy": "Privacy Policy",
+      "health": "System Health",
+      "version": "V2.4.8-STABLE"
+    },
+    "toast": {
+      "saved": "Zone configurations saved successfully.",
+      "discarded": "Changes discarded.",
+      "editBounds": "Opening bounds editor for {{zone}}...",
+      "boundsUpdated": "Bounds updated for {{zone}}. Use Save All to apply.",
+      "scheduleUpdated": "Schedule updated for {{zone}}. Use Save All to apply.",
+      "primarySet": "{{zone}} set as primary zone.",
+      "monitoringEnabled": "Monitoring enabled for {{zone}}.",
+      "monitoringDisabled": "Monitoring disabled for {{zone}}.",
+      "zoneReset": "Default values restored for {{zone}}.",
+      "openingAudit": "Opening full audit log...",
+      "footerLink": "Opening {{link}}..."
+    }
+  },
+  "apiAccess": {
+    "title": "API Access",
+    "description": "Generate secure keys to pipe your real-time DomotiCore data into external ERP or monitoring dashboards.",
+    "primaryMonitoringKey": "PRIMARY MONITORING KEY",
+    "generateNewKey": "Generate New Key"
+  },
+  "hooks": {
+    "title": "Active Hooks",
+    "connected": "Connected",
+    "grafana": "Grafana Dashboard",
+    "sap": "SAP Energy Integration"
+  },
+  "integrationHealth": {
+    "title": "Integration Health",
+    "description": "Secure connections are active for your ERP and monitoring dashboards. Keep key rotation and sync cadence aligned with your enterprise compliance policy.",
+    "healthy": "Healthy",
+    "uptime": "uptime",
+    "uptimeValue": "{{percent}}% uptime",
+    "sapErp": "SAP ERP"
+  },
+  "throughput": {
+    "title": "API Data Throughput",
+    "monthlyLimit": "Monthly limit",
+    "requestsUsed": "requests of",
+    "usageAmount": "{{used}} / {{total}}",
+    "usageSummary": "{{amount}} enterprise quota used this billing cycle."
+  },
+  "buttons": {
+    "saveConfiguration": "Save Configuration",
+    "discardChanges": "Discard Changes",
+    "upgradeNow": "Upgrade Now",
+    "addNewAutomation": "Add New Automation",
+    "disable": "Disable",
+    "enable": "Enable",
+    "turnOnAll": "Turn ON all",
+    "turnOffAll": "Turn OFF all",
+    "on": "ON",
+    "off": "OFF",
+    "login": "Login",
+    "register": "Register",
+    "viewDetails": "View Details",
+    "listView": "List view",
+    "gridView": "Grid view",
+    "aiAssistant": "AI Assistant",
+    "cancel": "Cancel"
+  },
+  "deviceManagement": {
+    "title": "Manage connected devices",
+    "subtitle": "Review device status, rename entries, and remove inactive equipment quickly.",
+    "totalDevices": "Total devices",
+    "online": "Online",
+    "offline": "Offline",
+    "noDevicesTitle": "No devices found",
+    "noDevicesDescription": "Connect or add devices to begin managing your home system.",
+    "renameDevicePlaceholder": "Rename device",
+    "saveButton": "Save"
+  },
+  "deviceControl": {
+    "statusOn": "ON",
+    "statusOff": "OFF",
+    "statusNoConnection": "No connection"
+  },
+  "connectedServices": {
+    "online": "Online",
+    "offline": "Offline",
+    "toast": {
+      "offlineCannotEnable": "{{name}} is offline. Cannot enable.",
+      "toggled": "{{name}} {{status}}."
+    },
+    "status": {
+      "enabled": "enabled",
+      "disabled": "disabled"
+    },
+    "samples": {
+      "livingRoomLight": { "name": "Living Room Light", "type": "Smart Bulb" },
+      "kitchenThermostat": { "name": "Kitchen Thermostat", "type": "Climate Control" },
+      "frontDoorCamera": { "name": "Front Door Camera", "type": "Security Camera" },
+      "bedroomSpeaker": { "name": "Bedroom Speaker", "type": "Audio Device" }
+    }
+  },
+  "integrations": {
+    "toast": {
+      "configSaved": "Business configuration saved successfully.",
+      "keyGenerated": "New API monitoring key generated.",
+      "fileUploaded": "\"{{name}}\" uploaded for review.",
+      "upgradeSubmitted": "Enterprise upgrade request submitted. Our team will contact you."
+    }
+  },
+  "overview": {
+    "sectionLabel": "Bounded Contexts",
+    "title": "Application architecture overview",
+    "description": "A visual summary of DomotiCore’s main domains so teams and users can quickly identify each context.",
+    "iamIconAlt": "IAM icon",
+    "integrationsIconAlt": "Smart Integrations icon",
+    "automationIconAlt": "Automation icon",
+    "iamTitle": "IAM",
+    "iamDescription": "Authentication, registration and route protection for users and access.",
+    "integrationsTitle": "Smart Integrations",
+    "integrationsDescription": "Manage connected services, synchronization, and advanced integration details.",
+    "automationTitle": "Automations",
+    "automationDescription": "Intelligent flows and rules that connect devices and actions across the system."
+  },
+  "syncStatus": {
+    "lastSync": "Last Sync",
+    "pendingSync": "Pending Sync",
+    "reliability": "Sync Reliability",
+    "mins": "mins",
+    "items": "items",
+    "changePositive": "Up 2% vs last run",
+    "changeNegative": "+12% in queue",
+    "changeStable": "Stable this week",
+    "chartPlaceholderLine1": "Sync activity visualization would go here",
+    "chartPlaceholderLine2": "Real-time platform synchronization graph"
+  },
+  "dashboard": {
+    "searchPlaceholder": "Search devices, scenes...",
+    "energyConsumptionTitle": "Energy Consumption",
+    "energyConsumptionDescription": "Historical power draw over the last 24 hours",
+    "last24Hours": "Last 24h",
+    "last7Days": "Last 7d",
+    "last30Days": "Last 30d",
+    "recentAlertsTitle": "Recent Alerts",
+    "shutdownDevice": "Shutdown Device",
+    "viewAllAlerts": "View All Alerts",
+    "addDevice": "Add Device",
+    "activeDevices": "Active Devices",
+    "all": "All",
+    "online": "Online",
+    "offline": "Offline",
+    "viewDetails": "View Details",
+    "energySaver": "Energy Saver",
+    "ecoModeActive": "Eco Mode is active in",
+    "rooms": "rooms",
+    "viewDetailsBtn": "View Details",
+    "peakLabel": "Peak",
+    "normalConsumption": "Normal consumption",
+    "energyUsageLegend": "Energy Usage",
+    "peakStat": "Peak",
+    "avgStat": "Avg",
+    "totalStat": "Total",
+    "comparisonLabel": "Comparison",
+    "insightLabel": "Insight",
+    "addAlertTitle": "Add new alert",
+    "addAlert": "Add",
+    "liveBadge": "LIVE",
+    "quickAddDevice": "Quick add new device",
+    "ecoModeActiveRooms": "Eco Mode is active in 3 rooms.",
+    "statusLabel": "Status",
+    "liveFeedActive": "Live feed active",
+    "manageInDevices": "Manage in Devices",
+    "deviceNamePlaceholder": "e.g. Bedroom Lamp",
+    "detectedLabel": "Detected",
+    "dismiss": "Dismiss",
+    "energySaverModalDescription": "Eco Mode is active in 3 rooms and reduces consumption by up to 40%.",
+    "deviceType": {
+      "climate": "Climate",
+      "lights": "Lights",
+      "security": "Security",
+      "generic": "Generic"
+    },
+    "energySaverRooms": {
+      "livingRoom": "Living Room — Eco active",
+      "masterBedroom": "Master Bedroom — Eco active",
+      "kitchen": "Kitchen — Eco active"
+    },
+    "stats": {
+      "currentPower": { "title": "Current Power Usage", "description": "4% lower than usual" },
+      "activeDevices": { "title": "Active Devices", "description": "Devices online" },
+      "monthlySavings": { "title": "Monthly Savings", "description": "Est. $182.00 / year" }
+    },
+    "alerts": {
+      "highConsumption": { "type": "HIGH CONSUMPTION", "title": "Kitchen Oven left on for 3 hours", "description": "Energy surge: +450% from baseline.", "time": "24m ago" },
+      "maintenance": { "type": "MAINTENANCE", "title": "HVAC Filter Needs Cleaning", "description": "Scheduled for review.", "time": "2h ago" },
+      "info": { "type": "INFO", "title": "Dishwasher cycle complete", "description": "All systems operating normally.", "time": "5h ago" },
+      "new": { "type": "NEW ALERT", "title": "New custom alert added", "description": "You have successfully created a new alert rule.", "time": "now" }
+    },
+    "devices": {
+      "livingRoomAc": { "name": "Living Room AC", "status": "22°C • Auto Mode" },
+      "kitchenLights": { "name": "Kitchen Lights", "status": "Off • No motion" },
+      "frontPorchCam": { "name": "Front Porch Cam", "status": "Secure • All clear" },
+      "garageDoor": { "name": "Garage Door", "status": "Closed" },
+      "readyAdded": "Ready • Just added",
+      "shutdown": "Shut down • Safety mode"
+    },
+    "energy": {
+      "24h": { "title": "Last 24h", "description": "Energy consumption historical data for last 24 hours", "comparison": "4% lower than usual", "insight": "Energy usage is optimized due to Eco Mode" },
+      "7d": { "title": "Last 7 days", "description": "Energy consumption for the last 7 days", "comparison": "2.1% vs previous week", "insight": "Weekdays 35% higher than weekends" },
+      "30d": { "title": "Last 30 days", "description": "Energy consumption for the last 30 days", "comparison": "8.5% higher than previous month", "insight": "Seasonal trend: activate energy-saving protocols" }
+    },
+    "toast": {
+      "shutdownInitiated": "Device shutdown initiated. Powering off in 30 seconds.",
+      "shutdownSuccess": "Device shut down successfully.",
+      "alertCreated": "Alert rule created successfully.",
+      "deviceToggled": "{{name}} turned {{status}}",
+      "deviceAdded": "{{name}} added to your home.",
+      "chartUpdated": "Chart updated: {{range}}",
+      "range24h": "Last 24 hours",
+      "range7d": "Last 7 days",
+      "range30d": "Last 30 days"
+    }
+  },
+  "businessProfile": {
+    "nav": "Business Profile & API",
+    "breadcrumb": "ADMIN · BUSINESS PROFILE",
+    "title": "Business Profile & API Settings",
+    "description": "Configure your corporate identity, integrate utility providers for direct billing, and manage secure API access for external ERP or monitoring dashboards.",
+    "corporateIdentity": "Corporate Identity",
+    "corporateIdentityDesc": "Update the registered business details that power compliance and billing workflows.",
+    "legalBusinessName": "Legal Business Name",
+    "tin": "Tax Identification Number (TIN)",
+    "headquartersAddress": "Headquarters Address",
+    "utilityProviderIntegration": "Utility Provider Integration",
+    "utilityProviderDesc": "Live connection status for your energy account and backup provider actions.",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "accountSummary": "Account ID: {{accountId}} · {{rateSchedule}}",
+    "backupProvider": "Backup provider",
+    "currentSyncInterval": "Sync interval",
+    "minutes": "min",
+    "enterpriseQuota": "enterprise quota used this billing cycle.",
+    "uploadedOn": "Uploaded {{date}}",
+    "placeholders": {
+      "businessName": "Sterling Energy Solutions LLC",
+      "tin": "XX-XXXX5678",
+      "address": "452 Innovation Way, Ste 300, Palo Alto, CA 94304"
+    },
+    "samples": {
+      "businessName": "Sterling Energy Solutions LLC",
+      "providerName": "Pacific Gas & Electric (PG&E)",
+      "rateSchedule": "Commercial Rate Schedule B-19",
+      "pgeBrand": "PG&E"
+    },
+    "documents": {
+      "form3468": "IRS Form 3468 - Investment Credit 2023",
+      "solarAudit": "Commercial Solar Energy Audit - Palo Alto Site",
+      "form3468Short": "IRS Form 3468",
+      "form3468Subtitle": "Investment Credit 2023",
+      "solarAuditShort": "Commercial Solar Energy Audit",
+      "solarAuditSite": "Palo Alto Site"
+    },
+    "backupProviders": {
+      "sce": "Southern California Edison",
+      "sdge": "San Diego Gas & Electric",
+      "smud": "Sacramento Municipal Utility District"
+    },
+    "copyApiKey": "Copy API Key",
+    "downloadDocument": "Download document",
+    "hookDisabled": "Disabled",
+    "hookDisconnected": "Disconnected",
+    "manageConnection": "Manage Connection",
+    "connectBackupProvider": "Connect Backup Provider",
+    "syncIntervalSettings": "Sync Interval Settings",
+    "taxCreditDocumentation": "Tax Credit Documentation",
+    "taxCreditDesc": "Store certifications and forms needed for energy incentive validation.",
+    "uploadNewDocumentation": "Upload New Energy Documentation",
+    "verified": "Verified",
+    "pendingReview": "Pending Review",
+    "uploaded": "Uploaded",
+    "upgradeCtaTitle": "Need higher API limits?",
+    "upgradeCtaDescription": "Upgrade to Platinum Tier for unlimited endpoints and advanced SLA monitoring.",
+    "modals": {
+      "connection": {
+        "title": "Manage Utility Connection",
+        "description": "Update the linked PG&E account details and control whether billing sync remains active.",
+        "accountId": "Account ID",
+        "rateSchedule": "Rate Schedule",
+        "keepConnected": "Keep provider connected",
+        "save": "Save Connection"
+      },
+      "backup": {
+        "title": "Connect Backup Provider",
+        "description": "Select a secondary utility provider for failover billing sync and redundancy.",
+        "connect": "Connect Provider"
+      },
+      "sync": {
+        "title": "Sync Interval Settings",
+        "description": "Choose how frequently DomotiCore pulls billing and usage data from connected providers.",
+        "save": "Apply Interval"
+      },
+      "webhook": {
+        "title": "{{name}} Webhook",
+        "endpoint": "Endpoint URL",
+        "enabled": "Enable webhook delivery",
+        "test": "Send Test Event",
+        "save": "Save Webhook"
+      },
+      "upgrade": {
+        "title": "Upgrade to Platinum Tier",
+        "description": "Unlock higher API throughput, unlimited webhook endpoints, and priority SLA monitoring.",
+        "benefit1": "10M monthly API requests",
+        "benefit2": "Unlimited webhook destinations",
+        "benefit3": "Priority enterprise support",
+        "submit": "Submit Upgrade Request"
+      }
+    },
+    "toast": {
+      "connectionUpdated": "Utility connection settings updated.",
+      "backupConnected": "{{provider}} connected as backup provider.",
+      "syncIntervalSet": "Sync interval set to every {{minutes}} minutes.",
+      "downloading": "\"{{name}}\" downloaded.",
+      "fileUploadedTax": "\"{{name}}\" uploaded for tax credit review.",
+      "keyGenerated": "New API monitoring key generated.",
+      "keyCopied": "API key copied to clipboard.",
+      "webhookSaved": "Webhook configuration saved.",
+      "webhookTested": "Test event sent to {{name}}.",
+      "upgradeSubmitted": "Enterprise upgrade request submitted.",
+      "changesDiscarded": "Changes discarded.",
+      "configSaved": "Configuration saved successfully."
+    }
+  },
+  "forms": {
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "confirmPassword": "Confirm Password",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?"
+  },
+  "errors": {
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordMismatch": "Passwords do not match",
+    "invalidCredentials": "Invalid email or password. Try registering a new account or use: admin@domoticore.local / SecurePass123",
+    "emailAlreadyRegistered": "This email is already registered. Please login with your existing credentials.",
+    "fullNameRequired": "Full name is required",
+    "registerFailed": "Registration failed. Please try again.",
+    "loginFailed": "Login failed. Please try again."
+  },
+  "messages": {
+    "accountCreated": "Account created successfully! Redirecting to login...",
+    "accountCreatedOnboarding": "Account created! Setting up your experience...",
+    "notSignedIn": "You are not signed in yet."
+  },
+  "views": {
+    "smartHome": {
+      "tagline": "SMART ENVIRONMENT",
+      "badge": "Smart Homes",
+      "heroBadge": "Smart Home",
+      "heroText": "Dashboard, security, devices, and automation for your residence."
+    },
+    "smallBusiness": {
+      "tagline": "ENTERPRISE ENERGY",
+      "badge": "Small Business",
+      "section": "MAIN",
+      "syncLabel": "Integration status",
+      "syncValue": "Sync active",
+      "heroBadge": "Small Business",
+      "heroText": "Integrations, APIs, and connected services for your operation.",
+      "addDevice": "Add New Device",
+      "addDeviceToast": "Opening add device wizard...",
+      "addDeviceNavigating": "Opening explorer with network scan..."
+    }
+  },
+  "onboarding": {
+    "eyebrow": "Initial setup",
+    "title": "Set up your DomotiCore space",
+    "subtitle": "Complete these steps to personalize the app for your account type.",
+    "steps": {
+      "1": "Step 1 · Welcome",
+      "2": "Step 2 · Account type",
+      "3": "Step 3 · Confirmation"
+    },
+    "welcome": {
+      "title": "Hello, {{name}}!",
+      "description": "Your account is ready. Now choose how you want to use DomotiCore.",
+      "point1": "Manage home devices, security, and automations.",
+      "point2": "Or manage integrations, APIs, and business operations.",
+      "point3": "You can adjust this later from Settings."
+    },
+    "chooseType": {
+      "title": "What type of account do you want to create?",
+      "subtitle": "Select the option that best describes your primary use."
+    },
+    "accountTypes": {
+      "smartHome": {
+        "title": "Smart Home Users",
+        "description": "Control lights, locks, cameras, and home automations.",
+        "features": "Dashboard · Security · Devices · Automation"
+      },
+      "smallBusiness": {
+        "title": "Small Businesses & Entrepreneurs",
+        "description": "Connect services, APIs, and tools to run your business.",
+        "features": "Integrations · Business profile · Services · Sync"
+      }
+    },
+    "confirm": {
+      "title": "Ready to get started",
+      "subtitle": "Review your selection and enter your workspace.",
+      "destination": "Initial destination"
+    },
+    "destinations": {
+      "smartHome": "Smart home dashboard",
+      "smallBusiness": "SME Operations Hub"
+    },
+    "actions": {
+      "back": "Back",
+      "continue": "Continue",
+      "start": "Enter the app"
+    }
+  },
+  "profile": {
+    "roleLabel": "Role:"
+  },
+  "overlay": {
+    "notifications": "Notifications",
+    "markAllRead": "Mark all as read",
+    "helpCenter": "Help Center",
+    "gotIt": "Got it",
+    "helpIntro": {
+      "general": "Welcome to DomotiCore. Here are the main areas of the app.",
+      "dashboard": "Quick guide for monitoring your home dashboard.",
+      "devices": "Learn how to control and configure your connected devices.",
+      "automation": "Build automations with scenes, schedules and smart suggestions.",
+      "settings": "Manage your profile, security and connected services.",
+      "integrations": "Configure business profile, API keys and webhooks."
+    },
+    "helpTopics": {
+      "dashboard": { "title": "Dashboard", "description": "Monitor energy usage, alerts and active devices in real time." },
+      "devices": { "title": "Devices", "description": "Control individual devices, adjust temperature and power settings." },
+      "automation": { "title": "Automation", "description": "Create scenes and schedules to automate your smart home." },
+      "integrations": { "title": "Integrations", "description": "Connect external platforms and manage API credentials." }
+    },
+    "sampleNotifications": {
+      "highConsumption": { "title": "High consumption", "message": "Kitchen oven exceeded baseline by 450%.", "time": "24m ago" },
+      "automationDone": { "title": "Automation completed", "message": "Evening Lights scene activated successfully.", "time": "1h ago" },
+      "deviceOnline": { "title": "Device online", "message": "Front Porch Cam reconnected to the network.", "time": "3h ago" }
+    }
+  },
+  "common": {
+    "a11y": {
+      "breadcrumb": "Breadcrumb",
+      "close": "Close",
+      "settingsSections": "Settings sections",
+      "businessUsersSections": "Business users sections",
+      "businessReportsSections": "Business reports sections",
+      "businessDevicesSections": "Business devices sections",
+      "businessAutomationSections": "Business automation sections",
+      "historySections": "History sections",
+      "automationSections": "Automation sections"
+    },
+    "close": "Close",
+    "cancel": "Cancel",
+    "create": "Create",
+    "dismiss": "Dismiss",
+    "name": "Name",
+    "description": "Description",
+    "status": "Status",
+    "online": "Online",
+    "offline": "Offline",
+    "on": "ON",
+    "off": "OFF",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "severity": "Severity",
+    "severityLevels": {
+      "critical": "Critical",
+      "warning": "Warning",
+      "info": "Info",
+      "success": "Success"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your profile, access and connected services.",
+    "searchPlaceholder": "Search settings...",
+    "smartEnvironment": "SMART ENVIRONMENT",
+    "administrator": "Administrator",
+    "systemOwner": "System Owner",
+    "profilePhoto": "Profile Photo",
+    "profilePhotoAlt": "Profile",
+    "profilePhotoDescription": "Update your profile picture to help identify your presence in the smart home.",
+    "uploadNew": "Upload New",
+    "removePhoto": "Remove Photo",
+    "personalDetails": "Personal Details",
+    "unlockEditing": "Unlock editing",
+    "lockEditing": "Lock editing",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "homeZone": "Home Zone",
+    "displayMode": "Display Mode",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "security": "Security",
+    "securityDescription": "Manage your account authentication and active sessions.",
+    "changePassword": "Change Password",
+    "passwordLastUpdatedDefault": "Last updated recently",
+    "passwordLastUpdatedDays": "Last updated {{days}} days ago",
+    "passwordLastUpdatedMonths": "Last updated {{months}} months ago",
+    "primaryFacility": "Primary Facility",
+    "change": "Change",
+    "twoFactorAuth": "Two-Factor Auth",
+    "connections": "Connections",
+    "connectionsDescription": "Connected smart home services and platforms.",
+    "manageAllHubs": "Manage All Hubs",
+    "systemSettings": "System Settings",
+    "systemSettingsDescription": "System-wide configuration and preferences.",
+    "accountRetention": "Account Retention",
+    "accountRetentionDescription": "Manage how long your account data is retained.",
+    "manageRetention": "Manage Retention",
+    "currentRetention": "Current policy",
+    "retentionDescription": "Choose how long your account activity and logs are retained.",
+    "revokeAccess": "Revoke access",
+    "userActionsDescription": "Manage permissions for this user.",
+    "onlineStatus": "Online",
+    "grantAccessPrompt": "Enter the name of the person to grant access:",
+    "neverEntered": "Never entered",
+    "openProfileSettings": "Open Profile Settings",
+    "saving": "Saving...",
+    "saveAllChanges": "Save All Changes",
+    "changesSaved": "Changes saved successfully",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "updatePassword": "Update Password",
+    "tabs": {
+      "profile": "Profile",
+      "access": "Access",
+      "privacy": "Privacy",
+      "devices": "Devices",
+      "integrations": "Integrations",
+      "system": "System"
+    },
+    "authorizedUsers": "Authorized Users",
+    "authorizedUsersDescription": "Manage who can access your smart home and their permission levels.",
+    "grantAccess": "Grant Access",
+    "table": {
+      "user": "USER",
+      "accessLevel": "ACCESS LEVEL",
+      "lastEntry": "LAST ENTRY",
+      "actions": "ACTIONS"
+    },
+    "accessLevels": {
+      "admin": "Admin",
+      "member": "Member",
+      "guest": "Guest"
+    },
+    "homeZones": {
+      "northWing": "North Wing / Primary Residence",
+      "southWing": "South Wing / Secondary",
+      "garage": "Garage / Exterior"
+    },
+    "connectionsList": {
+      "googleHome": "Google Home",
+      "appleHomeKit": "Apple HomeKit",
+      "nestServices": "Nest Services"
+    },
+    "businessConnections": {
+      "pge": "PG&E Utility Billing",
+      "grafana": "Grafana Monitoring",
+      "sap": "SAP ERP Integration"
+    },
+    "business": {
+      "subtitle": "Manage your facility profile, team access, integrations and enterprise preferences.",
+      "profilePhotoDescription": "Update your profile picture for facility dashboards, audit logs and team visibility.",
+      "integrationsTitle": "Enterprise Integrations",
+      "integrationsDescription": "Connected utility, monitoring and ERP services for your operation.",
+      "manageIntegrations": "Open Business Profile & API",
+      "teamAccessTitle": "Team & Role Management",
+      "teamAccessDescription": "Manage administrators, managers and zone permissions from Team Management.",
+      "openTeamManagement": "Open Team Management",
+      "authorizedUsersDescription": "Manage facility access for operators, managers and temporary guest accounts.",
+      "openBusinessProfile": "Business Profile & API",
+      "openAuditHistory": "Audit History",
+      "systemShortcutsDescription": "Quick links to business profile, audit logs and configuration export.",
+      "facilities": {
+        "headquarters": "Headquarters / Palo Alto Campus",
+        "warehouseNorth": "North Warehouse Complex",
+        "retailFloor": "Retail Operations Floor"
+      }
+    },
+    "grantAccessFields": {
+      "name": "Full name",
+      "email": "Email address"
+    },
+    "twoFactorSetup": {
+      "title": "Enable Two-Factor Authentication",
+      "description": "Enter the 6-digit verification code from your authenticator app to activate 2FA.",
+      "code": "Verification code",
+      "confirm": "Enable 2FA"
+    },
+    "systemNotifications": {
+      "title": "Notifications",
+      "description": "Choose which operational alerts DomotiCore should send to your account.",
+      "energyAlertsEnabled": "Energy threshold alerts",
+      "energyAlertsHint": "Notify when consumption exceeds configured facility limits.",
+      "deviceFailureAlertsEnabled": "Device failure alerts",
+      "deviceFailureAlertsHint": "Notify when connected devices go offline or report faults.",
+      "weeklyReportEmailsEnabled": "Weekly summary emails",
+      "weeklyReportEmailsHint": "Receive a weekly operations and cost summary by email."
+    },
+    "systemPreferences": {
+      "title": "Regional & Session",
+      "timezone": "Timezone",
+      "sessionTimeout": "Session timeout",
+      "minutes": "minutes"
+    },
+    "systemShortcuts": {
+      "title": "Shortcuts & Export",
+      "description": "Jump to related configuration areas or export your current settings snapshot.",
+      "exportSettings": "Export Settings"
+    },
+    "retention": {
+      "30days": "30 days",
+      "90days": "90 days",
+      "1year": "1 year",
+      "forever": "Keep forever"
+    },
+    "toast": {
+      "connectionToggled": "{{name}} {{status}}.",
+      "connected": "connected",
+      "disconnected": "disconnected",
+      "saved": "Settings saved successfully.",
+      "photoUpdated": "Profile photo updated. Save changes to apply.",
+      "photoRemoved": "Profile photo reset to default.",
+      "invalidImage": "Please select a valid image file.",
+      "profileLocked": "Profile fields locked.",
+      "profileUnlocked": "Profile fields unlocked for editing.",
+      "passwordFieldsRequired": "Please fill in all password fields.",
+      "passwordMinLength": "New password must be at least 8 characters.",
+      "passwordMismatch": "New passwords do not match.",
+      "passwordUpdated": "Password updated. Save changes to confirm.",
+      "grantAccessNameRequired": "Please enter a name to grant access.",
+      "twoFactorCodeInvalid": "Enter a valid 6-digit verification code.",
+      "facilityUpdated": "Primary facility set to {{zone}}.",
+      "notificationEnabled": "{{name}} enabled.",
+      "notificationDisabled": "{{name}} disabled.",
+      "settingsExported": "Settings exported successfully.",
+      "grantAccessOpened": "Grant access flow opened.",
+      "accessGranted": "Access granted to {{name}}.",
+      "accessRevoked": "Guest access revoked.",
+      "userActions": "Actions for {{name}}.",
+      "homeZoneUpdated": "Home zone set to {{zone}}.",
+      "displayModeChanged": "Display mode changed to {{mode}}.",
+      "twoFactorEnabled": "Two-factor authentication enabled.",
+      "twoFactorDisabled": "Two-factor authentication disabled.",
+      "retentionPolicyOpened": "Retention policy settings opened.",
+      "retentionUpdated": "Retention policy set to {{period}}.",
+      "accessLevelChanged": "{{name}} is now {{level}}.",
+      "saveFailed": "Could not save settings. Please try again.",
+      "openedProfile": "Profile settings opened."
+    }
+  },
+  "integrationDetails": {
+    "activeIssues": "Active Issues",
+    "criticalIssues": "Critical Issues",
+    "resolvedToday": "Resolved Today",
+    "severityLabel": "Severity",
+    "markResolved": "Mark as resolved",
+    "alerts": {
+      "syncDelay": { "title": "Sync Delay", "message": "External platform sync latency exceeded expected threshold.", "time": "2 hours ago" },
+      "serviceOffline": { "title": "Service Offline", "message": "Connected integration is not responding. Check platform credentials.", "time": "5 hours ago" },
+      "automationCompleted": { "title": "Automation Completed", "message": "Integration automation succeeded at 7:30 PM.", "time": "12 hours ago" },
+      "newService": { "title": "New Service Connected", "message": "A new external platform was discovered and added to the ecosystem.", "time": "1 day ago" }
+    },
+    "toast": {
+      "dismissed": "Alert \"{{title}}\" dismissed.",
+      "resolved": "Alert \"{{title}}\" marked as resolved."
+    }
+  },
+  "automationIntegrations": {
+    "modal": { "name": "Name", "description": "Description", "create": "Create" },
+    "triggers": {
+      "sunset": "Sunset",
+      "motionDetected": "Motion Detected",
+      "alarmClock": "Alarm Clock",
+      "weekday": "Weekday",
+      "doorSensor": "Door Sensor",
+      "afterTenPm": "Time > 22:00",
+      "manual": "Manual"
+    },
+    "samples": {
+      "eveningLights": { "name": "Evening Lights", "description": "Turn on living room lights at sunset" },
+      "morningCoffee": { "name": "Morning Coffee", "description": "Start coffee maker when alarm goes off" },
+      "securityAlert": { "name": "Security Alert", "description": "Send notification when door opens after 10 PM" }
+    },
+    "toast": {
+      "toggled": "\"{{name}}\" {{status}}.",
+      "activated": "activated",
+      "deactivated": "deactivated",
+      "created": "Automation \"{{name}}\" created."
+    }
+  },
+  "smeHub": {
+    "title": "SME Operations Hub",
+    "subtitle": "Real-time energy footprint for North Wing Facility",
+    "exportAudit": "Export Audit",
+    "exporting": "Exporting...",
+    "dateRange": {
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "thisQuarter": "This Quarter"
+    },
+    "kpis": {
+      "consumption": {
+        "title": "Total Consumption",
+        "footer": "75% of peak capacity reached"
+      },
+      "cost": {
+        "title": "Cost Estimation",
+        "projected": "Projected",
+        "offPeak": "OFF-PEAK",
+        "peak": "PEAK"
+      },
+      "budget": {
+        "title": "Monthly Budget Progress"
+      }
+    },
+    "loadDistribution": {
+      "title": "Load Distribution (Real-time)",
+      "subtitle": "Consumption by category throughout the day",
+      "hvac": "HVAC",
+      "lighting": "Lighting",
+      "servers": "Servers"
+    },
+    "alerts": {
+      "title": "System Alerts",
+      "critical": "CRITICAL",
+      "viewAll": "VIEW ALL LOGS",
+      "serverRack": {
+        "title": "Server Rack B-04",
+        "description": "Abnormal temperature detected in upper compartment. Threshold exceeded by 8°C.",
+        "time": "2m ago"
+      },
+      "hvacOverload": {
+        "title": "HVAC Overload Zone 3",
+        "description": "Climate system operating at 95% capacity for over 30 minutes.",
+        "time": "15m ago"
+      },
+      "lightingSchedule": {
+        "title": "Lighting Schedule",
+        "description": "Warehouse lights remained on outside scheduled hours.",
+        "time": "1h ago"
+      }
+    },
+    "devices": {
+      "hvac": { "name": "HVAC System", "status": "ONLINE" },
+      "lighting": { "name": "Main Lighting", "status": "ACTIVE" },
+      "production": { "name": "Production Line 1", "status": "IDLE" },
+      "servers": { "name": "Main Server Stack", "status": "OPTIMAL" }
+    },
+    "facility": {
+      "title": "Facility Map",
+      "northWing": "North Wing",
+      "warehouse": "Warehouse"
+    },
+    "sustainability": {
+      "title": "Sustainability Score",
+      "comparison": "You are performing 12% better than similar sized SME facilities in your region.",
+      "solarTitle": "Solar Integration",
+      "solarSavings": "Potential savings of $450/mo",
+      "solarScheduled": "Scheduled: Oct 12"
+    },
+    "toast": {
+      "rangeUpdated": "Date range updated",
+      "exportStarted": "Audit export started",
+      "exportReady": "Audit downloaded successfully",
+      "openingLogs": "Opening full alert log...",
+      "solarDetails": "Opening cost analysis and solar integration...",
+      "openingDevice": "Opening {{name}}...",
+      "openingZone": "Opening zone {{name}}..."
+    }
+  },
+  "pages": {
+    "login": "Welcome to DomotiCore",
+    "register": "Join DomotiCore",
+    "automationIntegrations": "Automation Integrations",
+    "connectedServices": "Connected Services",
+    "syncStatus": "Sync Status",
+    "syncActivity": "Sync Activity",
+    "integrationDetails": "Integration Details",
+    "history": "Energy Intelligence"
+  }
+}
