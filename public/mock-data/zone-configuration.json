@@ -1,0 +1,107 @@
+{
+  "primaryZoneId": "main-office",
+  "zones": [
+    {
+      "id": "main-office",
+      "nameKey": "zoneConfiguration.zones.mainOffice.name",
+      "subtitleKey": "zoneConfiguration.zones.mainOffice.subtitle",
+      "icon": "building",
+      "activeMonitoring": true,
+      "isPrimary": true,
+      "energyBudget": 2450,
+      "energyBudgetMin": 0,
+      "energyBudgetMax": 5000,
+      "efficiencyPercent": 12,
+      "criticalTempAlertsEnabled": true,
+      "upperTempLimit": 26,
+      "lowerTempLimit": 18,
+      "schedule": {
+        "morningOn": "07:30 AM",
+        "eveningOff": "08:00 PM",
+        "overtimeRule": "Manual Override",
+        "overtimeType": "manual"
+      }
+    },
+    {
+      "id": "loading-dock",
+      "nameKey": "zoneConfiguration.zones.loadingDock.name",
+      "subtitleKey": "zoneConfiguration.zones.loadingDock.subtitle",
+      "icon": "loading",
+      "activeMonitoring": true,
+      "isPrimary": false,
+      "energyBudget": 1200,
+      "energyBudgetMin": 0,
+      "energyBudgetMax": 3000,
+      "efficiencyPercent": 8,
+      "criticalTempAlertsEnabled": true,
+      "upperTempLimit": 32,
+      "lowerTempLimit": 10,
+      "alertThreshold": 32,
+      "schedule": {
+        "morningOn": "08:00 AM",
+        "eveningOff": "06:00 PM",
+        "overtimeRule": "Motion Sensor",
+        "overtimeType": "motion"
+      }
+    },
+    {
+      "id": "kitchen",
+      "nameKey": "zoneConfiguration.zones.kitchen.name",
+      "subtitleKey": "zoneConfiguration.zones.kitchen.subtitle",
+      "icon": "kitchen",
+      "activeMonitoring": true,
+      "isPrimary": false,
+      "energyBudget": 3800,
+      "energyBudgetMin": 0,
+      "energyBudgetMax": 6000,
+      "efficiencyPercent": 5,
+      "criticalTempAlertsEnabled": true,
+      "upperTempLimit": 8,
+      "lowerTempLimit": 2,
+      "alertThreshold": 4.5,
+      "alertThresholdIsCold": true,
+      "schedule": {
+        "morningOn": "06:00 AM",
+        "eveningOff": "10:00 PM",
+        "overtimeRule": "Photosensor",
+        "overtimeType": "photo"
+      }
+    }
+  ],
+  "globalOptimizerScore": 94,
+  "insights": [
+    {
+      "id": "insight-1",
+      "type": "warning",
+      "titleKey": "zoneConfiguration.insights.kitchenTemp.title",
+      "detailKey": "zoneConfiguration.insights.kitchenTemp.detail"
+    },
+    {
+      "id": "insight-2",
+      "type": "success",
+      "titleKey": "zoneConfiguration.insights.budgetCompliance.title",
+      "detailKey": "zoneConfiguration.insights.budgetCompliance.detail"
+    }
+  ],
+  "auditLog": [
+    {
+      "id": "audit-1",
+      "timestamp": "Oct 24, 09:42 AM",
+      "modifierName": "Jordan Lee",
+      "modifierType": "user",
+      "modifierInitials": "JL",
+      "actionKey": "zoneConfiguration.audit.actions.budgetUpdate",
+      "zoneKey": "zoneConfiguration.zones.mainOffice.name",
+      "status": "applied"
+    },
+    {
+      "id": "audit-2",
+      "timestamp": "Oct 23, 14:15 PM",
+      "modifierName": "System AI",
+      "modifierType": "system",
+      "actionKey": "zoneConfiguration.audit.actions.tempBoundAdjusted",
+      "zoneKey": "zoneConfiguration.zones.kitchen.name",
+      "status": "applied"
+    }
+  ]
+}

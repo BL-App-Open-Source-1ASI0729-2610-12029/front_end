@@ -1,0 +1,32 @@
+[
+  {
+    "id": "presence-simulation",
+    "type": "featured",
+    "tagKey": "automationBuilder.templates.presenceSimulation.tag",
+    "titleKey": "automationBuilder.templates.presenceSimulation.title",
+    "descriptionKey": "automationBuilder.templates.presenceSimulation.description",
+    "ctaKey": "automationBuilder.templates.presenceSimulation.cta",
+    "imageUrl": "assets/icons/shared/automation-house-dusk.jpg",
+    "preset": {
+      "nameKey": "automationBuilder.recipes.presenceSimulation",
+      "category": "security",
+      "selectedTriggerId": "time-of-day",
+      "triggerTime": "19:00",
+      "selectedActionId": "lights-off"
+    }
+  },
+  {
+    "id": "eco-cooling",
+    "type": "compact",
+    "icon": "eco",
+    "titleKey": "automationBuilder.templates.ecoCooling.title",
+    "descriptionKey": "automationBuilder.templates.ecoCooling.description",
+    "tone": "lavender",
+    "preset": {
+      "nameKey": "automationBuilder.recipes.ecoCooling",
+      "category": "efficiency",
+      "selectedTriggerId": "energy-spike",
+      "selectedActionId": "climate-mode"
+    }
+  }
+]

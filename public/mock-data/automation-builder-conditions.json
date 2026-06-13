@@ -1,0 +1,9 @@
+[
+  {
+    "id": "indoor-temp",
+    "icon": "thermostat",
+    "titleKey": "automationBuilder.conditions.indoorTemperature.title",
+    "ruleKey": "automationBuilder.conditions.indoorTemperature.rule",
+    "ruleValue": "22"
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "id": 1,
+    "totalDevices": 16,
+    "totalRooms": 4,
+    "totalConsumptionKwh": 1.2,
+    "consumptionComparison": "12% lower than average for this time of day.",
+    "rooms": [
+      {
+        "id": "living-room",
+        "name": "Living Room",
+        "icon": "sofa",
+        "layout": "featured",
+        "activeDeviceCount": 0,
+        "totalPowerW": 0,
+        "devices": [
+          {
+            "id": "ceiling-light",
+            "name": "Ceiling Light",
+            "icon": "lightbulb",
+            "connection": "online",
+            "active": false,
+            "powerUsageW": 0
+          },
+          {
+            "id": "smart-ac",
+            "name": "Living Room AC",
+            "icon": "acUnit",
+            "connection": "online",
+            "active": false,
+            "powerUsageW": 0
+          },
+          {
+            "id": "entertainment-center",
+            "name": "Entertainment Center",
+            "icon": "tv",
+            "connection": "online",
+            "active": false,
+            "powerUsageW": 0
+          },
+          {
+            "id": "floor-lamp",
+            "name": "Floor Lamp Plug",
+            "icon": "plug",
+            "connection": "offline",
+            "active": false,
+            "powerUsageW": null
+          },
+          {
+            "id": "custom-1781146117204",
+            "name": "hola",
+            "icon": "moreHoriz",
+            "connection": "online",
+            "active": false,
+            "powerUsageW": 0,
+            "statusLabel": "Online • 0W"
+          }
+        ]
+      },
+      {
+        "id": "kitchen",
+        "name": "Kitchen",
+        "icon": "refrigerator",
+        "layout": "compact",
+        "devices": [
+          {
+            "id": "coffee-machine",
+            "name": "Coffee Machine",
+            "icon": "coffee",
+            "connection": "online",
+            "active": true,
+            "powerUsageW": 850,
+            "statusLabel": "Online • 850W"
+          },
+          {
+            "id": "smart-oven",
+            "name": "Smart Oven",
+            "icon": "oven",
+            "connection": "offline",
+            "active": false,
+            "powerUsageW": null,
+            "statusLabel": "Offline"
+          }
+        ]
+      },
+      {
+        "id": "master-bedroom",
+        "name": "Master Bedroom",
+        "icon": "bed",
+        "layout": "suite",
+        "description": "Optimized for rest and relaxation with smart climate control.",
+        "temperatureC": 22,
+        "humidityPercent": 48,
+        "devices": [
+          {
+            "id": "thermostat",
+            "name": "Smart Thermostat",
+            "icon": "thermostat",
+            "connection": "online",
+            "active": true,
+            "powerUsageW": null,
+            "statusLabel": "Heating"
+          },
+          {
+            "id": "blinds",
+            "name": "Smart Blinds",
+            "icon": "blinds",
+            "connection": "online",
+            "active": true,
+            "powerUsageW": null,
+            "statusLabel": "65% Open"
+          },
+          {
+            "id": "air-purifier",
+            "name": "Air Purifier",
+            "icon": "airPurifier",
+            "connection": "online",
+            "active": true,
+            "powerUsageW": null
+          },
+          {
+            "id": "bedside-speaker",
+            "name": "Bedside Speaker",
+            "icon": "speaker",
+            "connection": "online",
+            "active": false,
+            "powerUsageW": 0
+          }
+        ]
+      }
+    ],
+    "scenes": [
+      {
+        "id": "good-night",
+        "name": "Good Night",
+        "icon": "darkMode"
+      },
+      {
+        "id": "morning",
+        "name": "Morning",
+        "icon": "lightMode"
+      }
+    ]
+  }
+]
