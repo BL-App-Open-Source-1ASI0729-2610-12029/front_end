@@ -1,0 +1,198 @@
+<div class="biz-devices" *ngIf="store.overview() as overview">
+
+  <app-business-devices-nav />
+
+  <header class="biz-devices__header">
+    <div>
+      <h1>{{ 'businessDevices.title' | translate }}</h1>
+      <p>
+        {{
+          'businessDevices.subtitle'
+            | translate:{ count: overview.activeDeviceCount, zones: overview.zoneCount }
+        }}
+      </p>
+    </div>
+    <div class="biz-devices__header-stats">
+      <div class="consumption-stat">
+        <span>{{ 'businessDevices.totalConsumption' | translate }}</span>
+        <strong>{{ overview.totalConsumptionKw }} kW</strong>
+      </div>
+      <button type="button" mat-flat-button color="warn" class="btn-turn-off" (click)="onTurnAllOff()">
+        <img [src]="icons.powerSettings" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'businessDevices.turnAllOff' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="zone-section" *ngFor="let zone of overview.zones">
+    <div class="zone-section__head">
+      <h2>{{ zoneTitle(zone) }}</h2>
+      <button
+        type="button"
+        mat-button
+        color="primary"
+        class="link-btn"
+        *ngIf="zone.viewAllCount"
+        (click)="onViewAll(zone)"
+      >
+        {{ 'businessDevices.viewAll' | translate:{ count: zone.viewAllCount } }}
+        <img [src]="icons.arrowForward" alt="" class="ui-icon ui-icon--sm" />
+      </button>
+    </div>
+
+  <ng-container [ngSwitch]="zone.layout">
+    <div class="cards-grid" *ngSwitchCase="'cards'">
+      <article
+        class="device-card device-card--clickable"
+        *ngFor="let device of zone.cards"
+        [class.device-card--offline]="device.status === 'offline'"
+        (click)="onOpenDevice(zone.id, device.id)"
+      >
+        <div class="device-card__top">
+          <span class="status-dot" [class.status-dot--offline]="device.status === 'offline'"></span>
+          <label class="toggle-switch" (click)="$event.stopPropagation()">
+            <input
+              type="checkbox"
+              [checked]="device.active"
+              [disabled]="device.status === 'offline'"
+              (change)="store.toggleCard(zone.id, device.id)"
+            />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="device-card__icon">
+          <img [src]="getIcon(device.icon)" alt="" class="ui-icon ui-icon--md" />
+        </div>
+        <h3>{{ device.name }}</h3>
+        <div class="device-card__metrics">
+          <span>{{ device.loadKw }} kW</span>
+          <span>{{ device.metricLabel }}</span>
+        </div>
+      </article>
+
+      <article class="eco-card" *ngIf="zone.ecoPromoKey && !zone.ecoModeEnabled">
+        <p>{{ zone.ecoPromoKey | translate }}</p>
+        <button type="button" mat-flat-button color="primary" class="btn-eco" (click)="onEnableEco(zone)">
+          {{ zone.ecoPromoCtaKey | translate }}
+        </button>
+      </article>
+      <article class="eco-card eco-card--enabled" *ngIf="zone.ecoModeEnabled">
+        <p>{{ 'businessDevices.ecoModeActive' | translate:{ zone: zone.name } }}</p>
+      </article>
+    </div>
+
+    <div class="table-wrap" *ngSwitchCase="'table'">
+      <table class="devices-table">
+        <thead>
+          <tr>
+            <th>{{ 'businessDevices.table.deviceName' | translate }}</th>
+            <th>{{ 'businessDevices.table.status' | translate }}</th>
+            <th>{{ 'businessDevices.table.load' | translate }}</th>
+            <th>{{ 'businessDevices.table.action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of zone.tableRows" (click)="onOpenDevice(zone.id, row.id)" class="devices-table__row--clickable">
+            <td>{{ row.name }}</td>
+            <td>
+              <span [class]="tableStatusClass(row.status)">{{ tableStatusKey(row.status) | translate }}</span>
+            </td>
+            <td>{{ row.loadKw }} kW</td>
+            <td (click)="$event.stopPropagation()">
+              <label class="toggle-switch" [class.toggle-switch--disabled]="row.status === 'OFFLINE'">
+                <input
+                  type="checkbox"
+                  [checked]="row.active"
+                  [disabled]="row.status === 'OFFLINE'"
+                  (change)="store.toggleTableRow(zone.id, row.id)"
+                />
+                <span class="toggle-slider"></span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mixed-grid" *ngSwitchCase="'mixed'">
+      <article class="lighting-card" *ngIf="zone.lightingGroup as lighting">
+        <div class="lighting-card__head">
+          <h3>{{ 'businessDevices.lightingGroup' | translate }}</h3>
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="lighting.active"
+              (change)="store.toggleLighting(zone.id)"
+            />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="lighting-card__chart">
+          <span
+            *ngFor="let bar of lighting.chartBars"
+            [style.height.%]="barHeight(bar, lighting.chartBars)"
+          ></span>
+        </div>
+        <div class="lighting-card__stats">
+          <div>
+            <span>{{ 'businessDevices.activeUnits' | translate }}</span>
+            <strong>{{ lighting.activeUnits }} / {{ lighting.totalUnits }}</strong>
+          </div>
+          <div>
+            <span>{{ 'businessDevices.efficiency' | translate }}</span>
+            <strong class="efficiency-value">{{ lighting.efficiencyPercent }}%</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="environment-card" *ngIf="zone.environment as env">
+        <div class="environment-card__image" [style.background-image]="'url(' + env.imageUrl + ')'">
+          <button type="button" mat-icon-button class="environment-card__add" (click)="onAddEnvironment()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="environment-card__meta">
+          <div>
+            <span>{{ 'businessDevices.airQuality' | translate }}</span>
+            <strong>{{ env.airQualityLabelKey | translate }} (AQI {{ env.aqi }})</strong>
+          </div>
+          <div class="environment-card__temp">{{ env.temperatureC }}°C</div>
+        </div>
+      </article>
+    </div>
+  </ng-container>
+  </section>
+
+  <div class="modal-backdrop" *ngIf="showAddEnvironmentModal()" (click)="closeAddEnvironmentModal()">
+    <div class="biz-modal" (click)="$event.stopPropagation()">
+      <div class="biz-modal__header">
+        <h3>{{ 'businessDevices.addEnvironmentTitle' | translate }}</h3>
+        <button type="button" mat-icon-button class="biz-modal__close" (click)="closeAddEnvironmentModal()" [attr.aria-label]="'common.a11y.close' | translate">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <p class="biz-modal__hint">{{ 'businessDevices.addEnvironmentHint' | translate }}</p>
+      <label class="biz-modal__field">
+        <span>{{ 'businessDevices.environmentName' | translate }}</span>
+        <input
+          type="text"
+          [value]="newEnvironmentName()"
+          (input)="newEnvironmentName.set($any($event.target).value)"
+          [placeholder]="'businessDevices.environmentNamePlaceholder' | translate"
+        />
+      </label>
+      <div class="biz-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeAddEnvironmentModal()">
+          {{ 'buttons.cancel' | translate }}
+        </button>
+        <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="confirmAddEnvironment()">
+          {{ 'businessDevices.addEnvironmentConfirm' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
