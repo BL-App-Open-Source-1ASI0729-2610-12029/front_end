@@ -1,0 +1,356 @@
+
+<main class="main-content">
+
+
+  <section class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of statistics()" [class.gradient]="true">
+      <div>
+        <p class="stat-title">{{ stat.titleKey | translate }}</p>
+        <h2 class="stat-value">{{ stat.value }}</h2>
+        <span class="stat-description">{{ stat.descriptionKey | translate }}</span>
+      </div>
+
+      <div class="circle-icon">
+        <img [src]="stat.icon" alt="" class="ui-icon ui-icon--md" />
+      </div>
+    </div>
+  </section>
+
+
+  <section class="content-grid">
+
+    <div class="chart-card">
+       <div class="chart-header">
+         <div>
+           <h2>{{ currentEnergyData().titleKey | translate }}</h2>
+           <p>{{ currentEnergyData().descriptionKey | translate }}</p>
+         </div>
+
+         <div class="time-filter">
+           <button mat-stroked-button class="time-btn"
+                   [class.active]="selectedTimeRange() === '24h'"
+                   (click)="onSelectTimeRange('24h')">
+             {{ 'dashboard.last24Hours' | translate }}
+           </button>
+           <button mat-stroked-button class="time-btn"
+                   [class.active]="selectedTimeRange() === '7d'"
+                   (click)="onSelectTimeRange('7d')">
+             {{ 'dashboard.last7Days' | translate }}
+           </button>
+           <button mat-stroked-button class="time-btn"
+                   [class.active]="selectedTimeRange() === '30d'"
+                   (click)="onSelectTimeRange('30d')">
+             {{ 'dashboard.last30Days' | translate }}
+           </button>
+         </div>
+       </div>
+
+       <div class="energy-chart">
+         <div class="energy-chart__plot">
+           <div class="energy-chart__y-axis">
+             <span *ngFor="let tick of yAxisTicks()" class="y-axis-label">{{ tick.label }}</span>
+           </div>
+
+           <div class="chart-body">
+             <svg viewBox="0 0 600 260" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+               <defs>
+                 <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                   <stop offset="0%" style="stop-color:#2949c7;stop-opacity:0.28" />
+                   <stop offset="100%" style="stop-color:#2949c7;stop-opacity:0.04" />
+                 </linearGradient>
+               </defs>
+
+               <g class="chart-grid">
+                 <line *ngFor="let tick of yAxisTicks()"
+                       [attr.x1]="chartLayout.paddingLeft"
+                       [attr.y1]="getGridLineY(tick.ratio)"
+                       [attr.x2]="chartLayout.width - chartLayout.paddingRight"
+                       [attr.y2]="getGridLineY(tick.ratio)"
+                       stroke="#e5e7ef"
+                       stroke-width="1"
+                       [attr.stroke-dasharray]="tick.ratio === 0 ? '0' : '4,4'"/>
+               </g>
+
+               <polygon
+                 class="chart-area"
+                 fill="url(#chartGradient)"
+                 [attr.points]="getPolygonPoints(currentEnergyData().dataPoints)"
+               />
+
+               <polyline
+                 class="chart-line"
+                 fill="none"
+                 stroke="#2949c7"
+                 stroke-width="2.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 [attr.points]="getLinePoints(currentEnergyData().dataPoints)"
+               />
+
+               <g class="chart-points">
+                 <circle *ngFor="let point of currentEnergyData().dataPoints; let i = index"
+                         class="data-point"
+                         [class.data-point--peak]="point.status === 'peak'"
+                         [attr.cx]="getPointX(i, currentEnergyData().dataPoints.length)"
+                         [attr.cy]="getPointY(point.value, currentEnergyData().peak)"
+                         r="4"
+                         fill="#2949c7"
+                         (mouseenter)="onPointHover(point, $event)"
+                         (mouseleave)="onPointLeave()"/>
+               </g>
+             </svg>
+
+             <div class="peak-badge"
+                  *ngIf="peakPoint() && peakBadgePosition() as pos"
+                  [style.left.%]="pos.left"
+                  [style.top.%]="pos.top">
+               <span class="peak-badge__value">
+                 {{ currentEnergyData().peak }} {{ currentEnergyData().unit }}
+               </span>
+               <span class="peak-badge__label">{{ 'dashboard.peakLabel' | translate }}</span>
+             </div>
+
+             <div class="chart-tooltip" *ngIf="hoveredPoint()"
+                  [style.left.px]="tooltipPosition().x"
+                  [style.top.px]="tooltipPosition().y">
+               <div class="tooltip-content">
+                 <div class="tooltip-time">{{ hoveredPoint()?.time }}</div>
+                 <div class="tooltip-value">{{ hoveredPoint()?.value }} {{ currentEnergyData().unit }}</div>
+                 <div class="tooltip-status" [attr.data-status]="hoveredPoint()?.status">
+                   {{ hoveredPoint()?.details || ('dashboard.normalConsumption' | translate) }}
+                 </div>
+                 <div *ngIf="hoveredPoint()?.date" class="tooltip-date">{{ hoveredPoint()?.date }}</div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <div class="energy-chart__x-axis">
+           <span *ngFor="let point of currentEnergyData().dataPoints"
+                 class="x-axis-label"
+                 [class.x-axis-label--peak]="point.status === 'peak'">
+             {{ point.time }}
+           </span>
+         </div>
+       </div>
+
+       <div class="chart-legend">
+         <div class="legend-item">
+           <span class="legend-dot" style="background: #2949c7;"></span>
+           <span>{{ 'dashboard.energyUsageLegend' | translate }} ({{ currentEnergyData().unit }})</span>
+         </div>
+         <div class="legend-stats">
+           <span class="stat-badge">{{ 'dashboard.peakStat' | translate }}: {{ currentEnergyData().peak }} {{ currentEnergyData().unit }}</span>
+           <span class="stat-badge">{{ 'dashboard.avgStat' | translate }}: {{ currentEnergyData().average }} {{ currentEnergyData().unit }}</span>
+           <span class="stat-badge">{{ 'dashboard.totalStat' | translate }}: {{ currentEnergyData().total }} {{ currentEnergyData().unit }}</span>
+         </div>
+       </div>
+
+       <div class="energy-insights">
+         <div class="insight-item comparison">
+           <span class="insight-label">{{ 'dashboard.comparisonLabel' | translate }}:</span>
+           <span class="insight-value">{{ currentEnergyData().trends.comparisonKey | translate }}</span>
+         </div>
+         <div class="insight-item insight">
+           <span class="insight-label">{{ 'dashboard.insightLabel' | translate }}:</span>
+           <span class="insight-value">{{ currentEnergyData().trends.insightKey | translate }}</span>
+         </div>
+       </div>
+    </div>
+
+       <div class="alerts-card">
+         <div class="alerts-header">
+           <h2>
+             <img [src]="icons.emergency" alt="" class="ui-icon alert-icon" />
+             {{ 'dashboard.recentAlertsTitle' | translate }}
+           </h2>
+           <button mat-stroked-button class="btn-add-alert" (click)="onAddAlert()" [title]="'dashboard.addAlertTitle' | translate">
+             <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+             {{ 'dashboard.addAlert' | translate }}
+           </button>
+         </div>
+
+         <div
+           *ngFor="let alert of alerts()"
+           class="alert-item"
+           [class.danger]="alert.danger"
+         >
+           <div class="alert-top">
+             <span class="alert-badge" [class.danger-badge]="alert.danger">{{ alert.typeKey | translate }}</span>
+             <small class="alert-time">{{ alert.timeKey | translate }}</small>
+           </div>
+
+           <h4 class="alert-title-text">{{ alert.titleKey | translate }}</h4>
+
+           <p class="alert-description-text">{{ alert.descriptionKey | translate }}</p>
+
+           <div class="alert-actions">
+             <button *ngIf="alert.danger" mat-stroked-button class="btn-shutdown btn-action" (click)="onShutdownDevice()">
+               <img [src]="icons.stopCircle" alt="" class="ui-icon ui-icon--sm" />
+               {{ 'dashboard.shutdownDevice' | translate }}
+             </button>
+             <button mat-button class="btn-alert-details btn-action" (click)="onAlertDetails(alert)">
+               {{ 'dashboard.viewDetails' | translate }} →
+             </button>
+           </div>
+         </div>
+
+         <button mat-button class="view-all btn-action" (click)="onViewAllAlerts()">
+           {{ 'dashboard.viewAllAlerts' | translate }} →
+         </button>
+      </div>
+   </section>
+
+    <section class="devices-section">
+      <div class="devices-header">
+        <h2>{{ 'dashboard.activeDevices' | translate }}</h2>
+        <div class="device-filters">
+          <button mat-stroked-button class="filter-btn" [class.active]="deviceFilter() === 'all'" (click)="onFilterDevices('all')">{{ 'dashboard.all' | translate }}</button>
+          <button mat-stroked-button class="filter-btn" [class.active]="deviceFilter() === 'online'" (click)="onFilterDevices('online')">{{ 'dashboard.online' | translate }}</button>
+          <button mat-stroked-button class="filter-btn" [class.active]="deviceFilter() === 'offline'" (click)="onFilterDevices('offline')">{{ 'dashboard.offline' | translate }}</button>
+        </div>
+      </div>
+
+      <div class="devices-grid">
+        <div class="device-card" *ngFor="let device of filteredDevices()" [class.device-live]="device.live">
+          <div class="device-top">
+            <span class="device-icon">
+              <img [src]="device.icon" alt="" class="ui-icon ui-icon--md" />
+            </span>
+
+            <div class="device-controls">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="device.active"
+                  (change)="onDeviceToggle(device)"
+                />
+                <span class="slider"></span>
+              </label>
+              <span *ngIf="device.live" class="live-badge">{{ 'dashboard.liveBadge' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="device-info">
+            <h3>{{ deviceLabel(device) }}</h3>
+            <p>{{ deviceStatus(device) }}</p>
+          </div>
+
+          <div class="device-footer">
+            <button mat-stroked-button class="btn-device-action" (click)="onDeviceClick(device)">
+              {{ 'dashboard.viewDetails' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="add-device-card" (click)="onAddDevice()">
+          <img [src]="icons.add" alt="" class="ui-icon ui-icon--lg add-icon" />
+          <p>{{ 'dashboard.addDevice' | translate }}</p>
+          <span class="add-text">{{ 'dashboard.quickAddDevice' | translate }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="energy-saver-panel">
+      <div class="panel-content">
+        <div class="panel-icon">
+          <img [src]="icons.acUnit" alt="" class="ui-icon ui-icon--xl" />
+        </div>
+        <div class="panel-text">
+          <h3>{{ 'dashboard.energySaver' | translate }}</h3>
+          <p>{{ 'dashboard.ecoModeActiveRooms' | translate }}</p>
+        </div>
+        <button mat-flat-button color="primary" class="btn-panel-action" (click)="onViewEnergySaverDetails()">
+          {{ 'dashboard.viewDetailsBtn' | translate }}
+        </button>
+      </div>
+    </section>
+</main>
+
+<div class="modal-backdrop" *ngIf="showDeviceModal()" (click)="closeDeviceModal()">
+  <div class="dashboard-modal" (click)="$event.stopPropagation()" *ngIf="selectedDevice() as device">
+    <div class="dashboard-modal__header">
+      <h3>{{ deviceLabel(device) }}</h3>
+      <button type="button" mat-icon-button class="dashboard-modal__close" (click)="closeDeviceModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p class="dashboard-modal__status">{{ deviceStatus(device) }}</p>
+    <p class="dashboard-modal__meta">
+      {{ 'dashboard.statusLabel' | translate }}: <strong>{{ (device.active ? 'common.online' : 'common.offline') | translate }}</strong>
+      <span *ngIf="device.live"> • {{ 'dashboard.liveFeedActive' | translate }}</span>
+    </p>
+    <div class="dashboard-modal__actions">
+      <button type="button" mat-stroked-button class="btn-secondary" (click)="closeDeviceModal()">{{ 'common.close' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="navigateToDevices()">{{ 'dashboard.manageInDevices' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddDeviceModal()" (click)="closeAddDeviceModal()">
+  <div class="dashboard-modal" (click)="$event.stopPropagation()">
+    <div class="dashboard-modal__header">
+      <h3>{{ 'dashboard.addDevice' | translate }}</h3>
+      <button type="button" mat-icon-button class="dashboard-modal__close" (click)="closeAddDeviceModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form class="dashboard-modal__form" (ngSubmit)="submitAddDevice()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'myDevices.deviceName' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="newDeviceName" name="deviceName" required [placeholder]="'dashboard.deviceNamePlaceholder' | translate" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'myDevices.deviceType' | translate }}</mat-label>
+        <mat-select [(ngModel)]="newDeviceType" name="deviceType">
+          <mat-option value="climate">{{ 'dashboard.deviceType.climate' | translate }}</mat-option>
+          <mat-option value="lights">{{ 'dashboard.deviceType.lights' | translate }}</mat-option>
+          <mat-option value="security">{{ 'dashboard.deviceType.security' | translate }}</mat-option>
+          <mat-option value="generic">{{ 'dashboard.deviceType.generic' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="dashboard-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeAddDeviceModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!newDeviceName.trim()">{{ 'dashboard.addDevice' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showEnergySaverModal()" (click)="closeEnergySaverModal()">
+  <div class="dashboard-modal" (click)="$event.stopPropagation()">
+    <div class="dashboard-modal__header">
+      <h3>{{ 'dashboard.energySaver' | translate }}</h3>
+      <button type="button" mat-icon-button class="dashboard-modal__close" (click)="closeEnergySaverModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p class="dashboard-modal__status">{{ 'dashboard.energySaverModalDescription' | translate }}</p>
+    <ul class="dashboard-modal__list">
+      <li>{{ 'dashboard.energySaverRooms.livingRoom' | translate }}</li>
+      <li>{{ 'dashboard.energySaverRooms.masterBedroom' | translate }}</li>
+      <li>{{ 'dashboard.energySaverRooms.kitchen' | translate }}</li>
+    </ul>
+    <div class="dashboard-modal__actions">
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="closeEnergySaverModal()">{{ 'overlay.gotIt' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAlertModal()" (click)="closeAlertModal()">
+  <div class="dashboard-modal" (click)="$event.stopPropagation()" *ngIf="selectedAlert() as alert">
+    <div class="dashboard-modal__header">
+      <h3>{{ alert.titleKey | translate }}</h3>
+      <button type="button" mat-icon-button class="dashboard-modal__close" (click)="closeAlertModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <span class="alert-badge" [class.danger-badge]="alert.danger">{{ alert.typeKey | translate }}</span>
+    <p class="dashboard-modal__status">{{ alert.descriptionKey | translate }}</p>
+    <p class="dashboard-modal__meta">{{ 'dashboard.detectedLabel' | translate }}: {{ alert.timeKey | translate }}</p>
+    <div class="dashboard-modal__actions">
+      <button type="button" mat-stroked-button class="btn-secondary" (click)="closeAlertModal()">{{ 'dashboard.dismiss' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onViewAllAlerts()">{{ 'dashboard.viewAllAlerts' | translate }}</button>
+    </div>
+  </div>
+</div>
