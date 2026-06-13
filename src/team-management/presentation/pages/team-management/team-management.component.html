@@ -1,0 +1,795 @@
+<div class="team-page team-page-enter" *ngIf="store.data() as data">
+
+
+
+  <app-business-users-nav />
+
+
+
+  <header class="team-page__header">
+
+    <div>
+
+      <h1>{{ 'teamManagement.title' | translate }}</h1>
+
+      <p>{{ 'teamManagement.subtitle' | translate }}</p>
+
+    </div>
+
+    <button type="button" mat-flat-button color="primary" class="btn-primary btn-press" (click)="onAddMember()">
+
+      <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+
+      {{ 'teamManagement.addMember' | translate }}
+
+    </button>
+
+  </header>
+
+
+
+  <div *ngIf="store.loading()" class="loading-bar">
+
+    <div class="loading-bar__fill"></div>
+
+  </div>
+
+
+
+  <section class="summary-grid team-stagger">
+
+    <article class="summary-card summary-card--interactive">
+
+      <div class="summary-card__icon summary-card__icon--blue">
+
+        <img [src]="icons.groups" alt="" class="ui-icon ui-icon--sm" />
+
+      </div>
+
+      <div>
+
+        <span class="summary-card__label">{{ 'teamManagement.summary.totalMembers' | translate }}</span>
+
+        <strong class="summary-card__value">{{ data.summary.totalMembers }}</strong>
+
+        <span class="summary-card__trend">{{ 'teamManagement.summary.membersTrend' | translate:{ count: data.summary.membersTrendCount } }}</span>
+
+      </div>
+
+    </article>
+
+
+
+    <article class="summary-card summary-card--interactive">
+
+      <div class="summary-card__icon summary-card__icon--navy">
+
+        <img [src]="icons.shield" alt="" class="ui-icon ui-icon--sm" />
+
+      </div>
+
+      <div>
+
+        <span class="summary-card__label">{{ 'teamManagement.summary.administrators' | translate }}</span>
+
+        <strong class="summary-card__value">{{ data.summary.administrators }}</strong>
+
+        <span class="summary-card__meta">{{ data.summary.administratorsLabelKey | translate }}</span>
+
+      </div>
+
+    </article>
+
+
+
+    <article class="summary-card summary-card--interactive">
+
+      <div class="summary-card__icon summary-card__icon--blue">
+
+        <img [src]="icons.map" alt="" class="ui-icon ui-icon--sm" />
+
+      </div>
+
+      <div>
+
+        <span class="summary-card__label">{{ 'teamManagement.summary.activeZones' | translate }}</span>
+
+        <strong class="summary-card__value">{{ data.summary.activeZones }}</strong>
+
+        <span class="summary-card__meta">{{ data.summary.activeZonesLabelKey | translate }}</span>
+
+      </div>
+
+    </article>
+
+
+
+    <article class="summary-card summary-card--interactive">
+
+      <div class="summary-card__icon summary-card__icon--gray">
+
+        <img [src]="icons.accessTime" alt="" class="ui-icon ui-icon--sm" />
+
+      </div>
+
+      <div>
+
+        <span class="summary-card__label">{{ 'teamManagement.summary.recentActivity' | translate }}</span>
+
+        <strong class="summary-card__value">{{ data.summary.recentActivity }}</strong>
+
+        <span class="summary-card__meta">{{ data.summary.recentActivityLabelKey | translate }}</span>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+
+  <section class="panel members-panel">
+
+    <div class="members-panel__toolbar">
+
+      <div class="tab-list" role="tablist">
+
+        <button
+
+          type="button"
+
+          mat-stroked-button
+
+          class="btn-press"
+
+          *ngFor="let tab of tabs"
+
+          [class.tab-list__btn--active]="store.activeTab() === tab"
+
+          (click)="store.setTab(tab)"
+
+        >
+
+          {{ tabKey(tab) | translate }}
+
+          <span class="tab-list__count">{{ tabCount(tab) }}</span>
+
+        </button>
+
+      </div>
+
+
+
+      <div
+
+        class="zone-filter"
+
+        [class.zone-filter--open]="store.showZoneFilterMenu()"
+
+        (click)="$event.stopPropagation()"
+
+      >
+
+        <button type="button" mat-stroked-button class="zone-filter__btn btn-press" (click)="store.toggleZoneFilterMenu()">
+
+          {{ 'teamManagement.filterByZone' | translate }}: {{ zoneFilterLabel() }}
+
+          <span aria-hidden="true">▾</span>
+
+        </button>
+
+        <div class="zone-filter__menu" *ngIf="store.showZoneFilterMenu()">
+
+          <button
+
+            type="button"
+
+            mat-button
+
+            *ngFor="let zone of store.zoneOptions()"
+
+            (click)="store.setZoneFilter(zone)"
+
+          >
+
+            {{ zone === 'all' ? ('teamManagement.filterAllZones' | translate) : (zoneKey(zone) | translate) }}
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="table-wrap" *ngIf="store.pagedMembers().length; else emptyMembers">
+
+      <table class="members-table">
+
+        <thead>
+
+          <tr>
+
+            <th>{{ 'teamManagement.table.userDetails' | translate }}</th>
+
+            <th>{{ 'teamManagement.table.role' | translate }}</th>
+
+            <th>{{ 'teamManagement.table.zoneAccess' | translate }}</th>
+
+            <th>{{ 'teamManagement.table.status' | translate }}</th>
+
+            <th>{{ 'teamManagement.table.actions' | translate }}</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let member of store.pagedMembers()" class="team-table-row">
+
+            <td>
+
+              <div class="user-cell">
+
+                <span class="user-cell__avatar">{{ member.initials }}</span>
+
+                <span>
+
+                  <strong>{{ member.name }}</strong>
+
+                  <small>{{ member.email }}</small>
+
+                </span>
+
+              </div>
+
+            </td>
+
+            <td>
+
+              <span [class]="roleClass(member.role)">{{ roleKey(member.role) | translate }}</span>
+
+            </td>
+
+            <td>
+
+              <div class="zone-pills">
+
+                <span class="zone-pill" *ngFor="let zone of member.zones">{{ zoneKey(zone) | translate }}</span>
+
+                <span class="zone-pill zone-pill--more" *ngIf="member.extraZones">
+
+                  +{{ member.extraZones }} {{ 'teamManagement.more' | translate }}
+
+                </span>
+
+              </div>
+
+            </td>
+
+            <td>
+
+              <span [class]="statusClass(member)">
+
+                <span class="member-status__dot"></span>
+
+                {{ statusKey(member) | translate }}
+
+              </span>
+
+            </td>
+
+            <td class="members-table__actions-cell">
+
+              <button
+
+                type="button"
+
+                mat-icon-button
+
+                class="actions-btn member-actions-trigger btn-press"
+
+                [class.member-actions-trigger--active]="store.openMemberMenuId() === member.id"
+
+                [attr.aria-expanded]="store.openMemberMenuId() === member.id"
+
+                [attr.aria-label]="'teamManagement.actions.menu' | translate"
+
+                (click)="onToggleMemberMenu(member, $event)"
+
+              >
+
+                <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <ng-template #emptyMembers>
+
+      <div class="empty-state">
+
+        <div class="empty-state__icon">
+
+          <img [src]="icons.groups" alt="" class="ui-icon ui-icon--md" />
+
+        </div>
+
+        <h3>{{ 'teamManagement.empty.title' | translate }}</h3>
+
+        <p>{{ 'teamManagement.empty.description' | translate }}</p>
+
+        <button type="button" mat-flat-button color="primary" class="btn-primary btn-press" (click)="onAddMember()">
+
+          {{ 'teamManagement.addMember' | translate }}
+
+        </button>
+
+      </div>
+
+    </ng-template>
+
+
+
+    <footer class="members-panel__footer" *ngIf="store.filteredMembers().length">
+
+      <span>{{ paginationText() }}</span>
+
+      <div class="pagination">
+
+        <button type="button" mat-icon-button (click)="store.goToPage(store.currentPage() - 1)" [disabled]="store.currentPage() === 1">
+
+          ‹
+
+        </button>
+
+        <button
+
+          type="button"
+
+          mat-button
+
+          *ngFor="let page of pageNumbers()"
+
+          [class.pagination__btn--active]="store.currentPage() === page"
+
+          (click)="store.goToPage(page)"
+
+        >
+
+          {{ page }}
+
+        </button>
+
+        <button
+
+          type="button"
+
+          mat-icon-button
+
+          (click)="store.goToPage(store.currentPage() + 1)"
+
+          [disabled]="store.currentPage() === store.totalPages()"
+
+        >
+
+          ›
+
+        </button>
+
+      </div>
+
+    </footer>
+
+  </section>
+
+
+
+  <section class="cta-grid team-stagger">
+
+    <article class="cta-card cta-card--primary">
+
+      <div>
+
+        <h2>{{ 'teamManagement.zonePermissions.title' | translate }}</h2>
+
+        <p>{{ 'teamManagement.zonePermissions.description' | translate }}</p>
+
+        <div class="cta-card__actions">
+
+          <button type="button" mat-stroked-button class="btn-white btn-press" (click)="onSetupZoneAccess()">
+
+            {{ 'teamManagement.zonePermissions.setup' | translate }}
+
+          </button>
+
+          <button type="button" mat-stroked-button color="primary" class="btn-outline-white btn-press" (click)="onReadDocumentation()">
+
+            {{ 'teamManagement.zonePermissions.docs' | translate }}
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+
+    <article class="cta-card cta-card--muted">
+
+      <div class="cta-card__icon">
+
+        <img [src]="icons.shield" alt="" class="ui-icon ui-icon--md" />
+
+      </div>
+
+      <div>
+
+        <h2>{{ 'teamManagement.auditLogs.title' | translate }}</h2>
+
+        <p>{{ 'teamManagement.auditLogs.description' | translate }}</p>
+
+        <button type="button" mat-button color="primary" class="link-btn btn-press" (click)="onViewAuditHistory()">
+
+          {{ 'teamManagement.auditLogs.cta' | translate }}
+
+          <img [src]="icons.arrowForward" alt="" class="ui-icon ui-icon--sm" />
+
+        </button>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+
+  <footer class="team-page__footer">
+
+    <span>{{ 'teamManagement.footer.copyright' | translate }}</span>
+
+    <div class="team-page__footer-links">
+
+      <button type="button" mat-button (click)="onFooterLink('terms')">{{ 'teamManagement.footer.terms' | translate }}</button>
+
+      <button type="button" mat-button (click)="onFooterLink('privacy')">{{ 'teamManagement.footer.privacy' | translate }}</button>
+
+      <button type="button" mat-button (click)="onFooterLink('status')">{{ 'teamManagement.footer.status' | translate }}</button>
+
+    </div>
+
+  </footer>
+
+</div>
+
+
+
+<div
+
+  class="member-actions-flyout"
+
+  *ngIf="activeMemberMenu() as member"
+
+  [ngStyle]="memberMenuStyle() ?? undefined"
+
+  role="menu"
+
+  (mousedown)="$event.stopPropagation()"
+
+>
+
+  <button type="button" mat-button role="menuitem" (click)="onEditMember(member)">
+
+    {{ 'teamManagement.actions.editMember' | translate }}
+
+  </button>
+
+  <button type="button" mat-button role="menuitem" *ngIf="member.tab === 'pending'" (click)="onResendInvite(member)">
+
+    {{ 'teamManagement.actions.resendInvite' | translate }}
+
+  </button>
+
+  <button type="button" mat-button role="menuitem" *ngIf="member.tab !== 'archived'" (click)="onArchiveMember(member)">
+
+    {{ 'teamManagement.actions.archive' | translate }}
+
+  </button>
+
+  <button type="button" mat-button role="menuitem" *ngIf="member.tab === 'archived'" (click)="onRestoreMember(member)">
+
+    {{ 'teamManagement.actions.restore' | translate }}
+
+  </button>
+
+  <button type="button" mat-button color="warn" role="menuitem" class="member-actions-flyout__danger" (click)="onRemoveMember(member)">
+
+    {{ 'teamManagement.actions.remove' | translate }}
+
+  </button>
+
+</div>
+
+
+
+<div class="modal-backdrop" *ngIf="store.showAddMemberModal()" (click)="store.closeAddMemberModal()">
+
+  <div class="team-modal" (click)="$event.stopPropagation()">
+
+    <div class="team-modal__header">
+
+      <h3>{{ 'teamManagement.modals.addMember.title' | translate }}</h3>
+
+      <button type="button" mat-icon-button class="team-modal__close" (click)="store.closeAddMemberModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+
+    </div>
+
+    <form class="team-modal__form" (ngSubmit)="onSubmitAddMember()">
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.name' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="addMemberName" name="addMemberName" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.email' | translate }}</mat-label>
+        <input matInput type="email" [(ngModel)]="addMemberEmail" name="addMemberEmail" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.role' | translate }}</mat-label>
+        <mat-select [(ngModel)]="addMemberRole" name="addMemberRole">
+          <mat-option *ngFor="let role of roles" [value]="role">{{ roleKey(role) | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="team-modal__field">
+
+        <span>{{ 'teamManagement.modals.fields.zones' | translate }}</span>
+
+        <div class="zone-checklist">
+
+          <label class="zone-checklist__item" *ngFor="let zone of selectableZones()">
+
+            <input
+
+              type="checkbox"
+
+              [checked]="isZoneSelected(addMemberZones, zone)"
+
+              (change)="toggleZoneSelection(addMemberZones, zone, 'add')"
+
+            />
+
+            <span>{{ zoneKey(zone) | translate }}</span>
+
+          </label>
+
+        </div>
+
+      </div>
+
+      <div class="team-modal__actions">
+
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="store.closeAddMemberModal()">
+
+          {{ 'teamManagement.modals.cancel' | translate }}
+
+        </button>
+
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!addMemberName.trim() || !addMemberEmail.trim()">
+
+          {{ 'teamManagement.modals.addMember.submit' | translate }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal-backdrop" *ngIf="store.editingMember() as editingMember" (click)="store.closeEditMemberModal()">
+
+  <div class="team-modal" (click)="$event.stopPropagation()">
+
+    <div class="team-modal__header">
+
+      <h3>{{ 'teamManagement.modals.editMember.title' | translate }}</h3>
+
+      <button type="button" mat-icon-button class="team-modal__close" (click)="store.closeEditMemberModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+
+    </div>
+
+    <form class="team-modal__form" (ngSubmit)="onSubmitEditMember()">
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.name' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="editMemberName" name="editMemberName" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.email' | translate }}</mat-label>
+        <input matInput type="email" [(ngModel)]="editMemberEmail" name="editMemberEmail" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="team-modal__field full-width">
+        <mat-label>{{ 'teamManagement.modals.fields.role' | translate }}</mat-label>
+        <mat-select [(ngModel)]="editMemberRole" name="editMemberRole">
+          <mat-option *ngFor="let role of roles" [value]="role">{{ roleKey(role) | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="team-modal__field">
+
+        <span>{{ 'teamManagement.modals.fields.zones' | translate }}</span>
+
+        <div class="zone-checklist">
+
+          <label class="zone-checklist__item" *ngFor="let zone of selectableZones()">
+
+            <input
+
+              type="checkbox"
+
+              [checked]="isZoneSelected(editMemberZones, zone)"
+
+              (change)="toggleZoneSelection(editMemberZones, zone, 'edit')"
+
+            />
+
+            <span>{{ zoneKey(zone) | translate }}</span>
+
+          </label>
+
+        </div>
+
+      </div>
+
+      <div class="team-modal__actions">
+
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="store.closeEditMemberModal()">
+
+          {{ 'teamManagement.modals.cancel' | translate }}
+
+        </button>
+
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!editMemberName.trim() || !editMemberEmail.trim()">
+
+          {{ 'teamManagement.modals.editMember.submit' | translate }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal-backdrop" *ngIf="store.showZoneAccessModal()" (click)="store.closeZoneAccessModal()">
+
+  <div class="team-modal team-modal--wide" (click)="$event.stopPropagation()">
+
+    <div class="team-modal__header">
+
+      <h3>{{ 'teamManagement.modals.zoneAccess.title' | translate }}</h3>
+
+      <button type="button" mat-icon-button class="team-modal__close" (click)="store.closeZoneAccessModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+
+    </div>
+
+    <p class="team-modal__intro">{{ 'teamManagement.modals.zoneAccess.description' | translate }}</p>
+
+    <div class="zone-access-list">
+
+      <article class="zone-access-item" *ngFor="let permission of zonePermissionDraft()">
+
+        <label class="zone-access-item__toggle">
+
+          <input type="checkbox" [checked]="permission.enabled" (change)="onToggleZonePermission(permission.zone)" />
+
+          <span>{{ zoneKey(permission.zone) | translate }}</span>
+
+        </label>
+
+        <select
+
+          [disabled]="!permission.enabled"
+
+          [ngModel]="permission.defaultRole"
+
+          (ngModelChange)="onChangeZoneDefaultRole(permission.zone, $event)"
+
+        >
+
+          <option *ngFor="let role of roles" [value]="role">{{ roleKey(role) | translate }}</option>
+
+        </select>
+
+      </article>
+
+    </div>
+
+    <div class="team-modal__actions">
+
+      <button type="button" mat-stroked-button class="btn-secondary" (click)="store.closeZoneAccessModal()">
+
+        {{ 'teamManagement.modals.cancel' | translate }}
+
+      </button>
+
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onSaveZonePermissions()">
+
+        {{ 'teamManagement.modals.zoneAccess.submit' | translate }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal-backdrop" *ngIf="store.footerModal()" (click)="store.closeFooterModal()">
+
+  <div class="team-modal team-modal--info" (click)="$event.stopPropagation()">
+
+    <div class="team-modal__header">
+
+      <h3>{{ footerModalTitleKey() | translate }}</h3>
+
+      <button type="button" mat-icon-button class="team-modal__close" (click)="store.closeFooterModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+
+    </div>
+
+    <p class="team-modal__body">{{ footerModalBodyKey() | translate }}</p>
+
+    <div class="team-modal__actions">
+
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="store.closeFooterModal()">
+
+        {{ 'teamManagement.modals.close' | translate }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
