@@ -1,0 +1,252 @@
+<div class="history-page" *ngIf="store.energyIntelligence() as data">
+
+  <app-history-nav></app-history-nav>
+
+  <header class="page-header">
+    <div class="page-header__left">
+      <nav class="breadcrumbs" [attr.aria-label]="'common.a11y.breadcrumb' | translate">
+        <span>{{ 'history.breadcrumbRoot' | translate }}</span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">{{ 'history.breadcrumbCurrent' | translate }}</span>
+      </nav>
+      <h1 class="page-title">{{ 'history.title' | translate }}</h1>
+    </div>
+
+    <div class="period-selector" role="tablist">
+      <button
+        *ngFor="let period of periods"
+        type="button"
+        mat-stroked-button
+        class="period-btn"
+        [class.period-btn--active]="store.selectedPeriod() === period"
+        (click)="selectPeriod(period)"
+      >
+        {{ 'history.period.' + period | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="content-grid">
+    <mat-card class="card content-card chart-card">
+      <mat-card-header class="chart-card__header">
+        <div>
+          <h2 class="card-title">{{ 'history.totalConsumption' | translate }}</h2>
+          <p class="card-subtitle">{{ 'history.totalConsumptionSubtitle' | translate }}</p>
+        </div>
+        <div class="total-metric">
+          <strong class="total-value">{{ data.totalConsumptionKwh }} kWh</strong>
+          <span
+            class="trend-badge"
+            [class.trend-badge--down]="data.trendDirection === 'down'"
+            [class.trend-badge--up]="data.trendDirection === 'up'"
+          >
+            <img
+              [src]="data.trendDirection === 'down' ? icons.trendingDown : icons.barChart"
+              alt=""
+              class="ui-icon ui-icon--sm"
+            />
+            {{ data.trendPercent }}% {{ data.trendLabel }}
+          </span>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 640 250" preserveAspectRatio="none" class="consumption-chart">
+          <defs>
+            <linearGradient id="historyChartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2949c7" stop-opacity="0.28" />
+              <stop offset="100%" stop-color="#2949c7" stop-opacity="0.02" />
+            </linearGradient>
+          </defs>
+
+          <line x1="40" y1="50" x2="600" y2="50" class="grid-line" />
+          <line x1="40" y1="110" x2="600" y2="110" class="grid-line" />
+          <line x1="40" y1="170" x2="600" y2="170" class="grid-line" />
+
+          <path
+            class="chart-area"
+            [attr.d]="getSmoothAreaPath(data.chartPoints)"
+            fill="url(#historyChartGradient)"
+          />
+
+          <path
+            class="chart-line"
+            fill="none"
+            stroke="#2949c7"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            [attr.d]="getSmoothLinePath(data.chartPoints)"
+          />
+
+          <circle
+            class="chart-dot chart-dot--active"
+            [attr.cx]="getPointX(getPeakIndex(data.chartPoints), data.chartPoints.length)"
+            [attr.cy]="getPointY(
+              data.chartPoints[getPeakIndex(data.chartPoints)].value,
+              getMaxValue(data.chartPoints)
+            )"
+            r="6"
+          />
+        </svg>
+
+        <div class="chart-labels">
+          <span *ngFor="let point of data.chartPoints">{{ point.label }}</span>
+        </div>
+      </div>
+      </mat-card-content>
+    </mat-card>
+
+    <aside class="insights-stack">
+      <article class="insight-card insight-card--primary">
+        <img [src]="icons.power" alt="" class="ui-icon insight-card__icon" />
+        <p class="insight-card__label">{{ 'history.highestConsumer' | translate }}</p>
+        <h3 class="insight-card__value">{{ data.highestConsumer.name }}</h3>
+        <p class="insight-card__metric">{{ data.highestConsumer.consumptionKwh }} kWh</p>
+        <p class="insight-card__detail">
+          {{ 'history.responsibleFor' | translate:{ percent: data.highestConsumer.sharePercent } }}
+        </p>
+        <img
+          [src]="getDeviceIcon(data.highestConsumer.icon)"
+          alt=""
+          class="insight-card__watermark"
+        />
+      </article>
+
+      <article class="insight-card">
+        <img [src]="icons.accessTime" alt="" class="ui-icon insight-card__icon" />
+        <p class="insight-card__label">{{ 'history.dailyAverage' | translate }}</p>
+        <h3 class="insight-card__value insight-card__value--dark">{{ data.dailyAverageKwh }} kWh</h3>
+        <p class="insight-card__detail insight-card__detail--muted">{{ data.dailyAverageLabel }}</p>
+        <div class="mini-bars">
+          <span
+            *ngFor="let bar of data.dailyAverageBars"
+            class="mini-bar"
+            [style.height.%]="getBarHeight(bar, data.dailyAverageBars)"
+          ></span>
+        </div>
+      </article>
+
+      <article class="insight-card insight-card--eco">
+        <img [src]="icons.energySavingsLeaf" alt="" class="ui-icon insight-card__icon insight-card__icon--eco" />
+        <p class="insight-card__eco-text">{{ data.ecoTip }}</p>
+      </article>
+    </aside>
+  </div>
+
+  <section class="devices-section card">
+    <div class="devices-section__header">
+      <h2 class="section-title">{{ 'history.consumptionByDevice' | translate }}</h2>
+      <button type="button" mat-button color="primary" class="link-btn" (click)="onViewDetailedReport()">
+        {{ 'history.viewDetailedReport' | translate }}
+      </button>
+    </div>
+
+    <div class="devices-grid">
+      <article *ngFor="let device of data.devices" class="device-item">
+        <div class="device-item__top">
+          <div class="device-item__identity">
+            <span class="device-item__icon-wrap">
+              <img [src]="getDeviceIcon(device.icon)" alt="" class="ui-icon ui-icon--md" />
+            </span>
+            <span class="device-item__name">{{ device.name }}</span>
+          </div>
+          <strong class="device-item__value">{{ device.consumptionKwh }} kWh</strong>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="device.sharePercent"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <button
+    type="button"
+    mat-fab
+    color="primary"
+    class="fab"
+    (click)="openAddModal()"
+    [attr.title]="'history.addDevice' | translate"
+    [attr.aria-label]="'history.addDevice' | translate"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div
+  class="modal-backdrop"
+  *ngIf="showAddModal()"
+  (click)="closeAddModal()"
+  role="presentation"
+>
+  <div
+    class="add-modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="'history.addDeviceTitle' | translate"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="add-modal__header">
+      <h3>{{ 'history.addDeviceTitle' | translate }}</h3>
+      <button type="button" mat-icon-button class="add-modal__close" (click)="closeAddModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <p class="add-modal__subtitle">{{ 'history.addDeviceSubtitle' | translate }}</p>
+
+    <form class="add-modal__form" (ngSubmit)="submitAddDevice()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'history.deviceName' | translate }}</mat-label>
+        <input
+          matInput
+          type="text"
+          name="deviceName"
+          [(ngModel)]="newDeviceName"
+          [placeholder]="'history.deviceNamePlaceholder' | translate"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'history.consumptionKwh' | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          name="consumptionKwh"
+          [(ngModel)]="newDeviceKwh"
+          min="0.1"
+          step="0.1"
+          [placeholder]="'history.consumptionPlaceholder' | translate"
+          required
+        />
+      </mat-form-field>
+
+      <p class="add-modal__success" *ngIf="addSuccess()">
+        <img [src]="icons.checkCircle" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'history.deviceAdded' | translate }}
+      </p>
+
+      <div class="add-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeAddModal()">
+          {{ 'history.cancel' | translate }}
+        </button>
+        <button
+          type="submit"
+          mat-flat-button
+          color="primary"
+          class="btn-primary"
+          [disabled]="!newDeviceName.trim() || !newDeviceKwh || newDeviceKwh <= 0"
+        >
+          <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+          {{ 'history.addDevice' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

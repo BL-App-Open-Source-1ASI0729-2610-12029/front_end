@@ -1,0 +1,46 @@
+<div class="facility-map-view">
+  <div
+    #mapViewport
+    class="facility-map-view__viewport"
+    [class.facility-map-view__viewport--panning]="isMapPanning()"
+    (pointerdown)="onMapPanStart($event)"
+    (pointermove)="onMapPanMove($event)"
+    (pointerup)="onMapPanEnd($event)"
+    (pointercancel)="onMapPanEnd($event)"
+    (dblclick)="onMapReset()"
+  >
+    <div #mapStage class="facility-map-view__stage" [style.transform]="mapTransform()">
+      <div class="facility-map-view__content">
+        <img class="facility-map-view__image" [src]="imageSrc" alt="" draggable="false" />
+
+        <button
+          type="button"
+          mat-mini-fab
+          *ngFor="let marker of markers"
+          class="facility-map-marker-btn"
+          [style.left.%]="marker.x"
+          [style.top.%]="marker.y"
+          [title]="marker.label ?? marker.id"
+          (pointerdown)="$event.stopPropagation()"
+          (click)="onMarkerClick(marker.id, $event)"
+        >
+          <span [class]="markerClass(marker.variant)"></span>
+          <span class="facility-map-marker-btn__label" *ngIf="marker.label">{{ marker.label }}</span>
+        </button>
+
+        <ng-content />
+      </div>
+    </div>
+
+    <p class="facility-map-view__hint" *ngIf="showHint">{{ hintKey | translate }}</p>
+  </div>
+
+  <aside class="facility-map-view__controls" *ngIf="showControls">
+    <button type="button" mat-icon-button class="facility-map-view__control-btn" (click)="onMapZoomIn()" [attr.aria-label]="'shared.facilityMap.zoomIn' | translate">
+      <img [src]="icons.zoomIn" alt="" class="ui-icon ui-icon--sm" />
+    </button>
+    <button type="button" mat-icon-button class="facility-map-view__control-btn" (click)="onMapZoomOut()" [attr.aria-label]="'shared.facilityMap.zoomOut' | translate">
+      <img [src]="icons.zoomOut" alt="" class="ui-icon ui-icon--sm" />
+    </button>
+  </aside>
+</div>

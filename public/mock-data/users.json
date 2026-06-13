@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "name": "Admin DomotiCore",
+    "email": "admin@domoticore.local",
+    "password": "SecurePass123",
+    "role": "Admin",
+    "avatar": "assets/icons/shared/profile-admin.jpg"
+  }
+]

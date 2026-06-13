@@ -1,0 +1,350 @@
+<div class="security-page">
+  <div class="page-toolbar">
+    <div class="search-box">
+      <img [src]="icons.search" alt="" class="ui-icon ui-icon--sm search-box__icon" />
+      <input
+        type="search"
+        [placeholder]="'navbar.searchPlaceholder' | translate"
+        [value]="store.searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <h1>{{ 'security.title' | translate }}</h1>
+      <p>{{ 'security.subtitle' | translate }}</p>
+    </div>
+    <div class="protection-badge" [class.protection-badge--alert]="!store.allLocksSecured()">
+      <span class="protection-dot"></span>
+      {{
+        store.allLocksSecured()
+          ? ('sidebar.fullyProtected' | translate)
+          : ('security.partiallyProtected' | translate)
+      }}
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="security-grid">
+    <mat-card class="card content-card monitoring-card">
+      <mat-card-header class="card-header">
+        <div class="card-header__title">
+          <img [src]="icons.videocam" alt="" class="ui-icon ui-icon--sm card-header__icon" />
+          <div>
+            <h2>{{ 'security.liveMonitoring' | translate }}</h2>
+          </div>
+        </div>
+        <div class="card-header__actions">
+          <span class="live-badge">
+            <span class="live-dot"></span>
+            {{ 'security.live' | translate }}
+          </span>
+          <button type="button" mat-button class="link-btn" (click)="viewAllCameras()">
+            {{ (store.showAllCameras() ? 'security.showLess' : 'security.viewAll') | translate }}
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+      <div class="camera-grid" [class.camera-grid--expanded]="store.showAllCameras()">
+        <article
+          class="camera-feed"
+          *ngFor="let camera of store.visibleCameras()"
+          [class.camera-feed--active]="store.selectedCameraId() === camera.id"
+          (click)="openCamera(camera)"
+          (keyup.enter)="openCamera(camera)"
+          tabindex="0"
+          role="button"
+        >
+          <img [src]="camera.imageUrl" [alt]="camera.labelKey | translate" />
+          <span class="camera-label">{{ camera.labelKey | translate }}</span>
+        </article>
+      </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card content-card locks-card">
+      <mat-card-header class="card-header">
+        <div class="card-header__title">
+          <img [src]="icons.lock" alt="" class="ui-icon ui-icon--sm card-header__icon" />
+          <h2>{{ 'security.smartLocks' | translate }}</h2>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+      <div class="locks-list">
+        <div class="lock-row" *ngFor="let lock of store.locks()">
+          <div class="lock-row__info">
+            <span class="lock-icon">
+              <img [src]="lock.iconUrl" alt="" class="lock-icon__img" />
+            </span>
+            <div>
+              <strong>{{ lock.nameKey | translate }}</strong>
+              <span class="lock-status" [class.lock-status--open]="!lock.secured">
+                {{ lock.secured ? ('security.secured' | translate) : ('security.unlocked' | translate) }}
+              </span>
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="lock.active"
+              [attr.aria-label]="lock.nameKey | translate"
+              (change)="toggleLock(lock.id)"
+            />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <button type="button" mat-stroked-button class="btn-outline btn-lock-all" (click)="lockAllEntries()">
+        {{ 'security.lockAllEntries' | translate }}
+      </button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card content-card users-card">
+      <mat-card-header class="card-header">
+        <h2 mat-card-title>{{ 'security.authorizedUsers' | translate }}</h2>
+        <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="grantAccess()">
+          <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+          {{ 'security.grantAccess' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+      <div class="users-table-wrap">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>{{ 'security.table.user' | translate }}</th>
+              <th>{{ 'security.table.accessLevel' | translate }}</th>
+              <th>{{ 'security.table.lastEntry' | translate }}</th>
+              <th>{{ 'security.table.actions' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of store.filteredUsers()">
+              <td>
+                <div class="user-cell">
+                  <img [src]="user.avatarUrl" [alt]="user.name" class="user-avatar-img" />
+                  <div>
+                    <strong>{{ user.name }}</strong>
+                    <span>{{ user.email }}</span>
+                    <span class="guest-expiry" *ngIf="user.expiresIn">
+                      {{ 'security.expiresIn' | translate: { time: user.expiresIn } }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="access-badge" [class]="'access-badge--' + user.accessLevel">
+                  {{ ('security.accessLevels.' + user.accessLevel) | translate }}
+                </span>
+              </td>
+              <td>{{ user.lastEntry }}</td>
+              <td>
+                <button
+                  type="button"
+                  mat-icon-button
+                  class="row-action"
+                  [attr.aria-label]="'security.table.actions' | translate"
+                  (click)="openUserActions(user)"
+                >
+                  <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+                </button>
+                <button
+                  *ngIf="user.accessLevel === 'guest'"
+                  type="button"
+                  mat-icon-button
+                  class="row-action row-action--danger"
+                  [attr.aria-label]="'security.revokeAccess' | translate"
+                  (click)="revokeGuestAccess(user.id)"
+                >
+                  <img [src]="icons.close" alt="" class="ui-icon ui-icon--sm" />
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="store.filteredUsers().length === 0">
+              <td colspan="4" class="empty-row">{{ 'security.noUsersFound' | translate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card content-card log-card">
+      <mat-card-header class="card-header">
+        <h2 mat-card-title>{{ 'security.securityLog' | translate }}</h2>
+      </mat-card-header>
+
+      <mat-card-content>
+      <div class="timeline" *ngIf="store.filteredLogEntries().length; else emptyLog">
+        <div class="timeline__line" aria-hidden="true"></div>
+
+        <article
+          class="timeline-item"
+          *ngFor="let entry of store.filteredLogEntries(); let last = last"
+          [class]="'timeline-item--' + entry.tone"
+          [class.timeline-item--last]="last"
+        >
+          <div class="timeline-item__icon">
+            <img [src]="getLogIcon(entry.iconType)" alt="" />
+          </div>
+          <div class="timeline-item__content">
+            <strong [class.timeline-item__title--danger]="entry.tone === 'danger'">
+              {{ entry.titleKey | translate }}
+            </strong>
+            <p class="timeline-item__meta">
+              {{ entry.locationKey | translate }} • {{ entry.time }}
+            </p>
+            <div class="timeline-item__snapshot" *ngIf="entry.snapshotUrl">
+              <img [src]="entry.snapshotUrl" alt="" />
+              <span>{{ entry.snapshotLabelKey | translate }}</span>
+            </div>
+            <button
+              *ngIf="entry.actionKey"
+              type="button"
+              mat-stroked-button
+              class="btn-review"
+              (click)="reviewFootage(entry)"
+            >
+              {{ entry.actionKey | translate }}
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyLog>
+        <p class="empty-row">{{ 'security.noLogFound' | translate }}</p>
+      </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showGrantAccessModal()" (click)="closeGrantAccessModal()">
+  <div class="security-modal" (click)="$event.stopPropagation()">
+    <div class="security-modal__header">
+      <h3>{{ 'security.grantAccess' | translate }}</h3>
+      <button type="button" mat-icon-button class="security-modal__close" (click)="closeGrantAccessModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form class="security-modal__form" (ngSubmit)="submitGrantAccess()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.grantAccessFields.name' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="grantAccessName" name="grantAccessName" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'settings.grantAccessFields.email' | translate }}</mat-label>
+        <input matInput type="email" [(ngModel)]="grantAccessEmail" name="grantAccessEmail" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'security.table.accessLevel' | translate }}</mat-label>
+        <mat-select [(ngModel)]="grantAccessLevel" name="grantAccessLevel">
+          <mat-option *ngFor="let level of accessLevels" [value]="level">
+            {{ ('security.accessLevels.' + level) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="security-modal__actions">
+        <button type="button" mat-stroked-button class="btn-outline" (click)="closeGrantAccessModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary">{{ 'security.grantAccess' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showUserActionsModal() && selectedUser" (click)="closeUserActions()">
+  <div class="security-modal" (click)="$event.stopPropagation()">
+    <div class="security-modal__header">
+      <h3>{{ selectedUser.name }}</h3>
+      <button type="button" mat-icon-button class="security-modal__close" (click)="closeUserActions()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="security-modal__form">
+      <p class="security-modal__hint">{{ 'settings.userActionsDescription' | translate }}</p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'security.table.accessLevel' | translate }}</mat-label>
+        <mat-select
+          [ngModel]="selectedUser.accessLevel"
+          (ngModelChange)="changeUserAccessLevel($event)"
+          [disabled]="selectedUser.accessLevel === 'admin'">
+          <mat-option *ngFor="let level of accessLevels" [value]="level">
+            {{ ('security.accessLevels.' + level) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="security-modal__actions">
+        <button
+          *ngIf="selectedUser.accessLevel === 'guest'"
+          type="button"
+          mat-stroked-button
+          color="warn"
+          class="btn-outline btn-outline--danger"
+          (click)="revokeSelectedUser()">
+          {{ 'security.revokeAccess' | translate }}
+        </button>
+        <button type="button" mat-stroked-button class="btn-outline" (click)="closeUserActions()">{{ 'common.cancel' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showCameraModal() && selectedCamera" (click)="closeCameraModal()">
+  <div class="security-modal security-modal--wide" (click)="$event.stopPropagation()">
+    <div class="security-modal__header">
+      <h3>{{ selectedCamera.labelKey | translate }}</h3>
+      <button type="button" mat-icon-button class="security-modal__close" (click)="closeCameraModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="security-modal__feed">
+      <img [src]="selectedCamera.imageUrl" [alt]="selectedCamera.labelKey | translate" />
+      <span class="security-modal__live">
+        <span class="live-dot"></span>
+        {{ 'security.live' | translate }}
+      </span>
+    </div>
+    <div class="security-modal__actions">
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="closeCameraModal()">{{ 'common.close' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showFootageModal() && selectedFootageEntry" (click)="closeFootageModal()">
+  <div class="security-modal security-modal--wide" (click)="$event.stopPropagation()">
+    <div class="security-modal__header">
+      <h3>{{ 'security.reviewFootage' | translate }}</h3>
+      <button type="button" mat-icon-button class="security-modal__close" (click)="closeFootageModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="security-modal__body">
+      <p><strong>{{ selectedFootageEntry.titleKey | translate }}</strong></p>
+      <p class="security-modal__meta">
+        {{ selectedFootageEntry.locationKey | translate }} · {{ selectedFootageEntry.time }}
+      </p>
+      <img
+        *ngIf="selectedFootageEntry.snapshotUrl"
+        class="security-modal__snapshot"
+        [src]="selectedFootageEntry.snapshotUrl"
+        alt=""
+      />
+      <p *ngIf="selectedFootageEntry.snapshotLabelKey" class="security-modal__meta">
+        {{ selectedFootageEntry.snapshotLabelKey | translate }}
+      </p>
+    </div>
+    <div class="security-modal__actions">
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="closeFootageModal()">{{ 'common.close' | translate }}</button>
+    </div>
+  </div>
+</div>

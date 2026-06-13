@@ -1,0 +1,376 @@
+<div class="device-detail-page" *ngIf="store.detail() as detail">
+
+  <div class="page-toolbar">
+    <button type="button" matRipple class="back-btn" (click)="goBack()">
+      <span class="back-arrow" aria-hidden="true">
+        <mat-icon>arrow_back</mat-icon>
+      </span>
+      <nav class="breadcrumbs" [attr.aria-label]="'common.a11y.breadcrumb' | translate">
+        <span>{{ 'deviceDetail.breadcrumbDevices' | translate }}</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">{{ detail.name }}</span>
+      </nav>
+    </button>
+  </div>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="status-header card" [class.status-header--active]="detail.active">
+    <div class="status-header__left">
+      <span class="device-hero-icon" [class.device-hero-icon--active]="detail.active">
+        <img [src]="getIcon(detail.icon)" alt="" class="ui-icon ui-icon--md" />
+      </span>
+      <div>
+        <div class="title-row">
+          <h1>{{ detail.name }}</h1>
+          <span class="room-badge">{{ detail.roomName }}</span>
+        </div>
+        <p class="status-line" *ngIf="detail.deviceType === 'climate'">
+          <span class="status-dot" [class.status-dot--online]="detail.active"></span>
+          {{ detail.active ? ('deviceDetail.activeOnline' | translate) : ('deviceDetail.inactive' | translate) }}
+          • {{ detail.currentTempC }}°C {{ 'deviceDetail.current' | translate }}
+          <span class="mode-pill" [style.--mode-color]="getModeAccent(detail.operationMode)">
+            {{ 'deviceDetail.modes.' + detail.operationMode | translate }}
+          </span>
+        </p>
+        <p class="status-line" *ngIf="detail.deviceType !== 'climate'">
+          <span class="status-dot" [class.status-dot--online]="detail.connection === 'online'"></span>
+          {{ detail.connection === 'online' ? ('deviceDetail.online' | translate) : ('deviceDetail.offline' | translate) }}
+          • {{ detail.powerLoadKw }} kW
+        </p>
+      </div>
+    </div>
+    <div class="status-header__power">
+      <div class="power-label-wrap">
+        <span class="power-label">{{ 'deviceDetail.mainPower' | translate }}</span>
+        <span class="power-status">{{ detail.active ? ('deviceDetail.operational' | translate) : ('deviceDetail.standby' | translate) }}</span>
+      </div>
+      <label class="toggle-switch toggle-switch--large">
+        <input
+          type="checkbox"
+          [checked]="detail.active"
+          [disabled]="detail.connection === 'offline'"
+          (change)="store.togglePower()"
+        />
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <div class="detail-grid" [class.detail-grid--generic]="detail.deviceType !== 'climate'">
+    <div class="detail-main" *ngIf="detail.deviceType === 'climate'">
+      <mat-card class="card content-card temp-card" [class.temp-card--disabled]="!detail.active">
+        <mat-card-content>
+        <div class="temp-card__header">
+          <h2 class="card-title">{{ 'deviceDetail.setTemperature' | translate }}</h2>
+          <span class="temp-delta" [class.temp-delta--neutral]="detail.currentTempC === detail.targetTempC">
+            {{ getTempDelta(detail.currentTempC, detail.targetTempC) }}
+          </span>
+        </div>
+
+        <div class="temp-ring-wrap">
+          <button
+            type="button"
+            mat-icon-button
+            class="temp-btn"
+            [disabled]="!detail.active"
+            (click)="store.adjustTargetTemp(-1)"
+            aria-label="-1"
+          >−</button>
+
+          <div
+            class="temp-ring"
+            [style.--ring-color]="getModeAccent(detail.operationMode)"
+            [style.background]="'conic-gradient(var(--ring-color) ' + getTempRingProgress(detail.targetTempC) + '%, #e8edf8 0)'"
+          >
+            <div class="temp-ring__inner">
+              <span class="temp-current">{{ detail.currentTempC }}°</span>
+              <strong class="temp-value">{{ detail.targetTempC }}°</strong>
+              <span class="temp-caption">{{ 'deviceDetail.targetingIdeal' | translate }}</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            mat-icon-button
+            class="temp-btn"
+            [disabled]="!detail.active"
+            (click)="store.adjustTargetTemp(1)"
+            aria-label="+1"
+          >+</button>
+        </div>
+
+        <p class="temp-hint" *ngIf="!detail.active">{{ 'deviceDetail.powerOnToAdjust' | translate }}</p>
+
+        <div class="temp-actions">
+          <button
+            type="button"
+            matRipple
+            class="chip-btn"
+            [class.chip-btn--active]="detail.scheduledTimer"
+            (click)="openTimerModal()"
+          >
+            <img [src]="icons.schedule" alt="" class="ui-icon ui-icon--sm" />
+            <span>{{ 'deviceDetail.setTimer' | translate }}</span>
+            <span class="chip-badge" *ngIf="detail.scheduledTimer">{{ detail.scheduledTimer }}</span>
+          </button>
+          <button
+            type="button"
+            matRipple
+            class="chip-btn"
+            [class.chip-btn--active]="detail.ecoMode"
+            [disabled]="!detail.active"
+            (click)="store.toggleEcoMode()"
+          >
+            <img [src]="icons.eco" alt="" class="ui-icon ui-icon--sm" />
+            {{ 'deviceDetail.ecoMode' | translate }}
+          </button>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="card content-card mode-card">
+        <mat-card-content>
+        <h2 class="card-title">{{ 'deviceDetail.operationMode' | translate }}</h2>
+        <div class="mode-row">
+          <button
+            type="button"
+            matRipple
+            *ngFor="let mode of operationModes"
+            class="mode-btn"
+            [class.mode-btn--active]="detail.operationMode === mode"
+            [style.--mode-accent]="getModeAccent(mode)"
+            [disabled]="!detail.active"
+            (click)="store.setOperationMode(mode)"
+          >
+            <span class="mode-btn__icon">
+              <img [src]="getModeIcon(mode)" alt="" class="ui-icon ui-icon--sm" />
+            </span>
+            {{ 'deviceDetail.modes.' + mode | translate }}
+          </button>
+        </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="detail-aside">
+      <mat-card class="card content-card power-card">
+        <mat-card-content>
+        <div class="power-card__header">
+          <div>
+            <h2 class="card-title">{{ 'deviceDetail.powerConsumption' | translate }}</h2>
+            <p class="power-load">
+              <strong>{{ detail.powerLoadKw }} kW</strong>
+              {{ 'deviceDetail.currentLoad' | translate }}
+            </p>
+          </div>
+          <div class="period-tabs">
+            <button
+              type="button"
+              matRipple
+              *ngFor="let period of chartPeriods"
+              class="period-tab"
+              [class.period-tab--active]="detail.powerChartPeriod === period"
+              (click)="selectPeriod(period)"
+            >
+              {{ 'deviceDetail.periods.' + period | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <div class="chart-tooltip" *ngIf="hoveredChartIndex() !== null">
+            <ng-container *ngIf="getChartPoints(detail.powerChartPoints)[hoveredChartIndex()!] as point">
+              <strong>{{ point.label }}</strong>
+              <span>{{ formatChartValue(point.value, detail.powerChartPeriod) }}</span>
+            </ng-container>
+          </div>
+
+          <svg viewBox="0 0 600 180" preserveAspectRatio="none" class="power-chart">
+            <defs>
+              <linearGradient id="powerChartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2949c7" stop-opacity="0.28" />
+                <stop offset="100%" stop-color="#2949c7" stop-opacity="0.02" />
+              </linearGradient>
+            </defs>
+
+            <g class="chart-grid">
+              <line
+                *ngFor="let ratio of getChartGridLines()"
+                x1="24"
+                [attr.x2]="576"
+                [attr.y1]="24 + ratio * 112"
+                [attr.y2]="24 + ratio * 112"
+              />
+            </g>
+
+            <path class="chart-area" [attr.d]="getChartAreaPath(detail.powerChartPoints)" fill="url(#powerChartGradient)" />
+            <path
+              class="chart-line"
+              fill="none"
+              stroke="#2949c7"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              [attr.d]="getChartLinePath(detail.powerChartPoints)"
+            />
+
+            <g class="chart-points">
+              <circle
+                *ngFor="let point of getChartPoints(detail.powerChartPoints); let i = index"
+                [attr.cx]="point.x"
+                [attr.cy]="point.y"
+                r="5"
+                class="chart-point"
+                [class.chart-point--hover]="hoveredChartIndex() === i"
+                (mouseenter)="setHoveredChartIndex(i)"
+                (mouseleave)="setHoveredChartIndex(null)"
+              />
+            </g>
+          </svg>
+
+          <div class="chart-labels">
+            <span *ngFor="let point of detail.powerChartPoints">{{ point.label }}</span>
+          </div>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="alerts-row" *ngIf="detail.alerts.length">
+        <article
+          class="alert-card"
+          *ngFor="let alert of detail.alerts"
+          [class.alert-card--peak]="alert.type === 'peak'"
+          [class.alert-card--maintenance]="alert.type === 'maintenance'"
+        >
+          <img
+            [src]="alert.type === 'peak' ? icons.power : icons.settings"
+            alt=""
+            class="ui-icon ui-icon--md alert-card__icon"
+          />
+          <div class="alert-card__body">
+            <h3>{{ alert.title }}</h3>
+            <p>{{ alert.message }}</p>
+            <div class="alert-card__actions">
+              <button type="button" mat-flat-button color="primary" class="alert-action" (click)="handleAlertAction(alert.id, alert.type)">
+                {{ alert.type === 'peak' ? ('deviceDetail.alertActions.enableEco' | translate) : ('deviceDetail.alertActions.scheduleService' | translate) }}
+              </button>
+              <button type="button" mat-button color="primary" class="alert-dismiss" (click)="dismissAlert(alert.id)">
+                {{ 'deviceDetail.alertActions.dismiss' | translate }}
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="stats-row" *ngIf="detail.deviceType === 'climate'">
+        <button
+          type="button"
+          matRipple
+          class="stat-card stat-card--interactive"
+          [disabled]="!detail.active"
+          (click)="cycleFanSpeed()"
+        >
+          <img [src]="icons.airPurifier" alt="" class="ui-icon ui-icon--sm" />
+          <span class="stat-label">{{ 'deviceDetail.fanSpeed' | translate }}</span>
+          <strong>{{ detail.fanSpeed }}</strong>
+          <span class="stat-hint">{{ 'deviceDetail.tapToCycle' | translate }}</span>
+        </button>
+        <button
+          type="button"
+          matRipple
+          class="stat-card stat-card--interactive"
+          [disabled]="!detail.active"
+          (click)="cycleSwing()"
+        >
+          <img [src]="icons.blinds" alt="" class="ui-icon ui-icon--sm" />
+          <span class="stat-label">{{ 'deviceDetail.swing' | translate }}</span>
+          <strong>{{ detail.swing }}</strong>
+          <span class="stat-hint">{{ 'deviceDetail.tapToCycle' | translate }}</span>
+        </button>
+        <article class="stat-card stat-card--readonly">
+          <img [src]="icons.thermostat" alt="" class="ui-icon ui-icon--sm" />
+          <span class="stat-label">{{ 'deviceDetail.humidity' | translate }}</span>
+          <strong>{{ detail.humidityPercent }}% RH</strong>
+          <div class="humidity-bar">
+            <span [style.width.%]="detail.humidityPercent"></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="page-actions">
+        <button type="button" mat-flat-button color="warn" class="btn-delete" (click)="onDelete()">
+          {{ 'deviceDetail.deleteDevice' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showTimerModal()" (click)="closeTimerModal()">
+  <div class="timer-modal" (click)="$event.stopPropagation()">
+    <div class="timer-modal__header">
+      <h3>{{ 'deviceDetail.setTimer' | translate }}</h3>
+      <button type="button" mat-icon-button class="timer-close" (click)="closeTimerModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p>{{ 'deviceDetail.timerModal.description' | translate }}</p>
+
+    <form (ngSubmit)="submitTimer()">
+      <div class="timer-fields">
+        <mat-form-field appearance="outline" class="timer-field">
+          <mat-label>{{ 'deviceDetail.timerModal.hour' | translate }}</mat-label>
+          <input matInput type="number" min="0" max="23" [(ngModel)]="timerHour" name="timerHour" />
+        </mat-form-field>
+        <span class="timer-separator">:</span>
+        <mat-form-field appearance="outline" class="timer-field">
+          <mat-label>{{ 'deviceDetail.timerModal.minute' | translate }}</mat-label>
+          <input matInput type="number" min="0" max="59" [(ngModel)]="timerMinute" name="timerMinute" />
+        </mat-form-field>
+      </div>
+
+      <div class="timer-preview">
+        {{ formatTimerPreview() }}
+      </div>
+
+      <div class="timer-modal__actions">
+        <button
+          type="button"
+          mat-stroked-button
+          class="btn-secondary"
+          *ngIf="store.detail()?.scheduledTimer"
+          (click)="clearTimer()"
+        >
+          {{ 'deviceDetail.timerModal.clear' | translate }}
+        </button>
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeTimerModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary">{{ 'deviceDetail.setTimer' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showMaintenanceModal()" (click)="closeMaintenanceModal()">
+  <div class="timer-modal" (click)="$event.stopPropagation()">
+    <div class="timer-modal__header">
+      <h3>{{ 'deviceDetail.maintenanceModal.title' | translate }}</h3>
+      <button type="button" mat-icon-button class="timer-close" (click)="closeMaintenanceModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p>{{ 'deviceDetail.maintenanceModal.description' | translate }}</p>
+    <form (ngSubmit)="confirmMaintenanceSchedule()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'deviceDetail.maintenanceModal.date' | translate }}</mat-label>
+        <input matInput type="date" [(ngModel)]="maintenanceDate" name="maintenanceDate" required />
+      </mat-form-field>
+      <div class="timer-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeMaintenanceModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!maintenanceDate">{{ 'deviceDetail.maintenanceModal.confirm' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>

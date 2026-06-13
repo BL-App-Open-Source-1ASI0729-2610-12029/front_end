@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.biz-detail {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 720px;
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.biz-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  background: transparent;
+  color: var(--primary-color, #1a3b8b);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.biz-detail__header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: var(--surface, #fff);
+  border: 1px solid var(--biz-border, #e5e9f2);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+.biz-detail__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: rgba(26, 59, 139, 0.08);
+}
+
+.biz-detail__icon--offline {
+  opacity: 0.55;
+}
+
+.biz-detail__header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--biz-navy, #1a3b8b);
+}
+
+.biz-detail__header p {
+  margin: 0.35rem 0 0;
+  color: var(--biz-muted, #6b7a94);
+}
+
+.biz-detail__panel {
+  background: var(--surface, #fff);
+  border: 1px solid var(--biz-border, #e5e9f2);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.biz-detail__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  color: var(--biz-muted, #6b7a94);
+}
+
+.biz-detail__row strong {
+  color: var(--biz-navy, #1a3b8b);
+}
+
+.biz-detail__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  border-radius: 0.75rem;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: none;
+  background: var(--primary-color, #1a3b8b);
+  color: #fff;
+}
+
+.btn-secondary {
+  border: 1px solid var(--biz-border, #e5e9f2);
+  background: #fff;
+  color: var(--biz-navy, #1a3b8b);
+}
+
+.biz-detail--empty {
+  text-align: center;
+  padding: 2rem 0;
+}

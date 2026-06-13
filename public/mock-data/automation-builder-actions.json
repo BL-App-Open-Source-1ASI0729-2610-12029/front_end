@@ -1,0 +1,26 @@
+[
+  {
+    "id": "lock-doors",
+    "icon": "lock",
+    "titleKey": "automationBuilder.actions.lockDoors",
+    "tone": "primary"
+  },
+  {
+    "id": "lights-off",
+    "icon": "lightbulb",
+    "titleKey": "automationBuilder.actions.lightsOff",
+    "tone": "blue"
+  },
+  {
+    "id": "climate-mode",
+    "icon": "thermostat",
+    "titleKey": "automationBuilder.actions.climateMode",
+    "tone": "orange"
+  },
+  {
+    "id": "more",
+    "icon": "add",
+    "titleKey": "automationBuilder.actions.more",
+    "tone": "neutral"
+  }
+]

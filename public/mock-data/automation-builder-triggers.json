@@ -1,0 +1,20 @@
+[
+  {
+    "id": "time-of-day",
+    "icon": "schedule",
+    "titleKey": "automationBuilder.triggers.timeOfDay.title",
+    "descriptionKey": "automationBuilder.triggers.timeOfDay.description"
+  },
+  {
+    "id": "energy-spike",
+    "icon": "power",
+    "titleKey": "automationBuilder.triggers.energySpike.title",
+    "descriptionKey": "automationBuilder.triggers.energySpike.description"
+  },
+  {
+    "id": "geofencing",
+    "icon": "signal",
+    "titleKey": "automationBuilder.triggers.geofencing.title",
+    "descriptionKey": "automationBuilder.triggers.geofencing.description"
+  }
+]

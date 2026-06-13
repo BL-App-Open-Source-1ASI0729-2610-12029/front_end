@@ -1,0 +1,184 @@
+<div class="notifications-page">
+  <div class="page-toolbar">
+    <div class="search-box">
+      <img [src]="icons.search" alt="" class="ui-icon ui-icon--sm search-box__icon" />
+      <input
+        type="search"
+        [placeholder]="'historyNotifications.searchPlaceholder' | translate"
+        [value]="store.searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <h1>{{ 'historyNotifications.title' | translate }}</h1>
+      <p>{{ 'historyNotifications.subtitle' | translate }}</p>
+    </div>
+  </header>
+
+  <app-history-nav></app-history-nav>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="summary-strip" *ngIf="!store.loading()">
+    <article class="summary-strip__card">
+      <span>{{ 'historyNotifications.summary.total' | translate }}</span>
+      <strong>{{ store.items().length }}</strong>
+    </article>
+    <article class="summary-strip__card summary-strip__card--accent">
+      <span>{{ 'historyNotifications.summary.unread' | translate }}</span>
+      <strong>{{ store.unreadCount() }}</strong>
+    </article>
+    <article class="summary-strip__card">
+      <span>{{ 'historyNotifications.summary.uptime' | translate }}</span>
+      <strong>{{ (store.insights()?.uptimePercent ?? 99.98) }}%</strong>
+    </article>
+  </section>
+
+  <section class="feed-panel card">
+    <div class="feed-panel__header">
+      <div>
+        <h2>{{ 'historyNotifications.activityFeed' | translate }}</h2>
+        <p>{{ 'historyNotifications.activityFeedDesc' | translate }}</p>
+      </div>
+      <div class="feed-panel__actions">
+        <button type="button" mat-stroked-button class="btn-filter" (click)="toggleFilterPanel()">
+          <img [src]="icons.listView" alt="" class="ui-icon ui-icon--sm" />
+          {{ 'historyNotifications.filter' | translate }}
+        </button>
+        <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="markAllRead()">
+          {{ 'historyNotifications.markAllRead' | translate }}
+          <span class="unread-badge" *ngIf="store.unreadCount() > 0">{{ store.unreadCount() }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-panel" *ngIf="showFilterPanel">
+      <button
+        type="button"
+        mat-stroked-button
+        *ngFor="let severity of severityFilters"
+        class="filter-chip"
+        [class.filter-chip--active]="store.severityFilter() === severity"
+        (click)="setSeverityFilter(severity)"
+      >
+        {{ 'historyNotifications.severity.' + severity | translate }}
+      </button>
+      <button
+        type="button"
+        mat-stroked-button
+        class="filter-chip"
+        [class.filter-chip--active]="store.showUnreadOnly()"
+        (click)="store.toggleUnreadFilter()"
+      >
+        {{ 'historyNotifications.unreadOnly' | translate }}
+      </button>
+    </div>
+
+    <ng-container *ngFor="let section of sections">
+      <div class="feed-section" *ngIf="getSectionItems(section.key).length > 0">
+        <h3 class="feed-section__title">{{ section.labelKey | translate }}</h3>
+
+        <article
+          class="feed-card"
+          *ngFor="let item of getSectionItems(section.key)"
+          [class.feed-card--unread]="!item.read"
+        >
+          <div class="feed-card__icon" [ngClass]="getSeverityClass(item.severity)">
+            <img [src]="getItemIcon(item.icon)" alt="" class="ui-icon ui-icon--sm" />
+          </div>
+
+          <div class="feed-card__body">
+            <div class="feed-card__top">
+              <strong>{{ item.titleKey | translate }}</strong>
+              <span class="feed-card__time">{{ item.timeLabel }}</span>
+            </div>
+            <p>{{ item.descriptionKey | translate }}</p>
+            <div class="feed-card__actions" *ngIf="item.actions.length">
+              <ng-container *ngFor="let action of item.actions">
+                <button
+                  type="button"
+                  mat-button
+                  color="primary"
+                  *ngIf="action.type === 'link'"
+                  class="feed-action feed-action--link"
+                  (click)="onAction(item, action)"
+                >
+                  <span>{{ action.labelKey | translate }}</span>
+                  <span aria-hidden="true"> ›</span>
+                </button>
+                <button
+                  type="button"
+                  mat-stroked-button
+                  *ngIf="action.type !== 'link'"
+                  class="feed-action"
+                  [class.feed-action--icon]="action.type === 'icon'"
+                  (click)="onAction(item, action)"
+                >
+                  <img
+                    *ngIf="action.type === 'icon'"
+                    [src]="icons.savings"
+                    alt=""
+                    class="ui-icon ui-icon--sm"
+                  />
+                  <span *ngIf="action.type !== 'icon'">{{ action.labelKey | translate }}</span>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+    </ng-container>
+
+    <div class="empty-feed" *ngIf="!store.loading() && store.filteredItems().length === 0">
+      <p>{{ (hasActiveFilters() ? 'historyNotifications.emptyFiltered' : 'historyNotifications.emptyFeed') | translate }}</p>
+      <button type="button" mat-stroked-button class="btn-secondary" *ngIf="hasActiveFilters()" (click)="clearFilters()">
+        {{ 'historyNotifications.clearFilters' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <div class="insights-row" *ngIf="!store.loading() && store.insights() as insights">
+    <article class="insight-card insight-card--uptime">
+      <div class="insight-card__header">
+        <h3>{{ 'historyNotifications.insights.uptimeTitle' | translate }}</h3>
+        <span class="insight-badge">{{ insights.uptimeStatusKey | translate }}</span>
+      </div>
+      <p class="insight-metric">{{ insights.uptimePercent }}%</p>
+      <div class="insight-progress">
+        <div class="insight-progress__fill" [style.width.%]="insights.uptimePercent"></div>
+      </div>
+    </article>
+
+    <article class="insight-card insight-card--storage">
+      <h3>{{ 'historyNotifications.insights.storageTitle' | translate }}</h3>
+      <p class="insight-storage-desc">{{ insights.storageDescriptionKey | translate }}</p>
+      <div class="storage-visual">
+        <svg class="storage-ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" class="storage-ring__track"></circle>
+          <circle
+            cx="50"
+            cy="50"
+            r="42"
+            class="storage-ring__value"
+            [attr.stroke-dasharray]="264"
+            [attr.stroke-dashoffset]="storageRingOffset(insights.storageUsedPercent)"
+          ></circle>
+        </svg>
+        <div class="storage-ring__label">
+          <strong>{{ insights.storageUsedPercent }}%</strong>
+          <span>
+            {{ 'historyNotifications.insights.storageUsage' | translate:{
+              used: insights.storageUsedGb,
+              total: insights.storageTotalGb
+            } }}
+          </span>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

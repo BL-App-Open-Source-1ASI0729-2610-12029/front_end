@@ -1,0 +1,5 @@
+@if (auth.getAccountType() === 'small-business') {
+  <app-business-device-management />
+} @else {
+  <app-device-dashboard />
+}

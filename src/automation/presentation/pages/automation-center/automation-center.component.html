@@ -1,0 +1,189 @@
+<div class="automation-page">
+
+  <div class="page-toolbar">
+    <div class="search-box">
+      <img [src]="icons.search" alt="" class="ui-icon ui-icon--sm search-box__icon" />
+      <input
+        type="search"
+        [placeholder]="'automation.searchPlaceholder' | translate"
+        [value]="store.searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+    <div class="toolbar-actions">
+      <app-page-toolbar-actions helpTopic="automation"></app-page-toolbar-actions>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'automation.title' | translate }}</h1>
+      <p class="page-subtitle">{{ 'automation.description' | translate }}</p>
+    </div>
+    <button type="button" mat-flat-button color="primary" class="btn-new-automation" (click)="onNewAutomation()">
+      <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+      {{ 'automation.newAutomation' | translate }}
+    </button>
+  </header>
+
+  <app-automation-nav></app-automation-nav>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="main-grid">
+    <section class="panel active-scenes">
+      <div class="panel__header">
+        <img [src]="icons.power" alt="" class="ui-icon ui-icon--sm panel__icon" />
+        <h2>{{ 'automation.activeScenes' | translate }}</h2>
+      </div>
+
+      <div class="scenes-grid">
+        <article class="scene-card" *ngFor="let scene of store.activeScenes()">
+          <div class="scene-card__top">
+            <span class="scene-icon" [style.background]="scene.iconBg">
+              <img [src]="getSceneIcon(scene.icon)" alt="" class="ui-icon ui-icon--md" />
+            </span>
+            <label class="toggle-switch">
+              <input
+                type="checkbox"
+                [checked]="scene.active"
+                (change)="store.toggleScene(scene.id)"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <h3 class="scene-card__title">{{ scene.nameKey ? (scene.nameKey | translate) : scene.name }}</h3>
+          <p class="scene-card__desc">{{ scene.descriptionKey ? (scene.descriptionKey | translate) : scene.description }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel upcoming">
+      <div class="panel__header">
+        <img [src]="icons.accessTime" alt="" class="ui-icon ui-icon--sm panel__icon" />
+        <h2>{{ 'automation.upcoming' | translate }}</h2>
+      </div>
+
+      <div class="upcoming-list">
+        <article class="upcoming-card" *ngFor="let event of (showAllEvents() ? store.upcomingEvents() : store.upcomingEvents().slice(0, 3))">
+          <div class="upcoming-card__top">
+            <span class="upcoming-time">{{ event.time }}</span>
+            <label class="toggle-switch">
+              <input
+                type="checkbox"
+                [checked]="event.active"
+                (change)="store.toggleUpcomingEvent(event.id)"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <h3 class="upcoming-card__title">{{ event.titleKey ? (event.titleKey | translate) : event.title }}</h3>
+          <div class="day-pills">
+            <span
+              *ngFor="let dayKey of dayLabelKeys; let i = index"
+              class="day-pill"
+              [class.day-pill--active]="event.activeDays[i]"
+            >{{ dayKey | translate }}</span>
+          </div>
+          <div class="upcoming-card__footer">
+            <img [src]="getSceneIcon(event.footerIcon)" alt="" class="ui-icon ui-icon--sm" />
+            <span>{{ event.footerTextKey ? (event.footerTextKey | translate) : event.footerText }}</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="upcoming-actions">
+        <button type="button" mat-button color="primary" class="link-more" (click)="onViewMoreEvents()">
+          {{ 'automation.viewMoreEvents' | translate:{ count: 8 } }}
+        </button>
+        <button type="button" mat-fab color="primary" class="fab-add" (click)="onNewAutomation()" [title]="'automation.newAutomation' | translate">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <section class="builder-banner">
+    <div class="builder-banner__content">
+      <h2>{{ 'automation.buildCustomLogic' | translate }}</h2>
+      <p>{{ 'automation.buildCustomLogicDesc' | translate }}</p>
+      <button type="button" mat-flat-button color="primary" class="btn-open-builder" (click)="onOpenBuilder()">
+        <img [src]="icons.autoAwesome" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'automation.openBuilder' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section
+    class="suggestion-banner"
+    *ngIf="store.smartSuggestion() as suggestion"
+    [class.suggestion-banner--hidden]="!suggestion.visible"
+  >
+    <div class="suggestion-banner__icon-wrap">
+      <img [src]="icons.autoAwesome" alt="" class="ui-icon ui-icon--md" />
+    </div>
+    <div class="suggestion-banner__body">
+      <h3>{{ 'automation.smartSuggestion' | translate }}</h3>
+      <p>{{ suggestion.messageKey ? (suggestion.messageKey | translate) : suggestion.message }}</p>
+      <div class="suggestion-banner__actions">
+        <button type="button" mat-flat-button color="primary" class="btn-create" (click)="onCreateFromSuggestion()">
+          {{ 'automation.createAutomation' | translate }}
+        </button>
+        <button type="button" mat-button color="primary" class="btn-dismiss" (click)="store.dismissSuggestion()">
+          {{ 'automation.dismiss' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="modal-backdrop" *ngIf="showNewAutomationModal()" (click)="closeNewAutomationModal()">
+  <div class="automation-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automation.newAutomation' | translate }}</h3>
+    <form (ngSubmit)="submitNewAutomation()">
+      <label>
+        <span>{{ 'automation.modal.name' | translate }}</span>
+        <input type="text" [(ngModel)]="newAutomationName" name="automationName" required />
+      </label>
+      <label>
+        <span>{{ 'automation.modal.trigger' | translate }}</span>
+        <select [(ngModel)]="newAutomationTrigger" name="trigger">
+          <option value="time">{{ 'automation.modal.triggerOptions.scheduledTime' | translate }}</option>
+          <option value="motion">{{ 'automation.modal.triggerOptions.motion' | translate }}</option>
+          <option value="sunset">{{ 'automation.modal.triggerOptions.sunset' | translate }}</option>
+        </select>
+      </label>
+      <div class="automation-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeNewAutomationModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!newAutomationName.trim()">{{ 'automation.modal.create' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showBuilderModal()" (click)="closeBuilderModal()">
+  <div class="automation-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'automation.openBuilder' | translate }}</h3>
+    <form (ngSubmit)="submitBuilder()">
+      <label>
+        <span>{{ 'automation.modal.automationName' | translate }}</span>
+        <input type="text" [(ngModel)]="builderName" name="builderName" required />
+      </label>
+      <label>
+        <span>{{ 'automation.modal.condition' | translate }}</span>
+        <input type="text" [(ngModel)]="builderCondition" name="builderCondition" />
+      </label>
+      <label>
+        <span>{{ 'automation.modal.action' | translate }}</span>
+        <input type="text" [(ngModel)]="builderAction" name="builderAction" />
+      </label>
+      <div class="automation-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeBuilderModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!builderName.trim()">{{ 'automation.modal.saveLogic' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>

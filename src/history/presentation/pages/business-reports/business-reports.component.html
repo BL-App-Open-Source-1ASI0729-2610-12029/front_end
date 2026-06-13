@@ -1,0 +1,248 @@
+<div class="biz-reports reports-page-enter" *ngIf="store.report() as report">
+
+  <app-business-reports-nav />
+
+  <header class="biz-reports__header">
+    <div>
+      <h1>{{ 'businessReports.title' | translate }}</h1>
+      <p>{{ 'businessReports.subtitle' | translate }}</p>
+    </div>
+    <div class="biz-reports__header-actions">
+      <button type="button" mat-stroked-button class="btn-outline btn-press" (click)="onExportPdf()">
+        <img [src]="icons.receipt" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'businessReports.exportPdf' | translate }}
+      </button>
+      <button type="button" mat-stroked-button class="btn-outline btn-press" (click)="onExportCsv()">
+        <img [src]="icons.download" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'businessReports.exportCsv' | translate }}
+      </button>
+      <div class="period-picker" [class.period-picker--open]="store.showPeriodMenu()" (click)="$event.stopPropagation()">
+        <button type="button" mat-flat-button color="primary" class="btn-primary btn-press" (click)="onSelectPeriod($event)">
+          <img [src]="icons.calendarMonth" alt="" class="ui-icon ui-icon--sm" />
+          {{ store.periodLabelKey() | translate }}
+        </button>
+        <div class="period-picker__menu" *ngIf="store.showPeriodMenu()">
+          <button type="button" mat-button *ngFor="let period of periodOptions" (click)="onPickPeriod(period, $event)">
+            {{ ('businessReports.period.' + period) | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="top-grid reports-stagger" [class.reports-reloading]="store.loading()">
+    <article class="panel chart-panel">
+      <div class="panel__head">
+        <h2>{{ 'businessReports.consumptionHistory' | translate }}</h2>
+        <div class="period-toggle" role="tablist">
+          <button
+            type="button"
+            mat-stroked-button
+            [class.period-toggle__btn--active]="store.chartPeriod() === 'weekly'"
+            (click)="setChartPeriod('weekly')"
+          >
+            {{ 'businessReports.weekly' | translate }}
+          </button>
+          <button
+            type="button"
+            mat-stroked-button
+            [class.period-toggle__btn--active]="store.chartPeriod() === 'monthly'"
+            (click)="setChartPeriod('monthly')"
+          >
+            {{ 'businessReports.monthly' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <svg viewBox="0 0 640 250" preserveAspectRatio="none" class="consumption-chart">
+          <defs>
+            <linearGradient id="bizReportsChartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a3b8b" stop-opacity="0.24" />
+              <stop offset="100%" stop-color="#1a3b8b" stop-opacity="0.02" />
+            </linearGradient>
+          </defs>
+
+          <line x1="40" y1="50" x2="600" y2="50" class="grid-line" />
+          <line x1="40" y1="110" x2="600" y2="110" class="grid-line" />
+          <line x1="40" y1="170" x2="600" y2="170" class="grid-line" />
+
+          <path
+            class="chart-area chart-area--animate"
+            [attr.d]="getSmoothAreaPath(store.chartPoints())"
+            fill="url(#bizReportsChartGradient)"
+          />
+          <path
+            class="chart-line chart-line--animate"
+            fill="none"
+            stroke="#1a3b8b"
+            stroke-width="3"
+            stroke-linecap="round"
+            [attr.d]="getSmoothLinePath(store.chartPoints())"
+          />
+
+          <g *ngFor="let point of store.chartPoints(); let i = index">
+            <circle
+              class="chart-dot chart-dot--animate"
+              [attr.cx]="getPointX(i, store.chartPoints().length)"
+              [attr.cy]="getPointY(point.value, getMaxValue(store.chartPoints()))"
+              r="4"
+            />
+            <text
+              class="chart-label"
+              [attr.x]="getPointX(i, store.chartPoints().length)"
+              y="240"
+              text-anchor="middle"
+            >
+              {{ point.label }}
+            </text>
+          </g>
+        </svg>
+      </div>
+    </article>
+
+    <article class="panel goal-panel">
+      <h2>{{ 'businessReports.efficiencyGoal' | translate }}</h2>
+      <div
+        class="goal-gauge gauge-animate"
+        [style.background]="'conic-gradient(#1a3b8b ' + report.efficiencyGoalPercent + '%, #e8edf8 0)'"
+      >
+        <div class="goal-gauge__inner">
+          <strong>{{ report.efficiencyGoalPercent }}%</strong>
+          <span>{{ report.efficiencyLabelKey | translate }}</span>
+        </div>
+      </div>
+      <p class="goal-panel__note">{{ report.efficiencyComparisonKey | translate }}</p>
+    </article>
+  </section>
+
+  <section class="middle-grid reports-stagger">
+    <article class="panel zones-panel">
+      <div class="panel__head">
+        <h2>{{ 'businessReports.zoneComparison' | translate }}</h2>
+        <span class="zones-panel__unit">{{ 'businessReports.kwhUsage' | translate }}</span>
+      </div>
+
+      <ul class="zone-list">
+        <li *ngFor="let zone of report.zones">
+          <div class="zone-list__meta">
+            <span class="zone-list__name">{{ zone.name }}</span>
+            <span class="zone-list__value">{{ zone.usageKwh | number }} kWh</span>
+          </div>
+          <div class="zone-list__bar zone-bar-animate">
+            <span [style.width.%]="zoneWidth(zone.usageKwh)"></span>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+    <article class="panel peak-panel">
+      <div class="peak-panel__icon">
+        <img [src]="icons.electricMeter" alt="" class="ui-icon ui-icon--md" />
+      </div>
+      <p class="peak-panel__eyebrow">{{ report.peakAlert.titleKey | translate }}</p>
+      <h3>{{ report.peakAlert.timeLabel }}</h3>
+      <p>{{ report.peakAlert.messageKey | translate }}</p>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="btn-peak btn-press"
+        [class.btn-peak--applied]="store.strategyApplied()"
+        (click)="onApplyStrategy()"
+      >
+        {{ (store.strategyApplied() ? 'businessReports.strategyApplied' : 'businessReports.applyStrategy') | translate }}
+      </button>
+    </article>
+  </section>
+
+  <section class="panel devices-panel">
+    <div class="panel__head panel__head--split">
+      <h2>{{ 'businessReports.deviceReports' | translate }}</h2>
+      <button type="button" mat-button color="primary" class="link-btn" (click)="onViewAllDevices()">
+        {{ 'businessReports.viewAllDevices' | translate }}
+        <img [src]="icons.arrowForward" alt="" class="ui-icon ui-icon--sm" />
+      </button>
+    </div>
+
+    <div class="devices-table-wrap">
+      <table class="devices-table">
+        <thead>
+          <tr>
+            <th>{{ 'businessReports.table.deviceName' | translate }}</th>
+            <th>{{ 'businessReports.table.zone' | translate }}</th>
+            <th>{{ 'businessReports.table.consumption' | translate }}</th>
+            <th>{{ 'businessReports.table.trend' | translate }}</th>
+            <th>{{ 'businessReports.table.status' | translate }}</th>
+            <th>{{ 'businessReports.table.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of report.devices" class="reports-table-row">
+            <td>
+              <div class="device-cell">
+                <span class="device-cell__icon">
+                  <img [src]="getDeviceIcon(device.icon)" alt="" class="ui-icon ui-icon--sm" />
+                </span>
+                <span>
+                  <strong>{{ device.name }}</strong>
+                  <small>{{ device.sublabelKey | translate }}</small>
+                </span>
+              </div>
+            </td>
+            <td>{{ device.zone }}</td>
+            <td>{{ device.consumptionKwh | number }} kWh</td>
+            <td>
+              <span [class]="trendClass(device.trend)">
+                <img [src]="trendIcon(device.trend)" alt="" class="ui-icon ui-icon--sm" />
+                {{ device.trend === 'stable' ? '0.0%' : (device.trend === 'up' ? '+' : '-') + device.trendPercent + '%' }}
+              </span>
+            </td>
+            <td>
+              <span [class]="statusClass(device.status)">{{ statusKey(device.status) | translate }}</span>
+            </td>
+            <td class="devices-table__actions-cell">
+              <button
+                type="button"
+                mat-icon-button
+                class="actions-btn device-actions-trigger"
+                [class.device-actions-trigger--active]="store.openDeviceMenuId() === device.id"
+                [attr.aria-expanded]="store.openDeviceMenuId() === device.id"
+                [attr.aria-label]="'businessReports.actions.menu' | translate"
+                (click)="onToggleDeviceMenu(device, $event)"
+              >
+                <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="biz-reports__footer">
+    {{ 'businessReports.footer' | translate }}
+  </footer>
+</div>
+
+<div
+  class="device-actions-flyout"
+  *ngIf="activeDeviceMenu() as device"
+  [ngStyle]="deviceMenuStyle() ?? undefined"
+  role="menu"
+  (mousedown)="$event.stopPropagation()"
+>
+  <button type="button" mat-button role="menuitem" (click)="onViewDevice(device)">
+    {{ 'businessReports.actions.viewDevice' | translate }}
+  </button>
+  <button type="button" mat-button role="menuitem" (click)="onExportDeviceRow(device)">
+    {{ 'businessReports.actions.exportRow' | translate }}
+  </button>
+  <button type="button" mat-button role="menuitem" (click)="onToggleDeviceStatus(device)">
+    {{ 'businessReports.actions.toggleStatus' | translate }}
+  </button>
+</div>

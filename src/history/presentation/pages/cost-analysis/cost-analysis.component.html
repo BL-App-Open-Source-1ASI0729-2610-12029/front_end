@@ -1,0 +1,310 @@
+<div class="cost-page reports-page-enter" *ngIf="store.data() as data">
+
+  <app-business-reports-nav />
+
+  <header class="cost-page__header">
+    <div>
+      <h1>{{ 'costAnalysis.title' | translate }}</h1>
+      <p>{{ 'costAnalysis.subtitle' | translate }}</p>
+    </div>
+    <div class="cost-page__header-actions">
+      <button type="button" mat-stroked-button class="btn-outline btn-press" (click)="onExportPdf()">
+        <img [src]="icons.download" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'costAnalysis.exportPdf' | translate }}
+      </button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary btn-press" [disabled]="store.roiRecalculating()" (click)="onRecalculateRoi()">
+        <img [src]="icons.refresh" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'costAnalysis.recalculateRoi' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <section class="top-grid reports-stagger" [class.reports-reloading]="store.roiRecalculating()">
+    <article class="panel billing-panel">
+      <div class="panel__head panel__head--split">
+        <h2>{{ 'costAnalysis.totalBilling' | translate }}</h2>
+        <span class="cycle-pill">{{ 'costAnalysis.billingCycle' | translate }}: {{ data.billingCycleLabel }}</span>
+      </div>
+
+      <div class="billing-panel__metric">
+        <strong class="billing-panel__amount">{{ formatCurrency(data.totalBilling) }}</strong>
+        <span class="billing-panel__trend">
+          <img [src]="icons.trendingUp" alt="" class="ui-icon ui-icon--sm" />
+          +{{ data.billingTrendPercent }}% {{ 'costAnalysis.vsLastMonth' | translate }}
+        </span>
+      </div>
+
+      <div class="billing-chart-wrap">
+        <div class="billing-chart-legend">
+          <span class="billing-chart-legend__item">
+            <i class="billing-chart-legend__swatch billing-chart-legend__swatch--base"></i>
+            {{ 'costAnalysis.chart.legendBase' | translate }}
+          </span>
+          <span class="billing-chart-legend__item">
+            <i class="billing-chart-legend__swatch billing-chart-legend__swatch--peak"></i>
+            {{ 'costAnalysis.chart.legendPeak' | translate }}
+          </span>
+          <span class="billing-chart-legend__item billing-chart-legend__item--line">
+            <i class="billing-chart-legend__swatch billing-chart-legend__swatch--avg"></i>
+            {{ 'costAnalysis.chart.avgLine' | translate }}
+          </span>
+        </div>
+
+        <svg
+          class="billing-chart"
+          [attr.viewBox]="'0 0 ' + chartViewWidth + ' ' + chartViewHeight"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          [attr.aria-label]="'costAnalysis.totalBilling' | translate"
+        >
+          <defs>
+            <linearGradient id="costBillingBaseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#5b8def" />
+              <stop offset="100%" stop-color="#1a3b8b" />
+            </linearGradient>
+            <linearGradient id="costBillingPeakGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f39c6b" />
+              <stop offset="100%" stop-color="#c0392b" />
+            </linearGradient>
+            <linearGradient id="costBillingCurrentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#6ea0ff" />
+              <stop offset="100%" stop-color="#244aa3" />
+            </linearGradient>
+            <filter id="costBillingBarGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#1a3b8b" flood-opacity="0.22" />
+            </filter>
+          </defs>
+
+          <ng-container *ngIf="getMaxBillingAmount(data.billingBars) as chartMax">
+            <g class="billing-chart__grid">
+              <line
+                *ngFor="let tick of getYAxisTicks(chartMax)"
+                [attr.x1]="chartPad.left - 6"
+                [attr.y1]="getYForAmount(tick, chartMax)"
+                [attr.x2]="chartViewWidth - chartPad.right"
+                [attr.y2]="getYForAmount(tick, chartMax)"
+              />
+              <text
+                *ngFor="let tick of getYAxisTicks(chartMax)"
+                [attr.x]="chartPad.left - 12"
+                [attr.y]="getYForAmount(tick, chartMax) + 4"
+                text-anchor="end"
+              >
+                {{ formatAxisLabel(tick) }}
+              </text>
+            </g>
+
+            <line
+              class="billing-chart__avg-line"
+              [attr.x1]="chartPad.left"
+              [attr.y1]="getAverageLineY(data.billingBars, chartMax)"
+              [attr.x2]="chartViewWidth - chartPad.right"
+              [attr.y2]="getAverageLineY(data.billingBars, chartMax)"
+            />
+
+            <path class="billing-chart__trend-line" [attr.d]="getTrendLinePath(data.billingBars, chartMax)" />
+
+            <g
+              class="billing-chart__bar-group"
+              *ngFor="let bar of data.billingBars; let i = index"
+              [class.billing-chart__bar-group--hovered]="hoveredBarIndex() === i"
+              [class.billing-chart__bar-group--current]="bar.isCurrent"
+              (mouseenter)="onBarEnter(i)"
+              (mouseleave)="onBarLeave()"
+            >
+              <rect
+                class="billing-chart__bar-base bar-animate"
+                [attr.x]="getBarLayout(i, data.billingBars.length).x"
+                [attr.y]="getYForAmount(bar.amount, chartMax) + getBarPeakHeight(bar, chartMax)"
+                [attr.width]="getBarLayout(i, data.billingBars.length).width"
+                [attr.height]="getBarBaseHeight(bar, chartMax)"
+                [attr.rx]="6"
+                [attr.fill]="bar.isCurrent ? 'url(#costBillingCurrentGradient)' : 'url(#costBillingBaseGradient)'"
+                [attr.filter]="bar.isCurrent ? 'url(#costBillingBarGlow)' : null"
+              />
+              <rect
+                class="billing-chart__bar-peak bar-animate"
+                [attr.x]="getBarLayout(i, data.billingBars.length).x"
+                [attr.y]="getYForAmount(bar.amount, chartMax)"
+                [attr.width]="getBarLayout(i, data.billingBars.length).width"
+                [attr.height]="getBarPeakHeight(bar, chartMax)"
+                [attr.rx]="6"
+                fill="url(#costBillingPeakGradient)"
+              />
+              <circle
+                class="billing-chart__trend-dot"
+                [attr.cx]="getBarLayout(i, data.billingBars.length).x + getBarLayout(i, data.billingBars.length).width / 2"
+                [attr.cy]="getYForAmount(bar.amount, chartMax) - 8"
+                r="4.5"
+              />
+              <text
+                class="billing-chart__label"
+                [attr.x]="getBarLayout(i, data.billingBars.length).x + getBarLayout(i, data.billingBars.length).width / 2"
+                [attr.y]="chartViewHeight - 18"
+                text-anchor="middle"
+              >
+                {{ bar.label }}
+              </text>
+              <text
+                class="billing-chart__value"
+                *ngIf="bar.isCurrent || hoveredBarIndex() === i"
+                [attr.x]="getBarLayout(i, data.billingBars.length).x + getBarLayout(i, data.billingBars.length).width / 2"
+                [attr.y]="getYForAmount(bar.amount, chartMax) - 14"
+                text-anchor="middle"
+              >
+                {{ formatCompactCurrency(bar.amount) }}
+              </text>
+            </g>
+
+            <g
+              class="billing-chart__tooltip"
+              *ngIf="hoveredBarIndex() !== null && data.billingBars[hoveredBarIndex()!] as activeBar"
+              [attr.transform]="'translate(' + getTooltipX(hoveredBarIndex()!, data.billingBars.length) + ' ' + (getYForAmount(activeBar.amount, chartMax) - 92) + ')'"
+            >
+              <rect class="billing-chart__tooltip-bg" width="128" height="84" rx="10" />
+              <text class="billing-chart__tooltip-title" x="12" y="18">{{ activeBar.label }}</text>
+              <text class="billing-chart__tooltip-row" x="12" y="36">
+                {{ 'costAnalysis.chart.tooltipTotal' | translate }}: {{ formatCompactCurrency(activeBar.amount) }}
+              </text>
+              <text class="billing-chart__tooltip-row" x="12" y="52">
+                {{ 'costAnalysis.chart.tooltipPeak' | translate }}: {{ formatCompactCurrency(activeBar.peakAmount) }}
+              </text>
+              <text class="billing-chart__tooltip-row billing-chart__tooltip-row--muted" x="12" y="66">
+                {{ 'costAnalysis.chart.tooltipBase' | translate }}: {{ formatCompactCurrency(activeBar.amount - activeBar.peakAmount) }}
+              </text>
+            </g>
+          </ng-container>
+        </svg>
+      </div>
+    </article>
+
+    <article class="panel peak-panel">
+      <div class="peak-panel__head">
+        <div class="peak-panel__icon">
+          <img [src]="icons.emergency" alt="" class="ui-icon ui-icon--md" />
+        </div>
+        <h2>{{ 'costAnalysis.peak.title' | translate }}</h2>
+      </div>
+
+      <strong class="peak-panel__amount">{{ formatCurrency(data.peakSurcharge) }}</strong>
+      <p class="peak-panel__subtitle">
+        {{ data.peakSurchargePercent }}% {{ 'costAnalysis.peak.ofInvoice' | translate }}
+      </p>
+
+      <p class="peak-panel__risk">{{ data.peakRiskLabelKey | translate }}</p>
+
+      <div class="peak-panel__progress">
+        <div class="peak-panel__progress-fill" [style.width.%]="data.peakRiskProgress"></div>
+      </div>
+
+      <div class="peak-panel__suggestion">
+        <strong>{{ 'costAnalysis.peak.suggestionTitle' | translate }}</strong>
+        <p>{{ data.strategicSuggestionKey | translate }}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="middle-grid reports-stagger">
+    <article class="panel efficiency-panel">
+      <div class="panel__head panel__head--split">
+        <h2>{{ 'costAnalysis.operationalEfficiency' | translate }}</h2>
+        <span class="unit-label">{{ 'costAnalysis.unitPerSqFt' | translate }}</span>
+      </div>
+
+      <ul class="efficiency-list">
+        <li *ngFor="let area of data.areaEfficiencies">
+          <div class="efficiency-list__info">
+            <span class="efficiency-list__icon">
+              <img [src]="areaIcon(area.icon)" alt="" class="ui-icon ui-icon--sm" />
+            </span>
+            <span>{{ area.nameKey | translate }}</span>
+          </div>
+          <div class="efficiency-list__bar-wrap">
+            <div class="efficiency-list__bar">
+              <div class="efficiency-list__bar-fill" [style.width.%]="area.barPercent"></div>
+            </div>
+            <strong>${{ area.valuePerSqFt.toFixed(2) }} / sq.ft</strong>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+    <article class="panel roi-panel">
+      <div class="panel__head">
+        <h2>{{ 'costAnalysis.roi.title' | translate }}</h2>
+        <p>{{ 'costAnalysis.roi.subtitle' | translate }}</p>
+      </div>
+
+      <div class="roi-cards">
+        <article class="roi-card" *ngFor="let upgrade of data.roiUpgrades">
+          <div class="roi-card__head">
+            <h3>{{ upgrade.nameKey | translate }}</h3>
+            <span [class]="roiStatusClass(upgrade.status)">{{ roiStatusKey(upgrade.status) | translate }}</span>
+          </div>
+          <div class="roi-card__meta">
+            <div>
+              <span>{{ 'costAnalysis.roi.paybackPeriod' | translate }}</span>
+              <strong>{{ upgrade.paybackMonths }} {{ 'costAnalysis.roi.months' | translate }}</strong>
+            </div>
+            <div>
+              <span>{{ 'costAnalysis.roi.estimatedSavings' | translate }}</span>
+              <strong>{{ formatCurrency(upgrade.estimatedSavingsYear1) }}</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel audit-panel">
+    <div class="audit-panel__head">
+      <h2>{{ 'costAnalysis.audit.title' | translate }}</h2>
+      <div class="audit-filter" [class.audit-filter--open]="store.showAuditFilterMenu()" (click)="$event.stopPropagation()">
+        <button type="button" mat-stroked-button class="audit-filter__btn" (click)="onToggleAuditFilter($event)">
+          {{ 'costAnalysis.audit.filters.' + store.auditFilter() | translate }}
+          <span aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-filter__menu" *ngIf="store.showAuditFilterMenu()">
+          <button type="button" mat-button *ngFor="let filter of auditFilterOptions" (click)="onPickAuditFilter(filter, $event)">
+            {{ ('costAnalysis.audit.filters.' + filter) | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="audit-table-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>{{ 'costAnalysis.audit.columns.period' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.baseUsage' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.peakDemand' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.demandCharge' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.taxesFees' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.netAmount' | translate }}</th>
+            <th>{{ 'costAnalysis.audit.columns.status' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of store.filteredBillingAudit()" class="reports-table-row">
+            <td>{{ row.period }}</td>
+            <td>{{ formatNumber(row.baseUsageKwh) }}</td>
+            <td [class.audit-table__peak-high]="row.peakDemandHigh">{{ formatNumber(row.peakDemandKwh) }}</td>
+            <td>{{ formatCurrency(row.demandCharge) }}</td>
+            <td>{{ formatCurrency(row.taxesAndFees) }}</td>
+            <td class="audit-table__net">{{ formatCurrency(row.netAmount) }}</td>
+            <td>
+              <span class="status-badge status-badge--paid">
+                {{ 'costAnalysis.audit.statusPaid' | translate }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

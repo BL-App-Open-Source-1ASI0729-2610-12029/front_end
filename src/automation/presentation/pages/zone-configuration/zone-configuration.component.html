@@ -1,0 +1,398 @@
+<div class="zone-page" *ngIf="store.data() as data">
+
+  <app-business-automation-nav />
+
+  <nav class="zone-breadcrumbs" [attr.aria-label]="'common.a11y.breadcrumb' | translate">
+    <button type="button" mat-button color="primary" class="zone-breadcrumbs__link" (click)="router.navigate(['/app/automation/center'])">
+      {{ 'zoneConfiguration.breadcrumb.automation' | translate }}
+    </button>
+    <span class="zone-breadcrumbs__sep">›</span>
+    <span class="zone-breadcrumbs__current">{{ 'zoneConfiguration.breadcrumb.current' | translate }}</span>
+  </nav>
+
+  <header class="zone-page__header">
+    <div>
+      <h1>{{ 'zoneConfiguration.title' | translate }}</h1>
+      <p>{{ 'zoneConfiguration.subtitle' | translate }}</p>
+    </div>
+    <div class="zone-page__header-actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="onDiscard()" [disabled]="!store.dirty()">
+        {{ 'buttons.discardChanges' | translate }}
+      </button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onSaveAll()" [disabled]="!store.dirty()">
+        <img [src]="icons.save" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'zoneConfiguration.saveAll' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="zone-layout" *ngIf="store.primaryZone() as primary">
+  <div class="zone-layout__main">
+
+    <article class="panel primary-zone-panel">
+      <div class="primary-zone-panel__head">
+        <div class="primary-zone-panel__title">
+          <div class="zone-icon-badge">
+            <img [src]="zoneIcon(primary.icon)" alt="" class="ui-icon ui-icon--md" />
+          </div>
+          <div>
+            <h2>{{ primary.nameKey | translate }}</h2>
+            <p>{{ primary.subtitleKey | translate }}</p>
+          </div>
+        </div>
+        <span class="status-pill status-pill--active" *ngIf="primary.activeMonitoring">
+          {{ 'zoneConfiguration.activeMonitoring' | translate }}
+        </span>
+      </div>
+
+      <div class="primary-zone-panel__body" *ngIf="draftFor(primary) as draft">
+        <div class="config-block">
+          <div class="config-block__label-row">
+            <span>{{ 'zoneConfiguration.targetEnergyBudget' | translate }}</span>
+            <strong>{{ formatCurrency(draft.energyBudget) }}</strong>
+          </div>
+          <input
+            type="range"
+            class="budget-slider"
+            [min]="primary.energyBudgetMin"
+            [max]="primary.energyBudgetMax"
+            [value]="draft.energyBudget"
+            (input)="onBudgetInput(primary.id, $event)"
+          />
+          <div class="budget-slider__labels">
+            <span>{{ formatCurrency(primary.energyBudgetMin) }}</span>
+            <span>{{ formatCurrency(primary.energyBudgetMax) }}</span>
+          </div>
+
+          <div class="efficiency-row">
+            <span>{{ 'zoneConfiguration.currentEfficiency' | translate }}</span>
+            <div class="efficiency-bar">
+              <div class="efficiency-bar__fill" [style.width.%]="primary.efficiencyPercent + 50"></div>
+            </div>
+            <span class="efficiency-row__trend">+{{ primary.efficiencyPercent }}% {{ 'zoneConfiguration.vsLastYear' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="config-block config-block--alerts">
+          <div class="alerts-head">
+            <span>{{ 'zoneConfiguration.criticalTempAlerts' | translate }}</span>
+            <label class="toggle">
+              <input
+                type="checkbox"
+                [checked]="draft.criticalTempAlertsEnabled"
+                (change)="onToggleAlerts(primary.id, $any($event.target).checked)"
+              />
+              <span class="toggle__track"></span>
+            </label>
+          </div>
+
+          <div class="temp-limits" [class.temp-limits--disabled]="!draft.criticalTempAlertsEnabled">
+            <label class="temp-limit">
+              <span>{{ 'zoneConfiguration.upperLimit' | translate }}</span>
+              <div class="temp-limit__input">
+                <input
+                  type="number"
+                  [value]="draft.upperTempLimit"
+                  [disabled]="!draft.criticalTempAlertsEnabled"
+                  (input)="onUpperLimit(primary.id, $event)"
+                />
+                <span>°C</span>
+              </div>
+            </label>
+            <label class="temp-limit">
+              <span>{{ 'zoneConfiguration.lowerLimit' | translate }}</span>
+              <div class="temp-limit__input">
+                <input
+                  type="number"
+                  [value]="draft.lowerTempLimit"
+                  [disabled]="!draft.criticalTempAlertsEnabled"
+                  (input)="onLowerLimit(primary.id, $event)"
+                />
+                <span>°C</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="secondary-zones">
+      <article class="zone-card" *ngFor="let zone of store.secondaryZones()">
+        <div class="zone-card__head">
+          <div class="zone-card__title">
+            <div class="zone-icon-badge zone-icon-badge--sm">
+              <img [src]="zoneIcon(zone.icon)" alt="" class="ui-icon ui-icon--sm" />
+            </div>
+            <h3>{{ zone.nameKey | translate }}</h3>
+          </div>
+          <div class="zone-card__menu-wrap">
+            <button
+              type="button"
+              mat-icon-button
+              class="icon-btn"
+              [attr.aria-label]="'zoneConfiguration.options.menu' | translate"
+              (click)="onToggleOptionsMenu(zone, $event)"
+            >
+              <img [src]="icons.moreHoriz" alt="" class="ui-icon ui-icon--sm" />
+            </button>
+            <div class="zone-card__menu" *ngIf="openOptionsZoneId() === zone.id" (click)="$event.stopPropagation()">
+              <button type="button" mat-button (click)="onSetPrimaryZone(zone)">
+                {{ 'zoneConfiguration.options.setPrimary' | translate }}
+              </button>
+              <button type="button" mat-button (click)="onToggleMonitoring(zone)">
+                {{ zone.activeMonitoring ? ('zoneConfiguration.options.disableMonitoring' | translate) : ('zoneConfiguration.options.enableMonitoring' | translate) }}
+              </button>
+              <button type="button" mat-button (click)="onResetZone(zone)">
+                {{ 'zoneConfiguration.options.resetDefaults' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="zone-card__metrics">
+          <div>
+            <span>{{ 'zoneConfiguration.targetBudget' | translate }}</span>
+            <strong>{{ formatCurrency(zone.energyBudget) }}</strong>
+          </div>
+          <div>
+            <span>{{ 'zoneConfiguration.alertThreshold' | translate }}</span>
+            <strong [class.zone-card__alert--cold]="zone.alertThresholdIsCold">
+              {{ zone.alertThreshold }}°C
+            </strong>
+          </div>
+        </div>
+
+        <div class="zone-card__actions">
+          <button type="button" mat-stroked-button color="primary" class="btn-outline-sm" (click)="onEditBounds(zone)">
+            {{ 'zoneConfiguration.editBounds' | translate }}
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            class="icon-btn icon-btn--muted"
+            [attr.aria-label]="'zoneConfiguration.schedule.title' | translate"
+            (click)="onOpenSchedule(zone)"
+          >
+            <img [src]="icons.accessTime" alt="" class="ui-icon ui-icon--sm" />
+          </button>
+        </div>
+      </article>
+    </section>
+
+  </div>
+
+  <aside class="zone-layout__aside">
+    <article class="optimizer-card">
+      <div class="optimizer-card__icon">
+        <img [src]="icons.automation" alt="" class="ui-icon ui-icon--md" />
+      </div>
+      <h2>{{ 'zoneConfiguration.globalOptimizer.title' | translate }}</h2>
+      <p>{{ 'zoneConfiguration.globalOptimizer.description' | translate }}</p>
+      <div class="optimizer-card__score">
+        <span>{{ 'zoneConfiguration.globalOptimizer.score' | translate }}</span>
+        <strong>{{ data.globalOptimizerScore }}/100</strong>
+      </div>
+      <div class="optimizer-card__bar">
+        <div class="optimizer-card__bar-fill" [style.width.%]="data.globalOptimizerScore"></div>
+      </div>
+    </article>
+
+    <article class="panel insights-panel">
+      <h2>{{ 'zoneConfiguration.quickInsights' | translate }}</h2>
+      <ul class="insights-list">
+        <li
+          *ngFor="let insight of data.insights"
+          [class]="'insights-list__item insights-list__item--clickable insights-list__item--' + insight.type"
+          (click)="onInsightClick(insight.id)"
+        >
+          <img
+            [src]="insight.type === 'warning' ? icons.warning : icons.checkCircle"
+            alt=""
+            class="ui-icon ui-icon--sm"
+          />
+          <div>
+            <strong>{{ insight.titleKey | translate }}</strong>
+            <span>{{ insight.detailKey | translate }}</span>
+          </div>
+        </li>
+      </ul>
+    </article>
+  </aside>
+  </div>
+
+  <section class="panel audit-panel">
+    <div class="audit-panel__head">
+      <h2>{{ 'zoneConfiguration.audit.title' | translate }}</h2>
+      <button type="button" mat-button color="primary" class="link-btn" (click)="onViewFullLog()">
+        {{ 'zoneConfiguration.audit.viewFullLog' | translate }}
+      </button>
+    </div>
+
+    <div class="audit-table-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>{{ 'zoneConfiguration.audit.columns.timestamp' | translate }}</th>
+            <th>{{ 'zoneConfiguration.audit.columns.modifier' | translate }}</th>
+            <th>{{ 'zoneConfiguration.audit.columns.action' | translate }}</th>
+            <th>{{ 'zoneConfiguration.audit.columns.zone' | translate }}</th>
+            <th>{{ 'zoneConfiguration.audit.columns.status' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of data.auditLog">
+            <td>{{ entry.timestamp }}</td>
+            <td>
+              <div class="modifier-cell">
+                <span
+                  class="modifier-avatar"
+                  [class.modifier-avatar--system]="entry.modifierType === 'system'"
+                >
+                  <ng-container *ngIf="entry.modifierType === 'user'; else systemModifier">
+                    {{ entry.modifierInitials }}
+                  </ng-container>
+                  <ng-template #systemModifier>
+                    <img [src]="icons.autoAwesome" alt="" class="ui-icon ui-icon--sm" />
+                  </ng-template>
+                </span>
+                {{ entry.modifierName }}
+              </div>
+            </td>
+            <td>{{ entry.actionKey | translate }}</td>
+            <td>{{ entry.zoneKey | translate }}</td>
+            <td>
+              <span class="status-badge status-badge--applied">
+                {{ 'zoneConfiguration.audit.statusApplied' | translate }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="zone-page__footer">
+    <span>{{ 'zoneConfiguration.footer.copyright' | translate }}</span>
+    <div class="zone-page__footer-links">
+      <button type="button" mat-button (click)="onFooterLink('privacy')">{{ 'zoneConfiguration.footer.privacy' | translate }}</button>
+      <button type="button" mat-button (click)="onFooterLink('health')">{{ 'zoneConfiguration.footer.health' | translate }}</button>
+      <span class="zone-page__version">{{ 'zoneConfiguration.footer.version' | translate }}</span>
+    </div>
+  </footer>
+</div>
+
+<div class="modal-backdrop" *ngIf="showBoundsModal() && editingZone() as zone" (click)="closeBoundsModal()">
+  <div class="zone-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'zoneConfiguration.boundsModal.title' | translate:{ zone: (zone.nameKey | translate) } }}</h3>
+    <p>{{ 'zoneConfiguration.boundsModal.description' | translate }}</p>
+
+    <ng-container *ngIf="editingDraft() as draft">
+      <label class="zone-modal__field">
+        <span>{{ 'zoneConfiguration.targetEnergyBudget' | translate }}</span>
+        <strong>{{ formatCurrency(draft.energyBudget) }}</strong>
+        <input
+          type="range"
+          class="budget-slider"
+          [min]="zone.energyBudgetMin"
+          [max]="zone.energyBudgetMax"
+          [value]="draft.energyBudget"
+          (input)="onModalBudgetInput($event)"
+        />
+      </label>
+
+      <div class="zone-modal__toggle-row">
+        <span>{{ 'zoneConfiguration.criticalTempAlerts' | translate }}</span>
+        <label class="toggle">
+          <input
+            type="checkbox"
+            [checked]="draft.criticalTempAlertsEnabled"
+            (change)="onModalToggleAlerts($any($event.target).checked)"
+          />
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+
+      <div class="zone-modal__limits" [class.zone-modal__limits--disabled]="!draft.criticalTempAlertsEnabled">
+        <label class="zone-modal__field">
+          <span>{{ 'zoneConfiguration.upperLimit' | translate }}</span>
+          <input
+            type="number"
+            [value]="draft.upperTempLimit"
+            [disabled]="!draft.criticalTempAlertsEnabled"
+            (input)="onModalUpperLimit($event)"
+          />
+        </label>
+        <label class="zone-modal__field">
+          <span>{{ 'zoneConfiguration.lowerLimit' | translate }}</span>
+          <input
+            type="number"
+            [value]="draft.lowerTempLimit"
+            [disabled]="!draft.criticalTempAlertsEnabled"
+            (input)="onModalLowerLimit($event)"
+          />
+        </label>
+      </div>
+    </ng-container>
+
+    <div class="zone-modal__actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="closeBoundsModal()">{{ 'buttons.cancel' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onConfirmBounds()">{{ 'buttons.saveConfiguration' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showScheduleModal() && editingZone() as zone" (click)="closeScheduleModal()">
+  <div class="zone-modal" (click)="$event.stopPropagation()">
+    <h3>{{ 'zoneConfiguration.schedule.title' | translate:{ zone: (zone.nameKey | translate) } }}</h3>
+    <p>{{ 'zoneConfiguration.schedule.description' | translate }}</p>
+
+    <ng-container *ngIf="editingDraft() as draft">
+      <label class="zone-modal__field">
+        <span>{{ 'zoneConfiguration.schedule.morningOn' | translate }}</span>
+        <input
+          type="text"
+          [ngModel]="draft.morningOn"
+          (ngModelChange)="onScheduleMorningChange($event)"
+        />
+      </label>
+      <label class="zone-modal__field">
+        <span>{{ 'zoneConfiguration.schedule.eveningOff' | translate }}</span>
+        <input
+          type="text"
+          [ngModel]="draft.eveningOff"
+          (ngModelChange)="onScheduleEveningChange($event)"
+        />
+      </label>
+      <label class="zone-modal__field">
+        <span>{{ 'zoneConfiguration.schedule.overtimeRule' | translate }}</span>
+        <select
+          [ngModel]="draft.overtimeType"
+          (ngModelChange)="onScheduleOvertimeChange($event)"
+        >
+          <option *ngFor="let type of overtimeOptions()" [value]="type">
+            {{ overtimeLabel(type) }}
+          </option>
+        </select>
+      </label>
+    </ng-container>
+
+    <div class="zone-modal__actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="closeScheduleModal()">{{ 'buttons.cancel' | translate }}</button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="onConfirmSchedule()">{{ 'buttons.saveConfiguration' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="footerModal() as link" (click)="closeFooterModal()">
+  <div class="zone-modal zone-modal--info" (click)="$event.stopPropagation()">
+    <h3>{{ ('zoneConfiguration.footerModal.' + link + '.title') | translate }}</h3>
+    <p>{{ ('zoneConfiguration.footerModal.' + link + '.body') | translate }}</p>
+    <div class="zone-modal__actions">
+      <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="closeFooterModal()">{{ 'common.close' | translate }}</button>
+    </div>
+  </div>
+</div>

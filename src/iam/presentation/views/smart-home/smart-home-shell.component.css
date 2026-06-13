@@ -1,0 +1,126 @@
+:host {
+  display: block;
+}
+
+.account-view--home {
+  --view-shell-accent: #2949c7;
+  --view-shell-accent-soft: rgba(41, 73, 199, 0.08);
+  --view-shell-hero-bg: linear-gradient(135deg, rgba(41, 73, 199, 0.08), rgba(99, 132, 255, 0.06));
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--gray-900);
+}
+
+.account-view--home.account-view--settings {
+  background: #f8f9fb;
+}
+
+:root[data-theme='dark'] .account-view--home.account-view--settings {
+  background: var(--background);
+}
+
+.account-view--home.account-view--settings .account-view__main {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.account-view__body {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 72px;
+}
+
+.account-view__main {
+  flex: 1;
+  margin-left: 0;
+  padding: 1.25rem 2rem 2rem;
+  min-height: calc(100vh - 72px);
+  transition: margin-left 0.3s ease;
+}
+
+.account-view--sidebar-open .account-view__main {
+  margin-left: 260px;
+}
+
+.account-view__hero {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: var(--view-shell-hero-bg);
+  border: 1px solid rgba(41, 73, 199, 0.12);
+}
+
+.account-view__hero-badge {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  background: var(--view-shell-accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.account-view__hero p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--gray-600);
+}
+
+.account-view__backdrop {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .account-view--sidebar-open .account-view__main {
+    margin-left: 0;
+  }
+
+  .account-view__backdrop {
+    display: block;
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: rgba(15, 23, 42, 0.35);
+    z-index: 997;
+  }
+
+  .account-view__main {
+    padding: 1rem 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .account-view__main {
+    padding: 0.85rem 0.85rem 1.25rem;
+  }
+
+  .account-view__hero {
+    padding: 0.65rem 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .account-view__hero-badge {
+    font-size: 0.65rem;
+  }
+
+  .account-view__hero p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 400px) {
+  .account-view__hero p {
+    display: none;
+  }
+}
+
+/* Dark mode */
+:root[data-theme='dark'] .account-view__hero {
+  border-color: rgba(41, 73, 199, 0.2);
+}

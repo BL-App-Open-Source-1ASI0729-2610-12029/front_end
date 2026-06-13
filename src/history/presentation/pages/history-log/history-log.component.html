@@ -1,0 +1,186 @@
+<div class="history-log-page">
+
+  <header class="page-header">
+    <div>
+      <h1>{{ 'historyLog.title' | translate }}</h1>
+      <p>{{ 'historyLog.activityStreamsDesc' | translate }}</p>
+    </div>
+  </header>
+
+  <app-history-nav></app-history-nav>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <mat-card class="card content-card streams-card">
+    <mat-card-header class="streams-card__header">
+      <div>
+        <h2>{{ 'historyLog.activityStreams' | translate }}</h2>
+        <p>{{ 'historyLog.activityStreamsDesc' | translate }}</p>
+      </div>
+      <div class="filters-row">
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-select [(ngModel)]="selectedDateRange" class="filter-select" [attr.aria-label]="'historyLog.applyFilters' | translate">
+            <mat-option *ngFor="let range of dateRanges" [value]="range">
+              {{ 'historyLog.dateRange.' + range | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-select [(ngModel)]="selectedDeviceType" class="filter-select" [attr.aria-label]="'historyLog.colDevice' | translate">
+            <mat-option *ngFor="let type of deviceTypes" [value]="type">
+              {{ 'historyLog.deviceTypes.' + type | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button type="button" mat-flat-button color="primary" class="btn-apply" (click)="onApplyFilters()">
+          {{ 'historyLog.applyFilters' | translate }}
+        </button>
+        <button type="button" mat-stroked-button class="btn-export" (click)="onExportCsv()">
+          {{ 'historyLog.exportCsv' | translate }}
+        </button>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+
+    <div class="table-wrap">
+      <table class="activity-table">
+        <thead>
+          <tr>
+            <th>{{ 'historyLog.colTime' | translate }}</th>
+            <th>{{ 'historyLog.colDevice' | translate }}</th>
+            <th>{{ 'historyLog.colAction' | translate }}</th>
+            <th>{{ 'historyLog.colLocation' | translate }}</th>
+            <th>{{ 'historyLog.colStatus' | translate }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of store.paginatedEntries()">
+            <td class="col-time">{{ store.formatDateTime(entry.occurredAt) }}</td>
+            <td class="col-device">
+              <span class="device-cell">
+                <span class="device-icon">
+                  <img [src]="getIcon(entry.deviceIcon)" alt="" class="ui-icon ui-icon--sm" />
+                </span>
+                <span>
+                  <strong>{{ entry.deviceName }}</strong>
+                  <small>{{ entry.deviceModel }}</small>
+                  <small *ngIf="entry.consumptionKwh != null" class="consumption-tag">
+                    {{ entry.consumptionKwh }} kWh
+                  </small>
+                </span>
+              </span>
+            </td>
+            <td>
+              <span class="action-badge" [ngClass]="getActionClass(entry.action)">
+                {{ entry.actionLabel }}
+              </span>
+            </td>
+            <td>{{ entry.location }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="getStatusClass(entry.status)">
+                <span class="status-dot"></span>
+                {{ 'historyLog.status.' + entry.status | translate }}
+              </span>
+            </td>
+            <td class="col-menu">
+              <div class="menu-wrap">
+                <button type="button" mat-icon-button class="menu-btn" (click)="toggleMenu(entry.id)">⋯</button>
+                <div class="menu-dropdown" *ngIf="openMenuId === entry.id">
+                  <button type="button" mat-button (click)="markSuccess(entry.id)">{{ 'historyLog.markSuccess' | translate }}</button>
+                  <button type="button" mat-button (click)="markCritical(entry.id)">{{ 'historyLog.markCritical' | translate }}</button>
+                  <button type="button" mat-button color="warn" class="menu-delete" (click)="requestDeleteEntry(entry.id)">{{ 'historyLog.delete' | translate }}</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-footer">
+      <span>
+        {{ 'historyLog.showing' | translate:{ from: store.pageStart(), to: store.pageEnd(), total: store.totalFiltered() } }}
+      </span>
+      <div class="pagination">
+        <button type="button" mat-icon-button [disabled]="store.currentPage() === 1" (click)="store.goToPage(store.currentPage() - 1)">‹</button>
+        <span class="page-indicator">{{ store.currentPage() }} / {{ store.totalPages() }}</span>
+        <button type="button" mat-icon-button [disabled]="store.currentPage() === store.totalPages()" (click)="store.goToPage(store.currentPage() + 1)">›</button>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="summary-row" *ngIf="store.summary() as summary">
+    <mat-card class="card content-card summary-card">
+      <mat-card-content>
+      <div class="summary-card__icon summary-card__icon--health">
+        <img [src]="icons.checkCircle" alt="" class="ui-icon ui-icon--md" />
+      </div>
+      <h3>{{ 'historyLog.systemHealth' | translate }}</h3>
+      <p class="summary-metric">{{ 'historyLog.uptime' | translate }}: <strong>{{ summary.uptimePercent }}%</strong></p>
+      <div class="progress-bar">
+        <div class="progress-bar__fill" [style.width.%]="summary.uptimePercent"></div>
+      </div>
+      <small>{{ 'historyLog.lastSync' | translate:{ minutes: summary.lastSyncMinutesAgo } }}</small>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card content-card summary-card">
+      <mat-card-content>
+      <div class="summary-card__icon summary-card__icon--volume">
+        <img [src]="icons.barChart" alt="" class="ui-icon ui-icon--md" />
+      </div>
+      <h3>{{ 'historyLog.eventVolume' | translate }}</h3>
+      <div class="volume-chart">
+        <div class="volume-bar" *ngFor="let day of summary.eventVolumeByDay">
+          <div
+            class="volume-bar__fill"
+            [style.height.%]="(day.value / getMaxEventVolume()) * 100"
+            [class.volume-bar__fill--peak]="day.value === getMaxEventVolume()"
+          ></div>
+          <span>{{ day.day }}</span>
+        </div>
+      </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card content-card summary-card">
+      <mat-card-content>
+      <div class="summary-card__icon summary-card__icon--security">
+        <img [src]="icons.warning" alt="" class="ui-icon ui-icon--md" />
+      </div>
+      <h3>{{ 'historyLog.securityAlerts' | translate }}</h3>
+      <div class="alert-list">
+        <div
+          class="alert-item"
+          *ngFor="let alert of summary.securityAlerts"
+          [class.alert-item--warning]="alert.type === 'warning'"
+          [class.alert-item--info]="alert.type === 'info'"
+        >
+          <img [src]="getAlertIcon(alert.type)" alt="" class="ui-icon ui-icon--sm" />
+          <div>
+            <strong>{{ alert.title }}</strong>
+            <small>{{ 'historyLog.hoursAgo' | translate:{ hours: alert.hoursAgo } }}</small>
+          </div>
+        </div>
+      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="pendingDeleteId()" (click)="cancelDeleteEntry()">
+    <div class="confirm-modal" (click)="$event.stopPropagation()">
+      <h3>{{ 'historyLog.confirmDeleteTitle' | translate }}</h3>
+      <p>{{ 'historyLog.confirmDeleteBody' | translate }}</p>
+      <div class="confirm-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="cancelDeleteEntry()">{{ 'common.cancel' | translate }}</button>
+        <button type="button" mat-flat-button color="warn" class="btn-danger" (click)="confirmDeleteEntry()">{{ 'historyLog.delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+</div>

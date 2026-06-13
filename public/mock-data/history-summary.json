@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "uptimePercent": 99.98,
+    "lastSyncMinutesAgo": 2,
+    "eventVolumeByDay": [
+      {
+        "day": "Mon",
+        "value": 28
+      },
+      {
+        "day": "Tue",
+        "value": 35
+      },
+      {
+        "day": "Wed",
+        "value": 31
+      },
+      {
+        "day": "Thu",
+        "value": 42
+      },
+      {
+        "day": "Fri",
+        "value": 58
+      },
+      {
+        "day": "Sat",
+        "value": 24
+      },
+      {
+        "day": "Sun",
+        "value": 40
+      }
+    ],
+    "securityAlerts": [
+      {
+        "id": "sa-1",
+        "title": "Unexpected Entry",
+        "hoursAgo": 1,
+        "type": "warning"
+      },
+      {
+        "id": "sa-2",
+        "title": "Auto-lock Activated",
+        "hoursAgo": 3,
+        "type": "info"
+      }
+    ],
+    "totalEntries": 11
+  }
+]

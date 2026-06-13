@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "titleKey": "security.log.marcusEntered",
+    "locationKey": "security.log.locations.frontDoor",
+    "time": "Today, 08:15 AM",
+    "iconType": "enter",
+    "tone": "success",
+    "snapshotUrl": "assets/icons/smart-home/snapshot-entry.jpg",
+    "snapshotLabelKey": "security.log.snapshotSaved"
+  },
+  {
+    "id": "2",
+    "titleKey": "security.log.elenaExited",
+    "locationKey": "security.log.locations.backGate",
+    "time": "Oct 24, 11:40 PM",
+    "iconType": "exit",
+    "tone": "neutral"
+  },
+  {
+    "id": "3",
+    "titleKey": "security.log.motionDetected",
+    "locationKey": "security.log.locations.patioCamera",
+    "time": "Oct 24, 09:22 PM",
+    "iconType": "alert",
+    "tone": "danger",
+    "actionKey": "security.reviewFootage"
+  },
+  {
+    "id": "4",
+    "titleKey": "security.log.systemDisarmed",
+    "locationKey": "security.log.locations.manualEntry",
+    "time": "Oct 24, 09:00 PM",
+    "iconType": "lock",
+    "tone": "success"
+  }
+]

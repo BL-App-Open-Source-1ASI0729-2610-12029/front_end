@@ -1,0 +1,27 @@
+[
+  {
+    "id": "marcus",
+    "name": "Marcus Chen",
+    "email": "marcus.chen@email.com",
+    "avatarUrl": "assets/icons/smart-home/avatar-marcus.jpg",
+    "accessLevel": "admin",
+    "lastEntry": "Today, 08:15 AM"
+  },
+  {
+    "id": "elena",
+    "name": "Elena Rodriguez",
+    "email": "elena.r@email.com",
+    "avatarUrl": "assets/icons/smart-home/avatar-elena.jpg",
+    "accessLevel": "member",
+    "lastEntry": "Yesterday, 11:40 PM"
+  },
+  {
+    "id": "guest",
+    "name": "Guest - Housekeeper",
+    "email": "guest.housekeeper@email.com",
+    "avatarUrl": "assets/icons/smart-home/avatar-guest.jpg",
+    "accessLevel": "guest",
+    "lastEntry": "Oct 24, 09:00 AM",
+    "expiresIn": "4h"
+  }
+]
