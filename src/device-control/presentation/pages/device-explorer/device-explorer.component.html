@@ -1,0 +1,363 @@
+<div class="explorer-page" *ngIf="store.data() as data">
+
+  <app-business-devices-nav />
+
+  <nav class="explorer-breadcrumbs" [attr.aria-label]="'common.a11y.breadcrumb' | translate">
+    <button type="button" mat-button color="primary" class="explorer-breadcrumbs__link" (click)="router.navigate(['/app/devices/management'])">
+      {{ 'deviceExplorer.breadcrumb.devices' | translate }}
+    </button>
+    <span class="explorer-breadcrumbs__sep">/</span>
+    <span class="explorer-breadcrumbs__current">{{ 'deviceExplorer.breadcrumb.current' | translate }}</span>
+  </nav>
+
+  <header class="explorer-page__header">
+    <div>
+      <h1>{{ 'deviceExplorer.title' | translate }}</h1>
+      <p>{{ 'deviceExplorer.subtitle' | translate }}</p>
+    </div>
+    <div class="explorer-page__header-actions">
+      <button type="button" mat-stroked-button class="btn-outline" (click)="openAddDeviceModal()">
+        <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'deviceExplorer.addDevice' | translate }}
+      </button>
+      <button type="button" mat-stroked-button class="btn-outline" (click)="onExportResult()">
+        <img [src]="icons.download" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'deviceExplorer.exportResult' | translate }}
+      </button>
+      <button type="button" mat-flat-button color="primary" class="btn-primary" [disabled]="store.scanning()" (click)="onNetworkScan()">
+        <img [src]="icons.networkScan" alt="" class="ui-icon ui-icon--sm" />
+        {{ 'deviceExplorer.networkScan' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="scan-overlay" *ngIf="store.scanning()">
+    <div class="scan-overlay__card sme-animate sme-animate--up">
+      <div class="scan-overlay__pulse"></div>
+      <strong>{{ 'deviceExplorer.scanningTitle' | translate }}</strong>
+      <p>{{ 'deviceExplorer.scanningHint' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="explorer-layout">
+    <aside class="filters-panel panel">
+      <h2>{{ 'deviceExplorer.filters.title' | translate }}</h2>
+
+      <label class="filter-field">
+        <span>{{ 'deviceExplorer.filters.facilityHierarchy' | translate }}</span>
+        <select [value]="store.facilityZone()" (change)="store.setFacilityZone($any($event.target).value)">
+          <option *ngFor="let zone of data.facilityZones" [value]="zone">
+            {{ zoneOptionKey(zone) | translate }}
+          </option>
+        </select>
+      </label>
+
+      <div class="filter-field">
+        <span>{{ 'deviceExplorer.filters.categorization' | translate }}</span>
+        <div class="category-chips">
+          <button
+            type="button"
+            mat-stroked-button
+            *ngFor="let category of categories"
+            [class.category-chips__btn--active]="store.isCategorySelected(category)"
+            (click)="store.toggleCategory(category)"
+          >
+            {{ categoryKey(category) | translate }}
+          </button>
+        </div>
+      </div>
+
+      <label class="filter-field">
+        <span>{{ 'deviceExplorer.filters.protocol' | translate }}</span>
+        <select [value]="store.protocol()" (change)="store.setProtocol($any($event.target).value)">
+          <option *ngFor="let protocol of data.protocols" [value]="protocol">{{ protocol }}</option>
+        </select>
+      </label>
+
+      <label class="filter-field">
+        <span>{{ 'deviceExplorer.filters.subnet' | translate }}</span>
+        <input
+          type="text"
+          [value]="store.subnet()"
+          (input)="store.setSubnet($any($event.target).value)"
+          [placeholder]="'deviceExplorer.filters.subnetPlaceholder' | translate"
+        />
+      </label>
+
+      <label class="filter-field">
+        <span>{{ 'deviceExplorer.filters.lastSeen' | translate }}</span>
+        <div class="date-range">
+          <input type="date" />
+          <span>{{ 'deviceExplorer.filters.to' | translate }}</span>
+          <input type="date" />
+        </div>
+      </label>
+
+      <div class="filter-toggle">
+        <span>{{ 'deviceExplorer.filters.onlineOnly' | translate }}</span>
+        <label class="toggle">
+          <input type="checkbox" [checked]="store.onlineOnly()" (change)="store.toggleOnlineOnly()" />
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+
+      <div class="filter-toggle">
+        <span>{{ 'deviceExplorer.filters.firmwareOutdated' | translate }}</span>
+        <label class="toggle">
+          <input type="checkbox" [checked]="store.firmwareOutdated()" (change)="store.toggleFirmwareOutdated()" />
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+    </aside>
+
+    <div class="results-column">
+      <section class="map-panel panel">
+        <div class="map-panel__canvas">
+          <div class="map-panel__floor">
+            <div
+              #mapViewport
+              class="floor-plan-viewport"
+              [class.floor-plan-viewport--panning]="isMapPanning()"
+              (pointerdown)="onMapPanStart($event)"
+              (pointermove)="onMapPanMove($event)"
+              (pointerup)="onMapPanEnd($event)"
+              (pointercancel)="onMapPanEnd($event)"
+              (dblclick)="onMapReset()"
+            >
+              <div #mapStage class="floor-plan-stage" [style.transform]="mapTransform()">
+                <div class="floor-plan__map">
+                  <img
+                    class="floor-plan__image"
+                    [src]="floorPlanSrc"
+                    alt=""
+                    draggable="false"
+                    [class.floor-plan__image--dimmed]="mapLayer() === 'zones'"
+                  />
+
+                  <div class="floor-plan__zones" *ngIf="mapLayer() === 'zones'">
+                    <span
+                      class="floor-plan__zone floor-plan__zone--main-office"
+                      [class.floor-plan__zone--active]="isZoneHighlighted('main-office')"
+                    ></span>
+                    <span
+                      class="floor-plan__zone floor-plan__zone--north-wing"
+                      [class.floor-plan__zone--active]="isZoneHighlighted('north-wing')"
+                    ></span>
+                    <span
+                      class="floor-plan__zone floor-plan__zone--loading-dock"
+                      [class.floor-plan__zone--active]="isZoneHighlighted('loading-dock')"
+                    ></span>
+                    <span
+                      class="floor-plan__zone floor-plan__zone--cold-storage"
+                      [class.floor-plan__zone--active]="isZoneHighlighted('cold-storage')"
+                    ></span>
+                  </div>
+
+                  <button
+                    type="button"
+                    mat-icon-button
+                    *ngFor="let device of mapDevices()"
+                    class="floor-plan__dot-btn"
+                    [style.left.%]="device.mapX"
+                    [style.top.%]="device.mapY"
+                    [title]="device.name"
+                    (pointerdown)="$event.stopPropagation()"
+                    (click)="onMapDeviceClick(device.id, device.facilityZone, $event)"
+                  >
+                    <span [class]="mapDotClass(device.status)"></span>
+                    <span class="floor-plan__dot-label">{{ device.deviceId }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <article class="coverage-card coverage-card--overlay">
+              <span>{{ 'deviceExplorer.map.liveCoverage' | translate }}</span>
+              <div class="coverage-card__donut" [style.--coverage]="data.liveCoveragePercent">
+                <strong>{{ data.liveCoveragePercent }}%</strong>
+              </div>
+              <p>{{ 'deviceExplorer.map.reachability' | translate }}</p>
+            </article>
+
+            <p class="map-panel__hint">{{ 'deviceExplorer.map.panHint' | translate }}</p>
+          </div>
+
+          <aside class="map-panel__aside">
+            <div class="map-controls">
+              <button type="button" mat-icon-button class="icon-btn" (click)="onMapZoomIn()" [attr.aria-label]="'deviceExplorer.map.zoomIn' | translate">
+                <img [src]="icons.zoomIn" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+              <button type="button" mat-icon-button class="icon-btn" (click)="onMapZoomOut()" [attr.aria-label]="'deviceExplorer.map.zoomOut' | translate">
+                <img [src]="icons.zoomOut" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                class="icon-btn"
+                [class.icon-btn--active]="mapLayer() === 'zones'"
+                (click)="onToggleMapLayer()"
+                [attr.aria-label]="'deviceExplorer.map.layers' | translate"
+              >
+                <img [src]="icons.layers" alt="" class="ui-icon ui-icon--sm" />
+              </button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="results-panel panel">
+        <div class="results-panel__head">
+          <h2>{{ 'deviceExplorer.resultsFound' | translate:{ count: store.resultCount() } }}</h2>
+          <div class="view-toggle">
+            <button
+              type="button"
+              mat-icon-button
+              [class.view-toggle__btn--active]="store.viewMode() === 'list'"
+              (click)="store.setViewMode('list')"
+              [attr.aria-label]="'deviceExplorer.viewList' | translate"
+            >
+              <img [src]="icons.listView" alt="" class="ui-icon ui-icon--sm" />
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              [class.view-toggle__btn--active]="store.viewMode() === 'grid'"
+              (click)="store.setViewMode('grid')"
+              [attr.aria-label]="'deviceExplorer.viewGrid' | translate"
+            >
+              <img [src]="icons.gridView" alt="" class="ui-icon ui-icon--sm" />
+            </button>
+          </div>
+        </div>
+
+        <div class="results-table-wrap" *ngIf="store.viewMode() === 'list'">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>{{ 'deviceExplorer.table.device' | translate }}</th>
+                <th>{{ 'deviceExplorer.table.ipAddress' | translate }}</th>
+                <th>{{ 'deviceExplorer.table.zoneHierarchy' | translate }}</th>
+                <th>{{ 'deviceExplorer.table.status' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let device of store.pagedDevices()"
+                class="results-table__row--clickable"
+                (click)="onDeviceRowClick(device.id, device.facilityZone)"
+              >
+                <td>
+                  <div class="device-cell">
+                    <span class="device-cell__icon">
+                      <img [src]="deviceIcon(device.icon)" alt="" class="ui-icon ui-icon--sm" />
+                    </span>
+                    <div>
+                      <strong>{{ device.deviceId }}</strong>
+                      <span>{{ device.name }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ device.ipAddress }}</td>
+                <td>{{ device.zoneHierarchyKey | translate }}</td>
+                <td>
+                  <span [class]="statusClass(device.status)">{{ statusKey(device.status) | translate }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="results-grid" *ngIf="store.viewMode() === 'grid'">
+          <article
+            class="results-grid__card"
+            *ngFor="let device of store.pagedDevices()"
+            (click)="onDeviceRowClick(device.id, device.facilityZone)"
+          >
+            <span class="device-cell__icon">
+              <img [src]="deviceIcon(device.icon)" alt="" class="ui-icon ui-icon--sm" />
+            </span>
+            <strong>{{ device.name }}</strong>
+            <span>{{ device.deviceId }}</span>
+            <span [class]="statusClass(device.status)">{{ statusKey(device.status) | translate }}</span>
+          </article>
+        </div>
+
+        <footer class="results-panel__footer">
+          <span>
+            {{ 'deviceExplorer.pagination' | translate: paginationParts() }}
+          </span>
+          <div class="pagination">
+            <button type="button" mat-button (click)="store.goToPage(store.currentPage() - 1)" [disabled]="store.currentPage() === 1">
+              {{ 'deviceExplorer.previous' | translate }}
+            </button>
+            <button type="button" mat-flat-button color="primary" class="pagination__btn--active">{{ store.currentPage() }}</button>
+            <button
+              type="button"
+              mat-button
+              (click)="store.goToPage(store.currentPage() + 1)"
+              [disabled]="store.currentPage() === store.totalPages()"
+            >
+              {{ 'deviceExplorer.next' | translate }}
+            </button>
+          </div>
+        </footer>
+
+        <button type="button" mat-fab color="primary" class="fab-assist" (click)="onQuickAssist()" [title]="'deviceExplorer.quickAssist' | translate">
+          <mat-icon>help</mat-icon>
+        </button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddDeviceModal()" (click)="closeAddDeviceModal()">
+  <div class="explorer-modal" (click)="$event.stopPropagation()">
+    <div class="explorer-modal__header">
+      <h3>{{ 'deviceExplorer.addModal.title' | translate }}</h3>
+      <button type="button" mat-icon-button class="explorer-modal__close" (click)="closeAddDeviceModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p class="explorer-modal__hint">{{ 'deviceExplorer.addModal.subtitle' | translate }}</p>
+    <form class="explorer-modal__form" (ngSubmit)="submitAddDevice()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'deviceExplorer.addModal.name' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="newDeviceName" name="newDeviceName" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'deviceExplorer.addModal.zone' | translate }}</mat-label>
+        <mat-select [(ngModel)]="newDeviceZone" name="newDeviceZone">
+          <ng-container *ngFor="let zone of store.data()?.facilityZones">
+            <mat-option *ngIf="zone !== 'all'" [value]="zone">
+              {{ zoneOptionKey(zone) | translate }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'deviceExplorer.addModal.category' | translate }}</mat-label>
+        <mat-select [(ngModel)]="newDeviceCategory" name="newDeviceCategory">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ categoryKey(category) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'deviceExplorer.addModal.protocol' | translate }}</mat-label>
+        <mat-select [(ngModel)]="newDeviceProtocol" name="newDeviceProtocol">
+          <mat-option *ngFor="let protocol of store.data()?.protocols" [value]="protocol">{{ protocol }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="explorer-modal__actions">
+        <button type="button" mat-stroked-button class="btn-outline" (click)="closeAddDeviceModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!newDeviceName.trim()">
+          {{ 'deviceExplorer.addDevice' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

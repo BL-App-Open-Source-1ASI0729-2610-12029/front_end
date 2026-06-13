@@ -1,0 +1,235 @@
+<div class="devices-page" *ngIf="store.overview() as overview">
+
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'myDevices.title' | translate }}</h1>
+      <p class="page-subtitle">
+        {{ 'myDevices.subtitle' | translate:{ devices: overview.totalDevices, rooms: overview.totalRooms } }}
+      </p>
+    </div>
+    <button type="button" mat-flat-button color="primary" class="btn-add-device" (click)="openAddModal()">
+      <img [src]="icons.add" alt="" class="ui-icon ui-icon--sm" />
+      {{ 'myDevices.addDevice' | translate }}
+    </button>
+  </header>
+
+  <div *ngIf="store.loading()" class="loading-bar">
+    <div class="loading-bar__fill"></div>
+  </div>
+
+  <div class="devices-layout">
+    <div class="devices-main">
+      <section class="room-card room-card--featured" *ngIf="store.featuredRoom() as room">
+        <div class="room-card__header">
+          <div class="room-card__title-wrap">
+            <span class="room-icon" [ngClass]="getRoomIconClass(room)">
+              <img [src]="getIcon(room.icon)" alt="" class="ui-icon ui-icon--md" />
+            </span>
+            <div>
+              <h2>{{ room.name }}</h2>
+              <p>{{ room.activeDeviceCount }} {{ 'myDevices.activeDevices' | translate }}</p>
+            </div>
+          </div>
+          <span class="power-badge">{{ room.totalPowerW }}W {{ 'myDevices.total' | translate }}</span>
+        </div>
+
+        <div class="device-grid device-grid--featured">
+          <article
+            class="device-tile device-tile--clickable"
+            *ngFor="let device of room.devices"
+            (click)="openDevice(room.id, device.id)"
+          >
+            <div class="device-tile__top">
+              <span class="device-tile__icon">
+                <img [src]="getIcon(device.icon)" alt="" class="ui-icon ui-icon--md" />
+              </span>
+              <label
+                class="toggle-switch"
+                [class.toggle-switch--disabled]="isToggleDisabled(device)"
+                (click)="$event.stopPropagation()"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="device.active"
+                  [disabled]="isToggleDisabled(device)"
+                  (change)="onToggle(room.id, device)"
+                />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <h3>{{ device.name }}</h3>
+            <p class="device-status" [class.device-status--online]="device.connection === 'online'">
+              <span class="status-dot"></span>
+              {{ getConnectionLabel(device) }}
+            </p>
+            <p class="device-power">{{ 'myDevices.powerUsage' | translate }}: {{ getPowerLabel(device) }}</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="room-card room-card--suite" *ngIf="store.suiteRoom() as room">
+        <div class="suite-header">
+          <div class="room-card__title-wrap">
+            <span class="room-icon room-icon--master-bedroom">
+              <img [src]="getIcon(room.icon)" alt="" class="ui-icon ui-icon--md" />
+            </span>
+            <div>
+              <h2>{{ room.name }}</h2>
+              <p class="suite-description">{{ room.description }}</p>
+            </div>
+          </div>
+          <div class="suite-stats">
+            <div class="stat-pill">
+              <span class="stat-pill__label">{{ 'myDevices.temp' | translate }}</span>
+              <strong>{{ room.temperatureC }}°C</strong>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-pill__label">{{ 'myDevices.humidity' | translate }}</span>
+              <strong>{{ room.humidityPercent }}%</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="device-grid device-grid--suite">
+          <article
+            class="device-tile device-tile--compact device-tile--clickable"
+            *ngFor="let device of room.devices"
+            (click)="openDevice(room.id, device.id)"
+          >
+            <div class="device-tile__row">
+              <span class="device-tile__icon device-tile__icon--small">
+                <img [src]="getIcon(device.icon)" alt="" class="ui-icon" />
+              </span>
+              <div class="device-tile__info">
+                <h3>{{ device.name }}</h3>
+                <p *ngIf="device.statusLabel" class="device-status device-status--label">
+                  <span class="status-dot" [class.status-dot--active]="device.active"></span>
+                  {{ device.statusLabel }}
+                </p>
+              </div>
+              <label
+                *ngIf="!device.statusLabel || device.id === 'air-purifier' || device.id === 'bedside-speaker'"
+                class="toggle-switch toggle-switch--small"
+                [class.toggle-switch--disabled]="isToggleDisabled(device)"
+                (click)="$event.stopPropagation()"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="device.active"
+                  [disabled]="isToggleDisabled(device)"
+                  (change)="onToggle(room.id, device)"
+                />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <aside class="devices-aside">
+      <article class="consumption-card">
+        <img [src]="icons.power" alt="" class="ui-icon consumption-card__icon" />
+        <p class="consumption-card__label">{{ 'myDevices.totalConsumption' | translate }}</p>
+        <strong class="consumption-card__value">{{ overview.totalConsumptionKwh }} kWh</strong>
+        <p class="consumption-card__detail">{{ overview.consumptionComparison }}</p>
+      </article>
+
+      <section class="room-card room-card--compact" *ngFor="let room of store.compactRooms()">
+        <div class="room-card__header room-card__header--compact">
+          <span class="room-icon room-icon--kitchen">
+            <img [src]="getIcon(room.icon)" alt="" class="ui-icon ui-icon--md" />
+          </span>
+          <h2>{{ room.name }}</h2>
+        </div>
+
+        <div class="compact-device-list">
+          <article
+            class="compact-device compact-device--clickable"
+            *ngFor="let device of room.devices"
+            (click)="openDevice(room.id, device.id)"
+          >
+            <span class="device-tile__icon device-tile__icon--small">
+              <img [src]="getIcon(device.icon)" alt="" class="ui-icon" />
+            </span>
+            <div class="compact-device__info">
+              <h3>{{ device.name }}</h3>
+              <p [class.is-offline]="device.connection === 'offline'">{{ getConnectionLabel(device) }}</p>
+            </div>
+            <label
+              class="toggle-switch toggle-switch--small"
+              [class.toggle-switch--disabled]="isToggleDisabled(device)"
+              (click)="$event.stopPropagation()"
+            >
+              <input
+                type="checkbox"
+                [checked]="device.active"
+                [disabled]="isToggleDisabled(device)"
+                (change)="onToggle(room.id, device)"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </article>
+        </div>
+      </section>
+
+      <div class="scenes-row">
+        <button
+          type="button"
+          mat-stroked-button
+          class="scene-btn"
+          *ngFor="let scene of overview.scenes"
+          [class.scene-btn--active]="store.activeSceneId() === scene.id"
+          (click)="onScene(scene.id)"
+        >
+          <img [src]="getIcon(scene.icon)" alt="" class="ui-icon ui-icon--md" />
+          <span>{{ scene.name }}</span>
+        </button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddModal()" (click)="closeAddModal()">
+  <div class="add-modal" (click)="$event.stopPropagation()">
+    <div class="add-modal__header">
+      <h3>{{ 'myDevices.addDeviceTitle' | translate }}</h3>
+      <button type="button" mat-icon-button class="add-modal__close" (click)="closeAddModal()" [attr.aria-label]="'common.a11y.close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <form class="add-modal__form" (ngSubmit)="submitAddDevice()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'myDevices.deviceName' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="newDeviceName" name="deviceName" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'myDevices.room' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedRoomId" name="roomId">
+          <mat-option value="living-room">{{ 'myDevices.livingRoom' | translate }}</mat-option>
+          <mat-option value="kitchen">{{ 'myDevices.kitchen' | translate }}</mat-option>
+          <mat-option value="master-bedroom">{{ 'myDevices.masterBedroom' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'myDevices.deviceType' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedDeviceType" name="deviceType">
+          <mat-option value="climate">{{ 'myDevices.typeClimate' | translate }}</mat-option>
+          <mat-option value="generic">{{ 'myDevices.typeGeneric' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="add-modal__actions">
+        <button type="button" mat-stroked-button class="btn-secondary" (click)="closeAddModal()">
+          {{ 'myDevices.cancel' | translate }}
+        </button>
+        <button type="submit" mat-flat-button color="primary" class="btn-primary" [disabled]="!newDeviceName.trim()">
+          {{ 'myDevices.addDevice' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
