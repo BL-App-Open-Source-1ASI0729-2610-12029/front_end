@@ -1,0 +1,77 @@
+<div class="biz-detail" *ngIf="device() as current">
+
+  <button type="button" mat-button class="biz-detail__back" (click)="goBack()">
+    <span aria-hidden="true">←</span>
+    {{ 'businessDevices.detail.back' | translate }}
+  </button>
+
+  <header class="biz-detail__header">
+    <span class="biz-detail__icon" [class.biz-detail__icon--offline]="isOffline()">
+      <img [src]="getIcon(deviceIcon())" alt="" class="ui-icon ui-icon--md" />
+    </span>
+    <div>
+      <h1>{{ deviceName() }}</h1>
+      <p *ngIf="managedDevice() as device">
+        {{ device.zoneName }} • {{ device.loadKw }} kW
+        <span *ngIf="device.offline"> • {{ 'businessDevices.tableStatus.offline' | translate }}</span>
+      </p>
+      <p *ngIf="!managedDevice() && explorerDevice() as device">
+        {{ device.zoneHierarchyKey | translate }} • {{ device.ipAddress }}
+      </p>
+    </div>
+  </header>
+
+  <section class="biz-detail__panel" *ngIf="managedDevice() as device">
+    <div class="biz-detail__row">
+      <span>{{ 'businessDevices.detail.status' | translate }}</span>
+      <strong>{{ device.statusLabel }}</strong>
+    </div>
+    <div class="biz-detail__row">
+      <span>{{ 'businessDevices.detail.load' | translate }}</span>
+      <strong>{{ device.loadKw }} kW</strong>
+    </div>
+    <div class="biz-detail__row biz-detail__row--toggle">
+      <span>{{ 'businessDevices.detail.power' | translate }}</span>
+      <label class="toggle-switch" [class.toggle-switch--disabled]="device.offline">
+        <input
+          type="checkbox"
+          [checked]="device.active"
+          [disabled]="device.offline"
+          (change)="onToggle()"
+        />
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <section class="biz-detail__panel" *ngIf="explorerDevice() as device">
+    <div class="biz-detail__row">
+      <span>{{ 'deviceExplorer.table.ipAddress' | translate }}</span>
+      <strong>{{ device.ipAddress }}</strong>
+    </div>
+    <div class="biz-detail__row">
+      <span>{{ 'deviceExplorer.filters.protocol' | translate }}</span>
+      <strong>{{ device.protocol }}</strong>
+    </div>
+    <div class="biz-detail__row">
+      <span>{{ 'deviceExplorer.table.status' | translate }}</span>
+      <strong>{{ 'deviceExplorer.status.' + device.status | translate }}</strong>
+    </div>
+  </section>
+
+  <div class="biz-detail__actions">
+    <button type="button" mat-stroked-button class="btn-secondary" (click)="openExplorer()">
+      {{ 'businessDevices.detail.openExplorer' | translate }}
+    </button>
+    <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="goBack()">
+      {{ 'businessDevices.detail.backToManagement' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="biz-detail biz-detail--empty" *ngIf="!device() && !businessStore.loading()">
+  <p>{{ 'businessDevices.detail.notFound' | translate }}</p>
+  <button type="button" mat-flat-button color="primary" class="btn-primary" (click)="goBack()">
+    {{ 'businessDevices.detail.backToManagement' | translate }}
+  </button>
+</div>
