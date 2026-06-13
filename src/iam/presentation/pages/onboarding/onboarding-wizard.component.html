@@ -1,0 +1,125 @@
+<div class="onboarding">
+  <header class="onboarding__header">
+    <p class="onboarding__eyebrow">{{ 'onboarding.eyebrow' | translate }}</p>
+    <h1>{{ 'onboarding.title' | translate }}</h1>
+    <p class="onboarding__subtitle">{{ 'onboarding.subtitle' | translate }}</p>
+  </header>
+
+  <div class="onboarding__progress" aria-hidden="true">
+    <div class="onboarding__progress-track">
+      <div class="onboarding__progress-fill" [style.width.%]="store.progressPercent()"></div>
+    </div>
+    <div class="onboarding__steps">
+      <span
+        *ngFor="let step of steps"
+        class="onboarding__step-dot"
+        [class.onboarding__step-dot--active]="store.currentStep() >= step"
+        [class.onboarding__step-dot--current]="store.currentStep() === step">
+        {{ step }}
+      </span>
+    </div>
+    <p class="onboarding__step-label">
+      {{ ('onboarding.steps.' + store.currentStep()) | translate }}
+    </p>
+  </div>
+
+  @if (store.currentStep() === 1) {
+    <section class="onboarding__panel">
+      <mat-card appearance="outlined" class="welcome-card">
+        <mat-card-content>
+          <div class="welcome-card__avatar">
+            @if (userAvatar) {
+              <img [src]="userAvatar" [alt]="userName" />
+            } @else {
+              <span>{{ userInitials }}</span>
+            }
+          </div>
+          <h2>{{ 'onboarding.welcome.title' | translate:{ name: userName } }}</h2>
+          <p>{{ 'onboarding.welcome.description' | translate }}</p>
+          <ul class="welcome-card__list">
+            <li>{{ 'onboarding.welcome.point1' | translate }}</li>
+            <li>{{ 'onboarding.welcome.point2' | translate }}</li>
+            <li>{{ 'onboarding.welcome.point3' | translate }}</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  }
+
+  @if (store.currentStep() === 2) {
+    <section class="onboarding__panel">
+      <h2 class="panel-title">{{ 'onboarding.chooseType.title' | translate }}</h2>
+      <p class="panel-subtitle">{{ 'onboarding.chooseType.subtitle' | translate }}</p>
+      <div class="type-grid">
+        @for (option of store.accountTypeOptions; track option.id) {
+          <mat-card
+            appearance="outlined"
+            class="type-card"
+            [class.type-card--selected]="store.selectedType() === option.id"
+            (click)="selectType(option.id)"
+            tabindex="0"
+            role="button">
+            <mat-card-content>
+              <span class="type-card__icon">
+                <img [src]="option.icon" alt="" class="ui-icon ui-icon--lg" />
+              </span>
+              <h3>{{ option.titleKey | translate }}</h3>
+              <p>{{ option.descriptionKey | translate }}</p>
+              <span class="type-card__features">{{ option.featuresKey | translate }}</span>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </section>
+  }
+
+  @if (store.currentStep() === 3) {
+    <section class="onboarding__panel">
+      <h2 class="panel-title">{{ 'onboarding.confirm.title' | translate }}</h2>
+      <p class="panel-subtitle">{{ 'onboarding.confirm.subtitle' | translate }}</p>
+      @if (selectedOption; as option) {
+        <mat-card appearance="outlined" class="summary-card">
+          <mat-card-content>
+            <span class="summary-card__icon">
+              <img [src]="option.icon" alt="" class="ui-icon ui-icon--lg" />
+            </span>
+            <div>
+              <h3>{{ option.titleKey | translate }}</h3>
+              <p>{{ option.descriptionKey | translate }}</p>
+              <p class="summary-card__route">
+                {{ 'onboarding.confirm.destination' | translate }}:
+                <strong>{{ getDestinationLabel(option.id) | translate }}</strong>
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </section>
+  }
+
+  <footer class="onboarding__footer">
+    @if (store.currentStep() > 1) {
+      <button mat-stroked-button color="primary" type="button" class="footer-btn" (click)="store.previousStep()">
+        {{ 'onboarding.actions.back' | translate }}
+      </button>
+    }
+
+    @if (store.currentStep() < store.totalSteps) {
+      <button mat-flat-button color="primary" type="button" class="footer-btn" [disabled]="!store.canContinue()" (click)="store.nextStep()">
+        {{ 'onboarding.actions.continue' | translate }}
+      </button>
+    }
+
+    @if (store.currentStep() === store.totalSteps) {
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="footer-btn"
+        [disabled]="!store.canContinue() || store.submitting()"
+        (click)="store.complete()">
+        {{ 'onboarding.actions.start' | translate }}
+      </button>
+    }
+  </footer>
+</div>

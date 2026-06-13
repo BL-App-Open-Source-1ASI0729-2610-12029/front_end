@@ -1,0 +1,55 @@
+:host {
+  --view-primary: #1a3b8b;
+  --view-primary-soft: #eef2fc;
+  --view-accent: #3b6fd9;
+  --view-sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f8f9fb 100%);
+  --view-status-bg: linear-gradient(145deg, #142e6e, #1a3b8b);
+}
+
+:root[data-theme='dark'] :host {
+  --view-primary: #5b87e8;
+  --view-primary-soft: rgba(91, 135, 232, 0.12);
+  --view-sidebar-bg: linear-gradient(180deg, #151b2e 0%, #0f1729 100%);
+}
+
+.view-badge--business {
+  background: rgba(26, 59, 139, 0.1);
+  color: var(--view-primary);
+}
+
+.view-sidebar--business .nav-link:hover,
+.view-sidebar--business .nav-link.active {
+  background: var(--view-primary-soft);
+  color: var(--view-primary);
+  border-left-color: var(--view-primary);
+}
+
+.view-sidebar--business .brand__name {
+  color: var(--view-primary);
+}
+
+.brand__logo--business {
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.add-device-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--view-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-device-btn:hover {
+  background: #142e6e;
+}
