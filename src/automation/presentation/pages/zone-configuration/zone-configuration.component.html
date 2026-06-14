@@ -276,7 +276,7 @@
   </section>
 
   <footer class="zone-page__footer">
-    <span>{{ 'zoneConfiguration.footer.copyright' | translate }}</span>
+    <span>{{ 'zoneConfiguration.footer.copyright' | translate:{ year: currentYear } }}</span>
     <div class="zone-page__footer-links">
       <button type="button" mat-button (click)="onFooterLink('privacy')">{{ 'zoneConfiguration.footer.privacy' | translate }}</button>
       <button type="button" mat-button (click)="onFooterLink('health')">{{ 'zoneConfiguration.footer.health' | translate }}</button>

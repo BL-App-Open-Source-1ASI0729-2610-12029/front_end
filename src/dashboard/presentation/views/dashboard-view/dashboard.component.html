@@ -2,8 +2,8 @@
 <main class="main-content">
 
 
-  <section class="stats-grid">
-    <div class="stat-card" *ngFor="let stat of statistics()" [class.gradient]="true">
+  <section class="stats-grid reports-summary-stagger">
+    <div class="stat-card sme-animate sme-animate--up" *ngFor="let stat of statistics(); let i = index" [class.gradient]="true" [style.animation-delay.ms]="80 + i * 70">
       <div>
         <p class="stat-title">{{ stat.titleKey | translate }}</p>
         <h2 class="stat-value">{{ stat.value }}</h2>
@@ -19,7 +19,7 @@
 
   <section class="content-grid">
 
-    <div class="chart-card">
+    <div class="chart-card sme-animate sme-animate--up" style="animation-delay: 260ms">
        <div class="chart-header">
          <div>
            <h2>{{ currentEnergyData().titleKey | translate }}</h2>
@@ -52,6 +52,7 @@
            </div>
 
            <div class="chart-body">
+             @for (renderKey of [chartRenderKey()]; track renderKey) {
              <svg viewBox="0 0 600 260" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
                <defs>
                  <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -62,6 +63,7 @@
 
                <g class="chart-grid">
                  <line *ngFor="let tick of yAxisTicks()"
+                       class="chart-grid-line--animate"
                        [attr.x1]="chartLayout.paddingLeft"
                        [attr.y1]="getGridLineY(tick.ratio)"
                        [attr.x2]="chartLayout.width - chartLayout.paddingRight"
@@ -72,13 +74,13 @@
                </g>
 
                <polygon
-                 class="chart-area"
+                 class="chart-area chart-area--animate"
                  fill="url(#chartGradient)"
                  [attr.points]="getPolygonPoints(currentEnergyData().dataPoints)"
                />
 
                <polyline
-                 class="chart-line"
+                 class="chart-line chart-line--animate"
                  fill="none"
                  stroke="#2949c7"
                  stroke-width="2.5"
@@ -89,16 +91,18 @@
 
                <g class="chart-points">
                  <circle *ngFor="let point of currentEnergyData().dataPoints; let i = index"
-                         class="data-point"
+                         class="data-point chart-dot--animate"
                          [class.data-point--peak]="point.status === 'peak'"
                          [attr.cx]="getPointX(i, currentEnergyData().dataPoints.length)"
                          [attr.cy]="getPointY(point.value, currentEnergyData().peak)"
+                         [style.animation-delay.ms]="450 + i * 55"
                          r="4"
                          fill="#2949c7"
                          (mouseenter)="onPointHover(point, $event)"
                          (mouseleave)="onPointLeave()"/>
                </g>
              </svg>
+             }
 
              <div class="peak-badge"
                   *ngIf="peakPoint() && peakBadgePosition() as pos"

@@ -203,9 +203,30 @@
   border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
-:root[data-theme='dark'] .navbar-search {
-  background: var(--surface-soft);
-  border-color: rgba(255, 255, 255, 0.08);
+:root[data-theme='dark'] .navbar .mat-icon {
+  color: #cbd5e1;
+}
+
+:root[data-theme='dark'] .navbar-search .mat-mdc-text-field-wrapper {
+  background: var(--surface-soft) !important;
+}
+
+:root[data-theme='dark'] .navbar-search .mdc-notched-outline__leading,
+:root[data-theme='dark'] .navbar-search .mdc-notched-outline__notch,
+:root[data-theme='dark'] .navbar-search .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+:root[data-theme='dark'] .navbar-search input {
+  color: #e2e8f0;
+}
+
+:root[data-theme='dark'] .navbar-search input::placeholder {
+  color: #64748b;
+}
+
+:root[data-theme='dark'] .navbar-search .search-icon {
+  color: #94a3b8;
 }
 
 :root[data-theme='dark'] .hamburger-btn,
@@ -219,4 +240,12 @@
 :root[data-theme='dark'] .user-profile-small {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme='dark'] .user-name-small {
+  color: #f1f5f9;
+}
+
+:root[data-theme='dark'] .user-role-small {
+  color: #94a3b8;
 }
