@@ -11,6 +11,7 @@ import {
 } from '../../../infrastructure/zone-configuration-response';
 import { BusinessAutomationNavComponent } from '../../components/business-automation-nav/business-automation-nav.component';
 import { GOOGLE_ICONS } from '../../../../shared/constants/google-icons';
+import { APP_CURRENT_YEAR } from '../../../../shared/constants/app.constants';
 import { UiFeedbackService } from '../../../../shared/services/ui-feedback.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
 
@@ -26,6 +27,7 @@ type FooterModalType = 'privacy' | 'health' | null;
 export class ZoneConfigurationComponent implements OnInit {
   readonly store = inject(ZoneConfigurationStore);
   readonly icons = GOOGLE_ICONS;
+  readonly currentYear = APP_CURRENT_YEAR;
 
   private readonly feedback = inject(UiFeedbackService);
   private readonly translate = inject(TranslateService);

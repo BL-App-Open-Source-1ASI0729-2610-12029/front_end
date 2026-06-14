@@ -590,7 +590,7 @@
       "cta": "Ver Historial de Auditoría"
     },
     "footer": {
-      "copyright": "© 2024 DomotiCore Enterprise Energy Systems",
+      "copyright": "© {{year}} DomotiCore Enterprise Energy Systems",
       "terms": "Términos de Servicio",
       "privacy": "Política de Privacidad",
       "status": "Estado del Sistema"
@@ -778,7 +778,7 @@
     "exportCsv": "Exportar CSV",
     "deviceReports": "Reportes por Dispositivo",
     "viewAllDevices": "Ver Todos los Dispositivos",
-    "footer": "© 2024 DomotiCore Enterprise Energy Management. Todos los sistemas operativos.",
+    "footer": "© {{year}} DomotiCore Enterprise Energy Management. Todos los sistemas operativos.",
     "period": {
       "thisMonth": "Este mes",
       "lastMonth": "Mes anterior",
@@ -1224,7 +1224,7 @@
       }
     },
     "footer": {
-      "copyright": "© 2024 DomotiCore Enterprise Systems",
+      "copyright": "© {{year}} DomotiCore Enterprise Systems",
       "privacy": "Política de Privacidad",
       "health": "Estado del Sistema",
       "version": "V2.4.8-STABLE"

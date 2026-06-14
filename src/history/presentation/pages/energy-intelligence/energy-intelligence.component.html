@@ -1,4 +1,4 @@
-<div class="history-page" *ngIf="store.energyIntelligence() as data">
+<div class="history-page reports-page-enter" *ngIf="store.energyIntelligence() as data">
 
   <app-history-nav></app-history-nav>
 
@@ -30,7 +30,7 @@
     <div class="loading-bar__fill"></div>
   </div>
 
-  <div class="content-grid">
+  <div class="content-grid reports-stagger">
     <mat-card class="card content-card chart-card">
       <mat-card-header class="chart-card__header">
         <div>
@@ -38,7 +38,7 @@
           <p class="card-subtitle">{{ 'history.totalConsumptionSubtitle' | translate }}</p>
         </div>
         <div class="total-metric">
-          <strong class="total-value">{{ data.totalConsumptionKwh }} kWh</strong>
+          <strong class="total-value metric-value--animate">{{ data.totalConsumptionKwh }} kWh</strong>
           <span
             class="trend-badge"
             [class.trend-badge--down]="data.trendDirection === 'down'"
@@ -55,7 +55,7 @@
       </mat-card-header>
 
       <mat-card-content>
-      <div class="chart-wrap">
+      <div class="chart-wrap" *ngIf="!store.loading()">
         <svg viewBox="0 0 640 250" preserveAspectRatio="none" class="consumption-chart">
           <defs>
             <linearGradient id="historyChartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -64,18 +64,18 @@
             </linearGradient>
           </defs>
 
-          <line x1="40" y1="50" x2="600" y2="50" class="grid-line" />
-          <line x1="40" y1="110" x2="600" y2="110" class="grid-line" />
-          <line x1="40" y1="170" x2="600" y2="170" class="grid-line" />
+          <line x1="40" y1="50" x2="600" y2="50" class="grid-line chart-grid-line--animate" />
+          <line x1="40" y1="110" x2="600" y2="110" class="grid-line chart-grid-line--animate" />
+          <line x1="40" y1="170" x2="600" y2="170" class="grid-line chart-grid-line--animate" />
 
           <path
-            class="chart-area"
+            class="chart-area chart-area--animate"
             [attr.d]="getSmoothAreaPath(data.chartPoints)"
             fill="url(#historyChartGradient)"
           />
 
           <path
-            class="chart-line"
+            class="chart-line chart-line--animate"
             fill="none"
             stroke="#2949c7"
             stroke-width="3"
@@ -85,7 +85,7 @@
           />
 
           <circle
-            class="chart-dot chart-dot--active"
+            class="chart-dot chart-dot--active chart-dot--animate"
             [attr.cx]="getPointX(getPeakIndex(data.chartPoints), data.chartPoints.length)"
             [attr.cy]="getPointY(
               data.chartPoints[getPeakIndex(data.chartPoints)].value,
@@ -103,7 +103,7 @@
     </mat-card>
 
     <aside class="insights-stack">
-      <article class="insight-card insight-card--primary">
+      <article class="insight-card insight-card--primary insight-card--animate">
         <img [src]="icons.power" alt="" class="ui-icon insight-card__icon" />
         <p class="insight-card__label">{{ 'history.highestConsumer' | translate }}</p>
         <h3 class="insight-card__value">{{ data.highestConsumer.name }}</h3>
@@ -118,21 +118,22 @@
         />
       </article>
 
-      <article class="insight-card">
+      <article class="insight-card insight-card--animate">
         <img [src]="icons.accessTime" alt="" class="ui-icon insight-card__icon" />
         <p class="insight-card__label">{{ 'history.dailyAverage' | translate }}</p>
-        <h3 class="insight-card__value insight-card__value--dark">{{ data.dailyAverageKwh }} kWh</h3>
+        <h3 class="insight-card__value insight-card__value--dark metric-value--animate">{{ data.dailyAverageKwh }} kWh</h3>
         <p class="insight-card__detail insight-card__detail--muted">{{ data.dailyAverageLabel }}</p>
         <div class="mini-bars">
           <span
-            *ngFor="let bar of data.dailyAverageBars"
-            class="mini-bar"
+            *ngFor="let bar of data.dailyAverageBars; let i = index"
+            class="mini-bar bar-animate"
             [style.height.%]="getBarHeight(bar, data.dailyAverageBars)"
+            [style.animation-delay.ms]="120 + i * 70"
           ></span>
         </div>
       </article>
 
-      <article class="insight-card insight-card--eco">
+      <article class="insight-card insight-card--eco insight-card--animate">
         <img [src]="icons.energySavingsLeaf" alt="" class="ui-icon insight-card__icon insight-card__icon--eco" />
         <p class="insight-card__eco-text">{{ data.ecoTip }}</p>
       </article>
@@ -147,8 +148,8 @@
       </button>
     </div>
 
-    <div class="devices-grid">
-      <article *ngFor="let device of data.devices" class="device-item">
+    <div class="devices-grid reports-stagger">
+      <article *ngFor="let device of data.devices" class="device-item device-item--animate">
         <div class="device-item__top">
           <div class="device-item__identity">
             <span class="device-item__icon-wrap">
@@ -159,7 +160,7 @@
           <strong class="device-item__value">{{ device.consumptionKwh }} kWh</strong>
         </div>
         <div class="progress-track">
-          <div class="progress-fill" [style.width.%]="device.sharePercent"></div>
+          <div class="progress-fill progress-fill--animate" [style.width.%]="device.sharePercent"></div>
         </div>
       </article>
     </div>

@@ -21,7 +21,7 @@ interface ChartCoordinate {
   standalone: true,
   imports: [CommonModule, FormsModule, TranslateModule, HistoryNavComponent, ...MATERIAL_IMPORTS],
   templateUrl: './energy-intelligence.component.html',
-  styleUrls: ['./energy-intelligence.component.css'],
+  styleUrls: ['./energy-intelligence.component.css', '../../styles/reports-animations.css'],
 })
 export class EnergyIntelligenceComponent implements OnInit {
   readonly store = inject(HistoryStore);
