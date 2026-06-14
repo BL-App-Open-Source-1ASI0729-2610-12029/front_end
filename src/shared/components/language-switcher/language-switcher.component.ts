@@ -55,6 +55,24 @@ import { MATERIAL_IMPORTS } from '../../material';
         padding: 0.15rem 0.35rem;
       }
     }
+
+    :root[data-theme='dark'] .language-switcher {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    :root[data-theme='dark'] .lang-btn {
+      color: #94a3b8;
+    }
+
+    :root[data-theme='dark'] .lang-btn.active {
+      background: rgba(124, 155, 255, 0.2);
+      color: #a5b8ff;
+    }
+
+    :root[data-theme='dark'] .separator {
+      color: rgba(255, 255, 255, 0.2);
+    }
   `]
 })
 export class LanguageSwitcherComponent {

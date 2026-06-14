@@ -217,6 +217,29 @@
   color: #f87171;
 }
 
+:root[data-theme='dark'] .view-sidebar__nav .ui-icon {
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+
+:root[data-theme='dark'] .view-sidebar__nav .active .ui-icon {
+  opacity: 1;
+}
+
+:root[data-theme='dark'] .view-sidebar__section {
+  color: #64748b;
+}
+
+:root[data-theme='dark'] .view-sidebar__nav .mat-mdc-list-item,
+:root[data-theme='dark'] .view-sidebar__nav .nav-link {
+  color: #cbd5e1;
+}
+
+:root[data-theme='dark'] .view-sidebar__nav .mat-mdc-list-item.active,
+:root[data-theme='dark'] .view-sidebar__nav .nav-link.active {
+  color: var(--view-primary, #6b8ef5);
+}
+
 @media (max-width: 1024px) {
   .view-sidebar {
     width: min(85vw, 280px);
