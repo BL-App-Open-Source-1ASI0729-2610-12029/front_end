@@ -25,6 +25,7 @@ import {
 import { BusinessUsersNavComponent } from '../../components/business-users-nav/business-users-nav.component';
 
 import { GOOGLE_ICONS } from '../../../../shared/constants/google-icons';
+import { APP_CURRENT_YEAR } from '../../../../shared/constants/app.constants';
 
 import { UiFeedbackService } from '../../../../shared/services/ui-feedback.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
@@ -56,6 +57,8 @@ export class TeamManagementComponent implements OnInit {
   readonly store = inject(TeamManagementStore);
 
   readonly icons = GOOGLE_ICONS;
+
+  readonly currentYear = APP_CURRENT_YEAR;
 
 
 

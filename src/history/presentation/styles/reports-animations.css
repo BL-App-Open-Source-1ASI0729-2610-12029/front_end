@@ -80,6 +80,45 @@
   animation: reportsDonutReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.progress-fill--animate {
+  transform-origin: left center;
+  animation: reportsProgressGrow 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.device-item--animate {
+  animation: reportsCardPop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.device-item--animate:nth-child(1) { animation-delay: 0.04s; }
+.device-item--animate:nth-child(2) { animation-delay: 0.08s; }
+.device-item--animate:nth-child(3) { animation-delay: 0.12s; }
+.device-item--animate:nth-child(4) { animation-delay: 0.16s; }
+.device-item--animate:nth-child(5) { animation-delay: 0.2s; }
+.device-item--animate:nth-child(6) { animation-delay: 0.24s; }
+
+.insight-card--animate {
+  animation: reportsPanelEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.insight-card--animate:nth-child(1) { animation-delay: 0.08s; }
+.insight-card--animate:nth-child(2) { animation-delay: 0.14s; }
+.insight-card--animate:nth-child(3) { animation-delay: 0.2s; }
+
+.metric-value--animate {
+  display: inline-block;
+  animation: reportsMetricPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.chart-grid-line--animate {
+  stroke-dasharray: 560;
+  stroke-dashoffset: 560;
+  animation: reportsGridDraw 0.8s ease forwards;
+}
+
+.chart-grid-line--animate:nth-child(1) { animation-delay: 0.05s; }
+.chart-grid-line--animate:nth-child(2) { animation-delay: 0.12s; }
+.chart-grid-line--animate:nth-child(3) { animation-delay: 0.19s; }
+
 .btn-press {
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
@@ -141,6 +180,20 @@
 @keyframes reportsDonutReveal {
   from { transform: scale(0.85); opacity: 0.4; }
   to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes reportsProgressGrow {
+  from { transform: scaleX(0); opacity: 0.35; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes reportsMetricPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes reportsGridDraw {
+  to { stroke-dashoffset: 0; }
 }
 
 @keyframes reportsPulse {

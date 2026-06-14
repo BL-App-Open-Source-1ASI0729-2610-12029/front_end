@@ -319,6 +319,7 @@
   min-height: 8px;
   border-radius: 6px 6px 2px 2px;
   background: rgba(41, 73, 199, 0.18);
+  transform-origin: bottom;
 }
 
 .mini-bar:nth-child(4) {

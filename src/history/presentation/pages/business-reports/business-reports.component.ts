@@ -13,6 +13,7 @@ import {
 } from '../../../infrastructure/business-reports-response';
 import { BusinessReportsNavComponent } from '../../components/business-reports-nav/business-reports-nav.component';
 import { GOOGLE_ICONS, GoogleIconKey } from '../../../../shared/constants/google-icons';
+import { APP_CURRENT_YEAR } from '../../../../shared/constants/app.constants';
 import { UiFeedbackService } from '../../../../shared/services/ui-feedback.service';
 import { downloadCsvFile, downloadTextFile } from '../../../../shared/utils/download-file.util';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
@@ -35,6 +36,7 @@ const DEVICE_MENU_HEIGHT = 132;
 export class BusinessReportsComponent implements OnInit {
   readonly store = inject(BusinessReportsStore);
   readonly icons = GOOGLE_ICONS;
+  readonly currentYear = APP_CURRENT_YEAR;
 
   private readonly feedback = inject(UiFeedbackService);
   private readonly translate = inject(TranslateService);

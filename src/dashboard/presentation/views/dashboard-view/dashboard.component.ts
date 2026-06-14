@@ -15,7 +15,7 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
   standalone: true,
   imports: [CommonModule, FormsModule, TranslateModule, ...MATERIAL_IMPORTS],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css', '../../../../history/presentation/styles/reports-animations.css']
 })
 export class DashboardComponent {
 
@@ -37,6 +37,7 @@ export class DashboardComponent {
   selectedDevice = signal<DeviceEntity | null>(null);
   selectedAlert = signal<AlertEntity | null>(null);
   selectedTimeRange = signal<string>('24h');
+  chartRenderKey = signal(0);
   deviceFilter = signal<'all' | 'online' | 'offline'>('all');
 
   showDeviceModal = signal(false);
@@ -168,6 +169,7 @@ export class DashboardComponent {
   onSelectTimeRange(range: string) {
     this.selectedTimeRange.set(range);
     this.dashboardStore.setEnergyRange(range);
+    this.chartRenderKey.update(key => key + 1);
     const rangeKeys: Record<string, string> = {
       '24h': 'dashboard.toast.range24h',
       '7d': 'dashboard.toast.range7d',
