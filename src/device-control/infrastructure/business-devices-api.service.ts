@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { catchError, delay } from 'rxjs/operators';
+import { ApiClientService } from '../../shared/services/api-client.service';
 import { BusinessDevicesOverviewResponse } from './business-devices-response';
 
 const MOCK_OVERVIEW: BusinessDevicesOverviewResponse = {
@@ -99,7 +100,18 @@ const MOCK_OVERVIEW: BusinessDevicesOverviewResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class BusinessDevicesApiService {
+  private readonly api = inject(ApiClientService);
+
   getOverview(): Observable<BusinessDevicesOverviewResponse> {
+    if (this.api.hasApi()) {
+      return this.api
+        .getObjectWithParams<BusinessDevicesOverviewResponse>('business-devices/overview', {})
+        .pipe(catchError(() => this.mockOverview()));
+    }
+    return this.mockOverview();
+  }
+
+  private mockOverview(): Observable<BusinessDevicesOverviewResponse> {
     return of(structuredClone(MOCK_OVERVIEW)).pipe(delay(250));
   }
 }

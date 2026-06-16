@@ -55,6 +55,13 @@ export class ApiClientService {
     return this.loadObject<T>(mockFile);
   }
 
+  getObjectWithParams<T>(
+    apiPath: string,
+    params: Record<string, string | number | boolean>,
+  ): Observable<T> {
+    return this.http.get<T>(this.apiUrl(apiPath), { params });
+  }
+
   postToCollection<T extends EntityWithId>(
     apiPath: string,
     body: T,
