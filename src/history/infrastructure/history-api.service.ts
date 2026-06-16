@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
+import { ApiClientService } from '../../shared/services/api-client.service';
 import { EnergyIntelligence } from '../domain/model/energy-intelligence.entity';
 import { EnergyPeriod } from '../domain/model/energy-period.entity';
 import { HistoryAssembler } from './history-assembler';
@@ -173,14 +173,34 @@ const MOCK_BUSINESS_REPORTS: BusinessReportsResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class HistoryApiService {
-  constructor(private http: HttpClient) {}
+  private readonly api = inject(ApiClientService);
 
   getEnergyIntelligence(period: EnergyPeriod): Observable<EnergyIntelligence> {
-    const dto = MOCK_BY_PERIOD[period];
-    return of(HistoryAssembler.toEnergyIntelligence(dto)).pipe(delay(250));
+    if (this.api.hasApi()) {
+      return this.api
+        .getObjectWithParams<EnergyIntelligenceResponse>('energy-intelligence', { period })
+        .pipe(
+          map(HistoryAssembler.toEnergyIntelligence),
+          catchError(() => this.mockEnergyIntelligence(period)),
+        );
+    }
+    return this.mockEnergyIntelligence(period);
   }
 
   getBusinessReports(period: ReportsPeriod = 'thisMonth'): Observable<BusinessReportsResponse> {
+    if (this.api.hasApi()) {
+      return this.api
+        .getObjectWithParams<BusinessReportsResponse>('business-reports', { range: period })
+        .pipe(catchError(() => this.mockBusinessReports(period)));
+    }
+    return this.mockBusinessReports(period);
+  }
+
+  private mockEnergyIntelligence(period: EnergyPeriod): Observable<EnergyIntelligence> {
+    return of(HistoryAssembler.toEnergyIntelligence(MOCK_BY_PERIOD[period])).pipe(delay(250));
+  }
+
+  private mockBusinessReports(period: ReportsPeriod): Observable<BusinessReportsResponse> {
     const scale = period === 'thisMonth' ? 1 : period === 'lastMonth' ? 0.92 : 1.08;
     const peakLabel = period === 'thisMonth'
       ? 'Today, 2:30 PM'

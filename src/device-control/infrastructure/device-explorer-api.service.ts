@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { catchError, delay } from 'rxjs/operators';
+import { ApiClientService } from '../../shared/services/api-client.service';
 import { DeviceExplorerResponse } from './device-explorer-response';
 
 const MOCK_DEVICE_EXPLORER: DeviceExplorerResponse = {
@@ -118,7 +119,18 @@ const MOCK_DEVICE_EXPLORER: DeviceExplorerResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class DeviceExplorerApiService {
+  private readonly api = inject(ApiClientService);
+
   getDeviceExplorer(): Observable<DeviceExplorerResponse> {
+    if (this.api.hasApi()) {
+      return this.api
+        .getObjectWithParams<DeviceExplorerResponse>('device-explorer', {})
+        .pipe(catchError(() => this.mockDeviceExplorer()));
+    }
+    return this.mockDeviceExplorer();
+  }
+
+  private mockDeviceExplorer(): Observable<DeviceExplorerResponse> {
     return of(structuredClone(MOCK_DEVICE_EXPLORER)).pipe(delay(350));
   }
 }
