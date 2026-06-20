@@ -160,9 +160,23 @@ npm start
 
 ## API local
 
-En desarrollo la app apunta al backend Spring Boot en `http://localhost:8080/api/v1` (`src/environments/environment.ts`).
+En desarrollo la app apunta al backend desplegado en Render:
 
-Si `apiUrl` está vacío, la app usa únicamente los JSON estáticos en `public/mock-data/` (ideal para Vercel y demos sin backend).
+```typescript
+apiUrl: 'https://domoticore-api.onrender.com/api/v1',
+```
+
+(`src/environments/environment.ts`)
+
+Para usar el backend Spring Boot local en su lugar:
+
+```typescript
+apiUrl: 'http://localhost:8080/api/v1',
+```
+
+Si `apiUrl` está vacío, la app usa únicamente los JSON estáticos en `public/mock-data/` (ideal para demos sin backend).
+
+**Importante:** si antes usaste la app en modo mock, limpia el almacenamiento del navegador (`localStorage`) o cierra sesión antes de probar con la API real. Las sesiones mock (`local-*`) no son compatibles con el backend.
 
 Los datos de prueba se mantienen en `data/db.json` y se exportan a `public/mock-data/` con `npm run export-mock-data`.
 
@@ -186,10 +200,10 @@ La build de Vercel ejecuta:
 En Vercel → Settings → Environment Variables:
 
 ```
-NG_APP_API_URL=https://tu-api.com/api/v1
+NG_APP_API_URL=https://domoticore-api.onrender.com/api/v1
 ```
 
-Si no se define, la app funciona solo con datos estáticos.
+Si no se define, el build de Vercel usa por defecto la URL de Render anterior.
 
 | Área | Sin API (Vercel) | Con API (local) |
 | --- | --- | --- |
