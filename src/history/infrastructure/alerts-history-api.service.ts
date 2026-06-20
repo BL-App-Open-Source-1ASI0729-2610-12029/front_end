@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { catchError, delay } from 'rxjs/operators';
+import { ApiClientService } from '../../shared/services/api-client.service';
 import { AlertLogEntryResponse, AlertsHistoryResponse } from './alerts-history-response';
 
 const BASE_ENTRIES: AlertLogEntryResponse[] = [
@@ -168,7 +169,18 @@ const MOCK_ALERTS_HISTORY: AlertsHistoryResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class AlertsHistoryApiService {
+  private readonly api = inject(ApiClientService);
+
   getAlertsHistory(): Observable<AlertsHistoryResponse> {
+    if (this.api.hasApi()) {
+      return this.api
+        .getObjectWithParams<AlertsHistoryResponse>('alerts-history', {})
+        .pipe(catchError(() => this.mockAlertsHistory()));
+    }
+    return this.mockAlertsHistory();
+  }
+
+  private mockAlertsHistory(): Observable<AlertsHistoryResponse> {
     return of(structuredClone(MOCK_ALERTS_HISTORY)).pipe(delay(350));
   }
 }
