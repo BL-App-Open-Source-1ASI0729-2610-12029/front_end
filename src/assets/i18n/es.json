@@ -1282,7 +1282,9 @@
     "on": "ENCENDIDO",
     "off": "APAGADO",
     "login": "Iniciar Sesión",
+    "loggingIn": "Iniciando sesión...",
     "register": "Registrarse",
+    "registering": "Registrando...",
     "viewDetails": "Ver Detalles",
     "listView": "Vista de lista",
     "gridView": "Vista de cuadrícula",
@@ -1572,12 +1574,15 @@
     "emailAlreadyRegistered": "Este correo ya está registrado. Por favor inicia sesión con tus credenciales existentes.",
     "fullNameRequired": "El nombre completo es obligatorio",
     "registerFailed": "No se pudo completar el registro. Inténtalo de nuevo.",
-    "loginFailed": "No se pudo iniciar sesión. Inténtalo de nuevo."
+    "loginFailed": "No se pudo iniciar sesión. Inténtalo de nuevo.",
+    "networkUnavailable": "No se pudo conectar con el servidor. Si es la primera vez hoy, Render puede tardar hasta 2 minutos en despertar. Espera un momento e inténtalo de nuevo."
   },
   "messages": {
     "accountCreated": "¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...",
     "accountCreatedOnboarding": "¡Cuenta creada! Configurando tu experiencia...",
-    "notSignedIn": "No has iniciado sesión todavía."
+    "notSignedIn": "No has iniciado sesión todavía.",
+    "serverWaking": "Despertando el servidor (puede tardar hasta 2 min la primera vez)...",
+    "authInProgress": "Conectando con el servidor..."
   },
   "views": {
     "smartHome": {

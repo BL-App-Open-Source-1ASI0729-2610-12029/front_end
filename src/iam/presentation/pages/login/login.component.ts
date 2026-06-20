@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../application/auth.service';
+import { AuthFailureReason } from '../../../application/auth-result';
+import { ApiWarmupService } from '../../../../shared/services/api-warmup.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
 
 @Component({
@@ -39,8 +41,18 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
           <p class="error-message">{{ loginError }}</p>
         }
 
-        <button mat-flat-button color="primary" type="submit" class="full-width submit-btn" [disabled]="loginForm.invalid">
-          {{ 'buttons.login' | translate }}
+        @if (isSubmitting) {
+          <mat-progress-bar mode="indeterminate" class="loading-bar"></mat-progress-bar>
+          <p class="loading-message">{{ loadingMessageKey | translate }}</p>
+        }
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="loginForm.invalid || isSubmitting">
+          {{ (isSubmitting ? 'buttons.loggingIn' : 'buttons.login') | translate }}
         </button>
       </form>
 
@@ -88,6 +100,19 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
       margin: 0 0 0.5rem;
     }
 
+    .loading-bar {
+      margin-top: 0.75rem;
+      border-radius: 999px;
+    }
+
+    .loading-message {
+      margin: 0.75rem 0 0;
+      color: var(--gray-600);
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+
     .auth-footer {
       margin: 2rem 0 0;
       text-align: center;
@@ -112,40 +137,57 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
   `],
 })
 export class LoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly translate = inject(TranslateService);
+  private readonly apiWarmup = inject(ApiWarmupService);
+
   loginForm: FormGroup;
   loginError = '';
+  isSubmitting = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private translate: TranslateService,
-  ) {
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
 
+  get loadingMessageKey(): string {
+    return this.apiWarmup.warming() ? 'messages.serverWaking' : 'messages.authInProgress';
+  }
+
   onSubmit() {
     this.loginError = '';
 
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
-        next: success => {
-          if (success) {
-            this.router.navigateByUrl(this.authService.getDefaultRoute());
-          } else {
-            this.loginError = this.translate.instant('errors.invalidCredentials');
-          }
-        },
-        error: () => {
-          this.loginError = this.translate.instant('errors.loginFailed');
-        },
-      });
-    } else {
+    if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
+      return;
     }
+
+    const { email, password } = this.loginForm.value;
+    this.isSubmitting = true;
+
+    this.authService.login(email, password).subscribe({
+      next: result => {
+        this.isSubmitting = false;
+        if (result.ok) {
+          this.router.navigateByUrl(this.authService.getDefaultRoute());
+          return;
+        }
+        this.loginError = this.translate.instant(this.errorKey(result.reason));
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.loginError = this.translate.instant('errors.loginFailed');
+      },
+    });
+  }
+
+  private errorKey(reason: AuthFailureReason): string {
+    if (reason === 'network') return 'errors.networkUnavailable';
+    if (reason === 'credentials') return 'errors.invalidCredentials';
+    return 'errors.loginFailed';
   }
 }

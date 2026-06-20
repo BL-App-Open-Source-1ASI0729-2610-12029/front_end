@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { AuthFailureReason, AuthLoginResult, AuthRegisterResult } from './auth-result';
 import { SettingsStore } from '../../settings/application/settings.store';
 import { LocalDataCacheService } from '../../shared/services/local-data-cache.service';
 import { AccountType, getAccountTypeRoute, isOnboardingComplete } from '../domain/model/account-type.entity';
@@ -57,16 +59,38 @@ export class AuthService {
     this.persistSession(user);
     this.settingsStore.reset();
     this.settingsStore.fetchSettings();
+    this.refreshUserInBackground(user);
+    return of(user);
+  }
 
-    return this.localAuth.refreshUser(user.id).pipe(
-      tap(refreshed => {
-        if (refreshed) {
-          this.persistSession(refreshed);
-        }
-      }),
-      map(refreshed => refreshed ?? user),
-      catchError(() => of(user)),
-    );
+  private refreshUserInBackground(user: AuthUser): void {
+    this.localAuth
+      .refreshUser(user.id)
+      .pipe(
+        tap(refreshed => {
+          if (refreshed) {
+            this.persistSession(refreshed);
+          }
+        }),
+        catchError(() => of(null)),
+      )
+      .subscribe();
+  }
+
+  private mapAuthError(error: unknown, duplicateStatus = 409): AuthFailureReason {
+    if (!(error instanceof HttpErrorResponse)) {
+      return 'server';
+    }
+    if (error.status === 0) {
+      return 'network';
+    }
+    if (error.status === 401 || error.status === 403) {
+      return 'credentials';
+    }
+    if (error.status === duplicateStatus) {
+      return 'duplicate';
+    }
+    return 'server';
   }
 
   isAuthenticated(): boolean {
@@ -87,56 +111,46 @@ export class AuthService {
     return getAccountTypeRoute(this.currentUser!.accountType!);
   }
 
-  login(email: string, password: string): Observable<boolean> {
+  login(email: string, password: string): Observable<AuthLoginResult> {
     const normalizedEmail = email.trim().toLowerCase();
 
     if (this.localAuth.hasApi()) {
       return this.localAuth.loginWithApi(normalizedEmail, password).pipe(
         switchMap(response =>
-          this.afterAuthenticated(response.user).pipe(
-            map(() => true),
-            catchError(() => {
-              this.persistSession(response.user);
-              return of(true);
-            }),
-          ),
+          this.afterAuthenticated(response.user).pipe(map(() => ({ ok: true as const }))),
         ),
-        catchError(() => of(false)),
+        catchError(error => of({ ok: false as const, reason: this.mapAuthError(error) })),
       );
     }
 
     return this.localAuth.loadUsers().pipe(
       map(users => this.localAuth.findByCredentials(users, normalizedEmail, password)),
       switchMap(user => {
-        if (!user) return of(false);
-        return this.afterAuthenticated(stripPassword(user)).pipe(map(() => true));
+        if (!user) return of({ ok: false as const, reason: 'credentials' as const });
+        return this.afterAuthenticated(stripPassword(user)).pipe(map(() => ({ ok: true as const })));
       }),
-      catchError(() => of(false)),
+      catchError(() => of({ ok: false as const, reason: 'server' as const })),
     );
   }
 
-  register(name: string, email: string, password: string): Observable<AuthUser | null> {
+  register(name: string, email: string, password: string): Observable<AuthRegisterResult> {
     const normalizedEmail = email.trim().toLowerCase();
 
     if (this.localAuth.hasApi()) {
       return this.localAuth.registerWithApi(name.trim(), normalizedEmail, password).pipe(
         switchMap(response =>
           this.afterAuthenticated(response.user).pipe(
-            map(() => response.user),
-            catchError(() => {
-              this.persistSession(response.user);
-              return of(response.user);
-            }),
+            map(() => ({ ok: true as const, user: response.user })),
           ),
         ),
-        catchError(() => of(null)),
+        catchError(error => of({ ok: false as const, reason: this.mapAuthError(error) })),
       );
     }
 
     return this.localAuth.loadUsers().pipe(
       switchMap(users => {
         if (this.localAuth.emailExists(users, normalizedEmail)) {
-          return of(null);
+          return of<AuthRegisterResult>({ ok: false, reason: 'duplicate' });
         }
 
         const newUser = createLocalUser(name.trim(), normalizedEmail, password);
@@ -148,11 +162,16 @@ export class AuthService {
           }),
         );
       }),
-      switchMap(user => {
-        if (!user) return of(null);
-        return this.afterAuthenticated(stripPassword(user)).pipe(map(() => user));
+      switchMap(result => {
+        if ('ok' in result) {
+          return of(result);
+        }
+
+        return this.afterAuthenticated(stripPassword(result)).pipe(
+          map(safeUser => ({ ok: true as const, user: safeUser })),
+        );
       }),
-      catchError(() => of(null)),
+      catchError(() => of({ ok: false as const, reason: 'server' as const })),
     );
   }
 

@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../application/auth.service';
+import { AuthFailureReason } from '../../../application/auth-result';
+import { ApiWarmupService } from '../../../../shared/services/api-warmup.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
 
 @Component({
@@ -59,10 +61,20 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
           }
         </mat-form-field>
 
-        <button mat-flat-button color="primary" type="submit" class="full-width submit-btn" [disabled]="registerForm.invalid || registerSuccess">
-          {{ 'buttons.register' | translate }}
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="registerForm.invalid || isSubmitting || registerSuccess">
+          {{ (isSubmitting ? 'buttons.registering' : 'buttons.register') | translate }}
         </button>
       </form>
+
+      @if (isSubmitting) {
+        <mat-progress-bar mode="indeterminate" class="loading-bar"></mat-progress-bar>
+        <p class="loading-message">{{ loadingMessageKey | translate }}</p>
+      }
 
       @if (registerSuccess) {
         <p class="success-message">{{ 'messages.accountCreatedOnboarding' | translate }}</p>
@@ -112,6 +124,19 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
       text-align: center;
     }
 
+    .loading-bar {
+      margin-top: 1rem;
+      border-radius: 999px;
+    }
+
+    .loading-message {
+      margin: 0.75rem 0 0;
+      color: var(--gray-600);
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+
     .success-message {
       margin-top: 1rem;
       color: #38a169;
@@ -138,16 +163,18 @@ import { MATERIAL_IMPORTS } from '../../../../shared/material';
   `],
 })
 export class RegisterComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly translate = inject(TranslateService);
+  private readonly apiWarmup = inject(ApiWarmupService);
+
   registerForm: FormGroup;
   registerError = '';
   registerSuccess = false;
+  isSubmitting = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private translate: TranslateService,
-  ) {
+  constructor() {
     this.registerForm = this.fb.group(
       {
         name: ['', Validators.required],
@@ -157,6 +184,10 @@ export class RegisterComponent {
       },
       { validators: this.passwordMatchValidator },
     );
+  }
+
+  get loadingMessageKey(): string {
+    return this.apiWarmup.warming() ? 'messages.serverWaking' : 'messages.authInProgress';
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -169,23 +200,33 @@ export class RegisterComponent {
     this.registerError = '';
     this.registerSuccess = false;
 
-    if (this.registerForm.valid) {
-      const { name, email, password } = this.registerForm.value;
-      this.authService.register(name, email, password).subscribe({
-        next: user => {
-          if (user) {
-            this.registerSuccess = true;
-            setTimeout(() => {
-              this.router.navigate(['/auth/onboarding']);
-            }, 1200);
-          } else {
-            this.registerError = this.translate.instant('errors.emailAlreadyRegistered');
-          }
-        },
-        error: () => {
-          this.registerError = this.translate.instant('errors.registerFailed');
-        },
-      });
+    if (!this.registerForm.valid) {
+      return;
     }
+
+    const { name, email, password } = this.registerForm.value;
+    this.isSubmitting = true;
+
+    this.authService.register(name, email, password).subscribe({
+      next: result => {
+        this.isSubmitting = false;
+        if (result.ok) {
+          this.registerSuccess = true;
+          this.router.navigate(['/auth/onboarding']);
+          return;
+        }
+        this.registerError = this.translate.instant(this.errorKey(result.reason));
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.registerError = this.translate.instant('errors.registerFailed');
+      },
+    });
+  }
+
+  private errorKey(reason: AuthFailureReason): string {
+    if (reason === 'network') return 'errors.networkUnavailable';
+    if (reason === 'duplicate') return 'errors.emailAlreadyRegistered';
+    return 'errors.registerFailed';
   }
 }

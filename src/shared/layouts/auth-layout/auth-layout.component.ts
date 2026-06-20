@@ -1,19 +1,23 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { filter, map, startWith } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ApiWarmupService } from '../../services/api-warmup.service';
 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TranslateModule],
   template: `
     <div class="auth-layout">
       <div
         class="auth-container"
         [class.auth-container--wide]="isWide()"
         [class.auth-container--register]="isRegister()">
+        @if (apiWarmup.warming()) {
+          <p class="warmup-banner">{{ 'messages.serverWaking' | translate }}</p>
+        }
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -52,6 +56,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
       border: 1px solid var(--gray-200);
     }
 
+    .warmup-banner {
+      margin: 0 0 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      background: #ebf8ff;
+      border: 1px solid #90cdf4;
+      color: #2c5282;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
     :root[data-theme='dark'] .auth-container {
       background: var(--surface);
       border-color: var(--gray-200);
@@ -70,9 +86,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
     }
   `],
 })
-export class AuthLayoutComponent {
+export class AuthLayoutComponent implements OnInit {
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  readonly apiWarmup = inject(ApiWarmupService);
 
   readonly isWide = toSignal(
     this.router.events.pipe(
@@ -94,6 +111,10 @@ export class AuthLayoutComponent {
 
   constructor() {
     this.initializeTranslations();
+  }
+
+  ngOnInit(): void {
+    this.apiWarmup.warmUp();
   }
 
   private initializeTranslations() {
