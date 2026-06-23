@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../application/auth.service';
 import { AuthFailureReason } from '../../../application/auth-result';
-import { ApiWarmupService } from '../../../../shared/services/api-warmup.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
 
 @Component({
@@ -167,7 +166,6 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly translate = inject(TranslateService);
-  private readonly apiWarmup = inject(ApiWarmupService);
 
   registerForm: FormGroup;
   registerError = '';
@@ -186,9 +184,7 @@ export class RegisterComponent {
     );
   }
 
-  get loadingMessageKey(): string {
-    return this.apiWarmup.warming() ? 'messages.serverWaking' : 'messages.authInProgress';
-  }
+  readonly loadingMessageKey = 'messages.authInProgress';
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');

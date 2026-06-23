@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../application/auth.service';
 import { AuthFailureReason } from '../../../application/auth-result';
-import { ApiWarmupService } from '../../../../shared/services/api-warmup.service';
 import { MATERIAL_IMPORTS } from '../../../../shared/material';
 
 @Component({
@@ -141,7 +140,6 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly translate = inject(TranslateService);
-  private readonly apiWarmup = inject(ApiWarmupService);
 
   loginForm: FormGroup;
   loginError = '';
@@ -154,9 +152,7 @@ export class LoginComponent {
     });
   }
 
-  get loadingMessageKey(): string {
-    return this.apiWarmup.warming() ? 'messages.serverWaking' : 'messages.authInProgress';
-  }
+  readonly loadingMessageKey = 'messages.authInProgress';
 
   onSubmit() {
     this.loginError = '';
