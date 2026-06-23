@@ -225,7 +225,7 @@ export class RegisterComponent {
   }
 
   private errorKey(reason: AuthFailureReason): string {
-    if (reason === 'network') return 'errors.networkUnavailable';
+    if (reason === 'timeout' || reason === 'network') return 'errors.serverWaking';
     if (reason === 'duplicate') return 'errors.emailAlreadyRegistered';
     return 'errors.registerFailed';
   }

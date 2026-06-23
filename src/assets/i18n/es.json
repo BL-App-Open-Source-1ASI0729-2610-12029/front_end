@@ -1575,13 +1575,14 @@
     "fullNameRequired": "El nombre completo es obligatorio",
     "registerFailed": "No se pudo completar el registro. Inténtalo de nuevo.",
     "loginFailed": "No se pudo iniciar sesión. Inténtalo de nuevo.",
-    "networkUnavailable": "No se pudo conectar con el servidor. Si es la primera vez hoy, Render puede tardar hasta 2 minutos en despertar. Espera un momento e inténtalo de nuevo."
+    "networkUnavailable": "No se pudo conectar con el servidor. Si es la primera vez hoy, Render puede tardar hasta 2 minutos en despertar. Espera un momento e inténtalo de nuevo.",
+    "serverWaking": "El servidor en Render (plan free) está despertando. La primera petición puede tardar 1-3 minutos. Espera en esta pantalla o recarga e intenta de nuevo."
   },
   "messages": {
     "accountCreated": "¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...",
     "accountCreatedOnboarding": "¡Cuenta creada! Configurando tu experiencia...",
     "notSignedIn": "No has iniciado sesión todavía.",
-    "serverWaking": "Despertando el servidor (puede tardar hasta 2 min la primera vez)...",
+    "serverWaking": "Despertando el servidor (puede tardar 1-3 min la primera vez)...",
     "authInProgress": "Conectando con el servidor..."
   },
   "views": {

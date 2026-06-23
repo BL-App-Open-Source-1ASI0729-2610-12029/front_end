@@ -8,6 +8,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { AuthTokenInterceptor } from './shared/interceptors/auth-token.interceptor';
+import { ApiWarmupService } from './shared/services/api-warmup.service';
 
 export function initializeTranslations(translate: TranslateService) {
   return () => {
@@ -16,6 +17,12 @@ export function initializeTranslations(translate: TranslateService) {
     const supportedLanguages = ['en', 'es'];
     const currentLanguage = supportedLanguages.includes(browserLang) ? browserLang : 'es';
     return translate.use(currentLanguage).toPromise();
+  };
+}
+
+export function warmUpApi(apiWarmup: ApiWarmupService) {
+  return () => {
+    apiWarmup.warmUp();
   };
 }
 
@@ -44,6 +51,12 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: initializeTranslations,
       deps: [TranslateService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: warmUpApi,
+      deps: [ApiWarmupService],
       multi: true,
     },
   ],

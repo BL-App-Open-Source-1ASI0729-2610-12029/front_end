@@ -78,17 +78,20 @@ export class AuthService {
   }
 
   private mapAuthError(error: unknown, duplicateStatus = 409): AuthFailureReason {
-    if (!(error instanceof HttpErrorResponse)) {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        return 'network';
+      }
+      if (error.status === 401 || error.status === 403) {
+        return 'credentials';
+      }
+      if (error.status === duplicateStatus) {
+        return 'duplicate';
+      }
       return 'server';
     }
-    if (error.status === 0) {
-      return 'network';
-    }
-    if (error.status === 401 || error.status === 403) {
-      return 'credentials';
-    }
-    if (error.status === duplicateStatus) {
-      return 'duplicate';
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      return 'timeout';
     }
     return 'server';
   }

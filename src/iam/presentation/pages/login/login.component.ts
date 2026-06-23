@@ -186,7 +186,7 @@ export class LoginComponent {
   }
 
   private errorKey(reason: AuthFailureReason): string {
-    if (reason === 'network') return 'errors.networkUnavailable';
+    if (reason === 'timeout' || reason === 'network') return 'errors.serverWaking';
     if (reason === 'credentials') return 'errors.invalidCredentials';
     return 'errors.loginFailed';
   }

@@ -1,4 +1,4 @@
-export type AuthFailureReason = 'credentials' | 'duplicate' | 'network' | 'server';
+export type AuthFailureReason = 'credentials' | 'duplicate' | 'network' | 'timeout' | 'server';
 
 export type AuthLoginResult =
   | { ok: true }

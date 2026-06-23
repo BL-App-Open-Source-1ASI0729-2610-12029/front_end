@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, timeout } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ApiClientService } from '../../shared/services/api-client.service';
 import { LocalDataCacheService } from '../../shared/services/local-data-cache.service';
@@ -12,6 +12,8 @@ export interface AuthApiResponse {
   token: string;
   user: AuthUser;
 }
+
+const AUTH_REQUEST_TIMEOUT_MS = 180_000;
 
 @Injectable({ providedIn: 'root' })
 export class LocalAuthRepository {
@@ -67,6 +69,7 @@ export class LocalAuthRepository {
   loginWithApi(email: string, password: string): Observable<AuthApiResponse> {
     const url = `${environment.apiUrl.replace(/\/$/, '')}/${AuthApiEndpoint.login}`;
     return this.http.post<AuthApiResponse>(url, { email, password }).pipe(
+      timeout(AUTH_REQUEST_TIMEOUT_MS),
       tap(response => localStorage.setItem(AUTH_TOKEN_KEY, response.token)),
     );
   }
@@ -74,6 +77,7 @@ export class LocalAuthRepository {
   registerWithApi(name: string, email: string, password: string): Observable<AuthApiResponse> {
     const url = `${environment.apiUrl.replace(/\/$/, '')}/${AuthApiEndpoint.register}`;
     return this.http.post<AuthApiResponse>(url, { name, email, password }).pipe(
+      timeout(AUTH_REQUEST_TIMEOUT_MS),
       tap(response => localStorage.setItem(AUTH_TOKEN_KEY, response.token)),
     );
   }

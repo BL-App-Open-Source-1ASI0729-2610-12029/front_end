@@ -1575,13 +1575,14 @@
     "fullNameRequired": "Full name is required",
     "registerFailed": "Registration failed. Please try again.",
     "loginFailed": "Login failed. Please try again.",
-    "networkUnavailable": "Could not reach the server. On the first request of the day, Render may take up to 2 minutes to wake up. Wait a moment and try again."
+    "networkUnavailable": "Could not reach the server. On the first request of the day, Render may take up to 2 minutes to wake up. Wait a moment and try again.",
+    "serverWaking": "The Render server (free plan) is waking up. The first request may take 1-3 minutes. Stay on this screen or reload and try again."
   },
   "messages": {
     "accountCreated": "Account created successfully! Redirecting to login...",
     "accountCreatedOnboarding": "Account created! Setting up your experience...",
     "notSignedIn": "You are not signed in yet.",
-    "serverWaking": "Waking up the server (first request may take up to 2 minutes)...",
+    "serverWaking": "Waking up the server (first request may take 1-3 minutes)...",
     "authInProgress": "Connecting to the server..."
   },
   "views": {
